@@ -32,6 +32,9 @@ public class Block : MonoBehaviour
 	};
 
 	#endregion
+
+	[SerializeField]
+	private UIWidget widget;
 	
 	[SerializeField]
 	private UILabel valueLabel;
@@ -80,17 +83,9 @@ public class Block : MonoBehaviour
 	/// </summary>
 	public IEnumerator MoveToBoard(int xIndex, int yIndex, float duration = 1)
 	{
-		var timeSum = 0f;
 		var targetPos = Board.Instance.GetBoardPosition(xIndex, yIndex);
 
-		while (timeSum < duration)
-		{
-			transform.position = Vector3.Lerp(transform.position, targetPos, timeSum / duration);
-			
-			yield return null;
-
-			timeSum += Time.deltaTime;
-		}
+		yield return UIAnimations.Position(widget, duration, targetPos, Interpolations.EaseInQuad);
 
 		transform.position = targetPos;
 		this.xIndex = xIndex;
@@ -99,11 +94,13 @@ public class Block : MonoBehaviour
 
 	public IEnumerator ChangeValue(int value, float duration)
 	{
-		yield return new WaitForSeconds(duration);
+		yield return UIAnimations.ElasticScale(transform, duration, Vector3.one * 1.2f, 
+			Interpolations.EaseInQuad, Interpolations.EaseOutQuad);
+		
 		this.value = value;
 		valueLabel.text = value.ToString();
 		SetColor();
-		StageUi.Instance.SetGameScore(value);
+		StageUi.Instance.AddGameScore(value);
 	}
 
 	public void SetColor()

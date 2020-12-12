@@ -13,7 +13,6 @@ namespace Stage
 			{
 				var mouseDragPos = new Vector2(Input.mousePosition.x, Input.mousePosition.y);
 				var worldObjectPos = Camera.main.ScreenToWorldPoint(mouseDragPos);
-				Debug.Log("Mouse Down : " + worldObjectPos);
 				startPos = worldObjectPos;
 			}
 			else if (Input.GetMouseButton(0))
@@ -26,25 +25,34 @@ namespace Stage
 				var moveVec = dragPos - startPos.Value;
 
 				if (moveVec.magnitude < 1.5f) return;
-				
-				Debug.Log("moveVec.magnitude: " + moveVec.magnitude);
 
 				MessageSystem.Instance.Publish(new BlockMoveEvent(DirectionUtil.GetDirection(moveVec)));
 				
 				startPos = null;
 			}
-#endif
-			if (Input.GetKeyDown(KeyCode.A))
-			{
-				Debug.LogError("Test");
-			}
-			
+#else
 			if (Input.touchCount == 0) return;
-
+			
 			var touch = Input.GetTouch(0);
 			var phase = touch.phase;
 
-			Debug.Log(phase);
+			if (phase == TouchPhase.Began)
+			{
+				startPos = touch.position;
+			}
+			else if (phase == TouchPhase.Moved)
+			{
+				if (startPos == null) return;
+
+				var moveVec = touch.deltaPosition;
+				
+				if (moveVec.magnitude < 1.5f) return;
+				
+				MessageSystem.Instance.Publish(new BlockMoveEvent(DirectionUtil.GetDirection(moveVec)));
+				
+				startPos = null;
+			}
+#endif
 		}
 	}
 }

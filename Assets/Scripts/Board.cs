@@ -19,13 +19,16 @@ public class Board : MonoBehaviour
 	[SerializeField]
 	private Block originBlock;
 
+	[SerializeField]
+	private Transform blockTransform;
+
 	private Coroutine moveCoroutine;
 
 	/// <summary>
 	/// 현재 위치에 있는 Block 캐시
 	/// </summary>
 	private Dictionary<int, Block> blockDict = new Dictionary<int, Block>();
-	
+
 	void Awake()
 	{
 		originBlock.gameObject.SetActive(false);
@@ -40,17 +43,46 @@ public class Board : MonoBehaviour
 
 	private void OnEnable()
 	{
-		CreateBlock();
+		StartGame();
 		
-		StageUi.Instance.SetGameStatus(StageUi.GameState.Start);
-		StageUi.Instance.SetGameScore(0);
-		
-		MessageSystem.Instance.Subscribe(OnMoveTest);
+		MessageSystem.Instance.Subscribe(OnMoveBlockEvent);
 	}
 
 	private void OnDisable()
 	{
-		MessageSystem.Instance.Unsubscribe(OnMoveTest);
+		MessageSystem.Instance.Unsubscribe(OnMoveBlockEvent);
+	}
+
+	public void RestartGame()
+	{
+		foreach (var obj in blockDict.Values)
+		{
+			DestroyImmediate(obj.gameObject);
+		}
+
+		blockDict.Clear();
+
+		StartGame();
+	}
+
+	public void StartGame()
+	{
+		CreateBlock();
+		
+		StageUi.Instance.SetGameStatus(StageUi.GameState.Start);
+		StageUi.Instance.SetGameScore(0);
+	}
+
+	public void EndGame()
+	{
+		StageUi.Instance.SetGameStatus(StageUi.GameState.Fail);
+		Debug.LogError("Game Over !!!!!!!!");
+	}
+
+	public void ClearGame()
+	{
+		StageUi.Instance.SetGameStatus(StageUi.GameState.Clear);
+		Debug.LogError("Game Clear !!!!!!!!");
 	}
 
 	/// <summary>
@@ -84,17 +116,17 @@ public class Board : MonoBehaviour
 		// TODO: 게임 종료
 		if (blockIndex == -1)
 		{
-			Debug.LogError("Game Over !!!!!!!!!!!!!!!!");
+			EndGame();
 			return;
 		}
 		
 		var blockObj = Instantiate(originBlock.gameObject);
-		blockObj.transform.parent = originBlock.transform.parent;
+		blockObj.transform.parent = blockTransform;
 
 		blockObj.SetActive(true);
 
 		blockObj.transform.localScale = Vector3.one;
-		
+
 		var block = blockObj.GetComponent<Block>();
 
 		// 2 or 4가 나오게 설정하기 위함
@@ -126,7 +158,7 @@ public class Board : MonoBehaviour
 		}
 	}
 
-	private bool OnMoveTest(Events e)
+	private bool OnMoveBlockEvent(Events e)
 	{
 		if (e is BlockMoveEvent bme)
 		{
@@ -345,8 +377,6 @@ public class Board : MonoBehaviour
 			UIBlocker.Instance.SetDisabled();
 			yield break;
 		}
-		
-		Debug.LogError("MaxDuration " + maxDuration);
 
 		yield return new WaitForSeconds(maxDuration);
 
@@ -371,16 +401,14 @@ public class Board : MonoBehaviour
 
 		if (changeList.Count > 0)
 		{
-			Debug.LogError("ChangeDuration " + changeBlockDuration * 0.2f);
 			yield return new WaitForSeconds(changeBlockDuration * 0.2f);
 		}
 
 		// 3. 2048 체크
 		if (isGameClear)
 		{
-			StageUi.Instance.SetGameStatus(StageUi.GameState.Clear);
 			UIBlocker.Instance.SetDisabled();
-			Debug.LogError("Game Clear !!!!!!");
+			ClearGame();
 			yield break;
 		}
 		
@@ -404,9 +432,8 @@ public class Board : MonoBehaviour
 		
 		if (CheckGameOver())
 		{
-			StageUi.Instance.SetGameStatus(StageUi.GameState.Fail);
 			UIBlocker.Instance.SetDisabled();
-			Debug.LogError("Game Over !!!!!!");
+			EndGame();
 			yield break;
 		}
 

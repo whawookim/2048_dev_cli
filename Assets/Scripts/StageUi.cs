@@ -33,7 +33,18 @@ public class StageUi : MonoBehaviour
 
 	public void SetGameScore(int score)
 	{
+		totalScore = score;
+		UpdateGameScore();
+	}
+
+	public void AddGameScore(int score)
+	{
 		totalScore += score;
+		UpdateGameScore();
+	}
+
+	public void UpdateGameScore()
+	{
 		gameScore.text = $"Score : {totalScore}";
 	}
 
@@ -58,6 +69,6 @@ public class StageUi : MonoBehaviour
 
 	public void OnClickRestart()
 	{
-		
+		Board.Instance.RestartGame();
 	}
 }
