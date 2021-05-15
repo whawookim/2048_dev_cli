@@ -2,16 +2,16 @@ using System.Collections.Generic;
 
 public class TinyObjectPool<T> where T : new()
 {
-	private static List<Stack<T>> poolList = new List<Stack<T>>();
+	private static readonly List<Stack<T>> PoolList = new List<Stack<T>>();
 
 	public static void Clear()
 	{
-		poolList.Clear();
+		PoolList.Clear();
 	}
 
 	private Stack<T> Find()
 	{
-		return poolList.Find((value) => value.Peek().GetType() == typeof(T));
+		return PoolList.Find((value) => value.Peek().GetType() == typeof(T));
 	}
 
 	public void Dispose()
@@ -31,7 +31,7 @@ public class TinyObjectPool<T> where T : new()
 		var item = new T();
 		var stack = new Stack<T>();
 		stack.Push(item);
-		poolList.Add(stack);
+		PoolList.Add(stack);
 		return stack.Peek();
 	}
 
