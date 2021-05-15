@@ -2,7 +2,7 @@ using System;
 
 public class Events : IDisposable
 {
-	public void Dispose()
+	public virtual void Dispose()
 	{
 	}
 }

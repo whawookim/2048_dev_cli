@@ -1,10 +1,9 @@
-using System;
 using System.Collections;
 using UnityEngine;
 
 public static class UIAnimations
 {
-	public static IEnumerator Position(UIRect widget, float duration, Vector3 targetPos, 
+	public static IEnumerator Position(UIRect widget, float duration, Vector3 targetPos,
 		Interpolations.InterpolationsAction interpolationsAction, bool isLocal = false)
 	{
 		var startPos = (isLocal) ? widget.cachedTransform.localPosition : widget.cachedTransform.position;
@@ -13,7 +12,7 @@ public static class UIAnimations
 		while (sumTime < duration)
 		{
 			var tempPos = Vector3.Lerp(startPos, targetPos,
-				(float) interpolationsAction.Invoke(sumTime, 0, 1, duration));
+				interpolationsAction.Invoke(sumTime, 0, 1, duration));
 
 			if (isLocal)
 			{
@@ -23,7 +22,7 @@ public static class UIAnimations
 			{
 				widget.cachedTransform.position = tempPos;
 			}
-			
+
 			yield return null;
 
 			sumTime += Time.deltaTime;
@@ -39,7 +38,7 @@ public static class UIAnimations
 		}
 	}
 
-	public static IEnumerator Alpha(UIRect rect, float duration, float targetAlpha, 
+	public static IEnumerator Alpha(UIRect rect, float duration, float targetAlpha,
 		Interpolations.InterpolationsAction interpolationsAction)
 	{
 		var startAlpha = rect.alpha;
@@ -47,9 +46,9 @@ public static class UIAnimations
 
 		while (sumTime < duration)
 		{
-			rect.alpha = Mathf.Lerp(startAlpha, targetAlpha, 
-				(float)interpolationsAction.Invoke(sumTime, 0, 1, duration));
-			
+			rect.alpha = Mathf.Lerp(startAlpha, targetAlpha,
+				interpolationsAction.Invoke(sumTime, 0, 1, duration));
+
 			yield return null;
 
 			sumTime += Time.deltaTime;
@@ -67,8 +66,8 @@ public static class UIAnimations
 		while (sumTime < duration)
 		{
 			transform.localScale = Vector3.Lerp(startScale, targetScale,
-				(float)interpolationsAction.Invoke(sumTime, 0, 1, duration));
-			
+				interpolationsAction.Invoke(sumTime, 0, 1, duration));
+
 			yield return null;
 
 			sumTime += Time.deltaTime;

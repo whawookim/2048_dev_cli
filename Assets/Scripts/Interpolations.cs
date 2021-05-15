@@ -1,27 +1,27 @@
-using System;
+using UnityEngine;
 
 public static class Interpolations
 {
-	public delegate double InterpolationsAction(double t, double b, double c, double d);
-	
-	public static double Linear(double t, double b, double c, double d)
+	public delegate float InterpolationsAction(float t, float b, float c, float d);
+
+	public static float Linear(float t, float b, float c, float d)
 	{
 		return c * t / d + b;
 	}
 
-	public static double EaseInQuad(double t, double b, double c, double d)
+	public static float EaseInQuad(float t, float b, float c, float d)
 	{
 		t /= d;
 		return c * t * t + b;
 	}
 
-	public static double EaseOutQuad(double t, double b, double c, double d)
+	public static float EaseOutQuad(float t, float b, float c, float d)
 	{
 		t /= d;
 		return -c * t * (t - 2) + b;
 	}
 
-	public static double EaseInOutQuad(double t, double b, double c, double d)
+	public static float EaseInOutQuad(float t, float b, float c, float d)
 	{
 		t /= d / 2;
 		if (t < 1) return c / 2 * t * t + b;
@@ -29,20 +29,20 @@ public static class Interpolations
 		return -c / 2 * ( t * (t - 2) - 1) + b;
 	}
 
-	public static double EaseInCubic(double t, double b, double c, double d)
+	public static float EaseInCubic(float t, float b, float c, float d)
 	{
 		t /= d;
 		return c * t * t * t + b;
 	}
 
-	public static double EaseOutCubic(double t, double b, double c, double d)
+	public static float EaseOutCubic(float t, float b, float c, float d)
 	{
 		t /= d;
 		t--;
 		return c * (t * t * t + 1) + b;
 	}
 
-	public static double EaseInOutCubic(double t, double b, double c, double d)
+	public static float EaseInOutCubic(float t, float b, float c, float d)
 	{
 		t /= d / 2;
 		if (t < 1) return c / 2 * t * t * t + b;
@@ -50,20 +50,20 @@ public static class Interpolations
 		return c / 2 * (t * t * t + 2) + b;
 	}
 
-	public static double EaseInQuart(double t, double b, double c, double d)
+	public static float EaseInQuart(float t, float b, float c, float d)
 	{
 		t /= d;
 		return c * t * t * t * t + b;
 	}
 
-	public static double EaseOutQuart(double t, double b, double c, double d)
+	public static float EaseOutQuart(float t, float b, float c, float d)
 	{
 		t /= d;
 		t--;
 		return -c * (t * t * t * t - 1) + b;
 	}
 
-	public static double EaseInOutQuart(double t, double b, double c, double d)
+	public static float EaseInOutQuart(float t, float b, float c, float d)
 	{
 		t /= d / 2;
 		if (t < 1) return c / 2 * t * t * t * t + b;
@@ -71,20 +71,20 @@ public static class Interpolations
 		return -c / 2 * (t * t * t * t - 2) + b;
 	}
 
-	public static double EaseInQuint(double t, double b, double c, double d)
+	public static float EaseInQuint(float t, float b, float c, float d)
 	{
 		t /= d;
 		return c * t * t * t * t * t + b;
 	}
 
-	public static double EaseOutQuint(double t, double b, double c, double d)
+	public static float EaseOutQuint(float t, float b, float c, float d)
 	{
 		t /= d;
 		t--;
 		return c * (t * t * t * t * t + 1) + b;
 	}
 
-	public static double EaseInOutQuint(double t, double b, double c, double d)
+	public static float EaseInOutQuint(float t, float b, float c, float d)
 	{
 		t /= d / 2;
 		if (t < 1) return c / 2 * t * t * t * t * t + b;
@@ -92,57 +92,57 @@ public static class Interpolations
 		return c / 2 * (t * t * t * t * t + 2) + b;
 	}
 
-	public static double EaseInSine(double t, double b, double c, double d)
+	public static float EaseInSine(float t, float b, float c, float d)
 	{
-		return -c * Math.Cos(t / d * (Math.PI / 2)) + c + b;
+		return -c * Mathf.Cos(t / d * (Mathf.PI / 2)) + c + b;
 	}
 
-	public static double EaseOutSine(double t, double b, double c, double d)
+	public static float EaseOutSine(float t, float b, float c, float d)
 	{
-		return c * Math.Sin(t / d * (Math.PI / 2)) + b;
+		return c * Mathf.Sin(t / d * (Mathf.PI / 2)) + b;
 	}
 
-	public static double EaseInOutSine(double t, double b, double c, double d)
+	public static float EaseInOutSine(float t, float b, float c, float d)
 	{
-		return -c / 2 * (Math.Cos(Math.PI * t / d) - 1) + b;
+		return -c / 2 * (Mathf.Cos(Mathf.PI * t / d) - 1) + b;
 	}
 
-	public static double EaseInExpo(double t, double b, double c, double d)
+	public static float EaseInExpo(float t, float b, float c, float d)
 	{
-		return c * Math.Pow( 2, 10 * (t / d - 1) ) + b;
+		return c * Mathf.Pow( 2, 10 * (t / d - 1) ) + b;
 	}
 
-	public static double EaseOutExpo(double t, double b, double c, double d)
+	public static float EaseOutExpo(float t, float b, float c, float d)
 	{
-		return c * ( -Math.Pow( 2, -10 * t / d ) + 1 ) + b;
+		return c * ( -Mathf.Pow( 2, -10 * t / d ) + 1 ) + b;
 	}
 
-	public static double EaseInOutExpo(double t, double b, double c, double d)
+	public static float EaseInOutExpo(float t, float b, float c, float d)
 	{
 		t /= d / 2;
-		if (t < 1) return c / 2 * Math.Pow( 2, 10 * (t - 1) ) + b;
+		if (t < 1) return c / 2 * Mathf.Pow( 2, 10 * (t - 1) ) + b;
 		t--;
-		return c/2 * ( -Math.Pow( 2, -10 * t) + 2 ) + b;
+		return c/2 * ( -Mathf.Pow( 2, -10 * t) + 2 ) + b;
 	}
 
-	public static double EaseInCirc(double t, double b, double c, double d)
+	public static float EaseInCirc(float t, float b, float c, float d)
 	{
 		t /= d;
-		return -c * (Math.Sqrt(1 - t * t) - 1) + b;
+		return -c * (Mathf.Sqrt(1 - t * t) - 1) + b;
 	}
 
-	public static double EaseOutCirc(double t, double b, double c, double d)
+	public static float EaseOutCirc(float t, float b, float c, float d)
 	{
 		t /= d;
 		t--;
-		return c * Math.Sqrt(1 - t * t) + b;
+		return c * Mathf.Sqrt(1 - t * t) + b;
 	}
 
-	public static double EaseInOutCirc(double t, double b, double c, double d)
+	public static float EaseInOutCirc(float t, float b, float c, float d)
 	{
 		t /= d / 2;
-		if (t < 1) return -c / 2 * (Math.Sqrt(1 - t * t) - 1) + b;
+		if (t < 1) return -c / 2 * (Mathf.Sqrt(1 - t * t) - 1) + b;
 		t -= 2;
-		return c / 2 * (Math.Sqrt(1 - t * t) + 1) + b;
+		return c / 2 * (Mathf.Sqrt(1 - t * t) + 1) + b;
 	}
 }
