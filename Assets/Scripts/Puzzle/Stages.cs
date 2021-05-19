@@ -94,12 +94,13 @@ namespace Puzzle
 			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
 			SetScore(0);
 
-			boardManager.SetBoard();
-			boardManager.CreateBlock();
+			boardManager.Init(Game.Instance.CurrentStage);
 		}
 
 		public void RestartGame()
 		{
+			boardManager.ClearBoard();
+
 			StartGame();
 		}
 

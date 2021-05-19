@@ -5,16 +5,8 @@ using Random = UnityEngine.Random;
 
 namespace Puzzle.UI
 {
-	/// <summary>
-	/// TODO: 코드 정리가 필요할것
-	/// </summary>
 	public class BoardManager : MonoBehaviour
 	{
-		/// <summary>
-		/// TODO: MaxSize 변경 적용 가능하게
-		/// </summary>
-		private int MaxSize => Game.Instance.CurrentStage.GetBoardSize();
-
 		[SerializeField]
 		private Board originBoard;
 
@@ -34,16 +26,26 @@ namespace Puzzle.UI
 		/// <summary>
 		/// 현재 위치에 있는 Block 캐시
 		/// </summary>
-		private readonly Dictionary<int, Block> blockDict = new Dictionary<int, Block>();
+		private Dictionary<int, Block> blockDict = new Dictionary<int, Block>();
 
 		private readonly ObjectPool<Board> objectPoolBoard = new ObjectPool<Board>();
 
 		private readonly ObjectPool<Block> objectPoolBlock = new ObjectPool<Block>();
 
-		private void Awake()
-		{
-			originBlock.gameObject.SetActive(false);
-		}
+		/// <summary>
+		/// n*n 보드 사이즈
+		/// </summary>
+		private int maxSize;
+
+		/// <summary>
+		/// 블록 최대 수치
+		/// </summary>
+		private int maxNum;
+
+		/// <summary>
+		/// 블럭이 최대치로 가득 찼는지 체크
+		/// </summary>
+		private bool IsMax => blockDict.Count == maxSize * maxSize;
 
 		private void OnEnable()
 		{
@@ -55,11 +57,14 @@ namespace Puzzle.UI
 			MessageSystem.Instance.Unsubscribe<BlockMoveEvent>(OnMoveBlockEvent);
 		}
 
-		public int GetRandomBlockIndex()
+		/// <summary>
+		/// 랜덤한 블록을 생성할 인덱스를 반환
+		/// </summary>
+		private int GetRandomBlockIndex()
 		{
 			var candidates = new List<int>();
 
-			for (var i = 0; i < MaxSize * MaxSize; i++)
+			for (var i = 0; i < maxSize * maxSize; i++)
 			{
 				if (blockDict.ContainsKey(i) && blockDict[i] != null) continue;
 
@@ -74,7 +79,7 @@ namespace Puzzle.UI
 		/// <summary>
 		/// 보드 비우기
 		/// </summary>
-		private void ClearBoard()
+		public void ClearBoard()
 		{
 			objectPoolBoard.Dispose();
 			objectPoolBlock.Dispose();
@@ -96,60 +101,72 @@ namespace Puzzle.UI
 			blockDict.Clear();
 		}
 
-		public void SetBoard()
+		/// <summary>
+		/// 게임 시작시 처음 세팅
+		/// TODO: 로딩이 들어가면 로딩 과정에 넣기
+		/// </summary>
+		public void Init(StageMode mode)
 		{
-			ClearBoard();
+			// 전체 보드 가로(혹은 세로)의 크기 결정
+			maxSize = mode.GetBoardSize();
+			maxNum = Constants.MaxValue[0];
 
-			var mode = Game.Instance.CurrentStage;
+			// 정사각형 블록 1개의 너비 (혹은 높이)
 			var blockSize = mode.GetBlockSize();
-			var gridSize = mode.GetGridSize();
-
+			// 초기 블록의 사이즈 결정
 			originBlock.SetSize(blockSize);
 
-			objectPoolBlock.Init(originBlock, blockTransform, MaxSize * MaxSize);
-			objectPoolBoard.Init(originBoard, originBoard.transform.parent, MaxSize * MaxSize);
+			// 오브젝트 풀 초기 개수 세팅 (최대 블럭수만큼 미리 생성)
+			objectPoolBlock.Init(originBlock, blockTransform, maxSize * maxSize);
+			objectPoolBoard.Init(originBoard, originBoard.transform.parent, maxSize * maxSize);
 
-			for (var i = 0; i < MaxSize * MaxSize; i++)
+			for (var i = 0; i < maxSize * maxSize; i++)
 			{
 				var obj = objectPoolBoard.GetOrCreate();
 				obj.Set(blockSize, $"board{i}");
+				obj.gameObject.SetActive(true);
 				boards.Add(obj);
 			}
 
 			originBoard.gameObject.SetActive(false);
 			originBlock.gameObject.SetActive(false);
 
+			// grid가 자동으로 보드를 정렬해서 배치를 해줌
+			var gridSize = mode.GetGridSize();
 			grid.cellHeight = gridSize;
 			grid.cellWidth = gridSize;
-			grid.maxPerLine = MaxSize;
+			grid.maxPerLine = maxSize;
 			grid.Reposition();
+
+			// 처음 배치되는 블록 생
+			CreateBlock();
 		}
 
-		public bool CreateBlock()
+		/// <summary>
+		/// 블록이 생성될때 초기 수치 반환
+		/// </summary>
+		/// <returns></returns>
+		private int GetInitBlockNum()
+		{
+			// 2 or 4가 나오게 설정하기 위함
+			const float rangeLimit = 0.95f;
+			var range = Random.Range(0.0f, 1.0f);
+			return (range > rangeLimit) ? 4 : 2;
+		}
+
+		/// <summary>
+		/// 블록을 생성
+		/// </summary>
+		private void CreateBlock()
 		{
 			var blockIndex = GetRandomBlockIndex();
 
-			// TODO: 게임 종료
-			if (blockIndex == -1)
-			{
-				return false;
-			}
+			if (IsOutOfIndex(blockIndex)) return;
 
-			var blockObj = objectPoolBlock.GetOrCreate();
-
-			blockObj.gameObject.SetActive(true);
-
-			blockObj.transform.localScale = Vector3.one;
-
-			var block = blockObj.GetComponent<Block>();
-
-			// 2 or 4가 나오게 설정하기 위함
-			var rangeLimit = 0.95f;
-			var range = Random.Range(0.0f, 1.0f);
-
-			var initVal = (range > rangeLimit) ? 4 : 2;
-
-			block.Init(initVal, blockIndex);
+			var block = objectPoolBlock.GetOrCreate();
+			block.gameObject.SetActive(true);
+			block.transform.localScale = Vector3.one;
+			block.Init(GetInitBlockNum(), blockIndex);
 
 			if (!blockDict.ContainsKey(blockIndex))
 			{
@@ -159,8 +176,6 @@ namespace Puzzle.UI
 			{
 				blockDict[blockIndex] = block;
 			}
-
-			return true;
 		}
 
 		private bool OnMoveBlockEvent(Events e)
@@ -170,13 +185,11 @@ namespace Puzzle.UI
 				if (moveCoroutine != null) return false;
 
 				var direction = bme.Direction;
-				// Debug.LogWarning(bme.Direction);
 
 				if (direction == MoveDirection.None) return false;
 
-				var moveResult = GetMoveBlockResult(direction);
-
-				moveCoroutine = StartCoroutine(MoveBlocksAndMerge(moveResult));
+				SetMoveBlockResultNew(direction);
+				moveCoroutine = StartCoroutine(MoveAndMergeBlocks());
 
 				return true;
 			}
@@ -185,219 +198,215 @@ namespace Puzzle.UI
 		}
 
 		/// <summary>
-		/// 움직이게 된 후 결과 딕셔너리 저장
-		/// TODO: GC Alloc 많이 되는 부분
+		/// 블록이 이동한 결과 딕셔너리에 저장
 		/// </summary>
-		private Dictionary<Block, int> GetMoveBlockResult(MoveDirection direction)
+		private void SetMoveBlockResultNew(MoveDirection direction)
 		{
-			var moveDict = new Dictionary<Block, int>();
-			var movePairList = new List<KeyValuePair<Block, int>>();
-
 			var disOrder = (direction == MoveDirection.Down || direction == MoveDirection.Right);
 
-			var j = (disOrder) ? MaxSize * MaxSize - 1 : 0;
+			// move case
+			// 1. 그냥 이동 하는 경우
+			// 2. 이동 후 다른 블록이 합쳐지는 경우 (합쳐짐을 당하는 블록은 없애기 vs 합치기를 시도한 블록을 없애기)
+			// 3. 2의 결과로 나온 블록은 다른 블록에 의해서 합쳐지지 않는다
 
-			while (true)
+			var tempDict = new Dictionary<int, Block>();
+
+			for (var i = (disOrder) ? maxSize * maxSize - 1 : 0;
+				(disOrder) ? i >= 0 : i < maxSize * maxSize;)
 			{
-				if (!((disOrder) ? j >= 0 : j < MaxSize * MaxSize)) break;
-
-				if (!blockDict.ContainsKey(j) || blockDict[j] == null)
+				if (blockDict.ContainsKey(i))
 				{
-					j = (disOrder) ? j - 1 : j + 1;
+					var moveBlock = blockDict[i];
+					var xIndex = GetXIndex(i);
+					var yIndex = GetYIndex(i);
+					// 이동 가능 거리
+					var moveDist = 0;
 
-					continue;
-				}
-
-				var index = j;
-				var block = blockDict[j];
-
-				// 이동할 인덱스의 초기값은 현재 인덱스
-				var moveTargetIndex = index;
-
-				for (var move = 0; move < MaxSize; move++)
-				{
-					var targetIndex = index + GetMoveOffset(direction, move);
-
-					if (direction == MoveDirection.Right && targetIndex % MaxSize < index % MaxSize) break;
-
-					if (direction == MoveDirection.Left && targetIndex % MaxSize > index % MaxSize) break;
-
-					// 이동할 곳이 바깥으로 빠져나감
-					if (targetIndex < 0 || targetIndex >= MaxSize * MaxSize) break;
-
-					var pairList = movePairList.FindAll((pair) => block != pair.Key && pair.Value == targetIndex);
-
-					// 1. 그냥 이동 하면 되는 경우
-					if (pairList.Count == 0)
+					if (direction == MoveDirection.Left)
 					{
-						moveTargetIndex = targetIndex;
+						moveDist = xIndex;
 					}
-					// 2. 합쳐질수 있는 경우
-					else if (pairList.Count == 1 && pairList[0].Key.Data.Num == block.Data.Num)
+					else if (direction == MoveDirection.Right)
 					{
-						moveTargetIndex = targetIndex;
-						break;
+						moveDist = (maxSize - 1) - xIndex;
+					}
+					else if (direction == MoveDirection.Down)
+					{
+						moveDist = (maxSize - 1) - yIndex;
+					}
+					else if (direction == MoveDirection.Up)
+					{
+						moveDist = yIndex;
+					}
+
+					if (moveDist >= 1)
+					{
+						var moveToIndex = i;
+						var moveAndMerged = false;
+
+						for (var j = 1; j <= moveDist; j++)
+						{
+							var toIndex = i + GetMoveOffset(direction, j);
+
+							if (!tempDict.ContainsKey(toIndex))
+							{
+								moveToIndex = toIndex;
+							}
+							else if (tempDict[toIndex].Data.Num == moveBlock.Data.Num && !tempDict[toIndex].Data.IsMerged)
+							{
+								moveToIndex = toIndex;
+								moveAndMerged = true;
+								break;
+							}
+							else
+							{
+								break;
+							}
+						}
+
+						if (moveToIndex != i)
+						{
+							if (moveAndMerged)
+							{
+								// 이동하고 사라짐
+								moveBlock.MoveData = new BlockData()
+								{
+									Index = moveToIndex,
+									Num = -1
+								};
+								//Debug.LogError($"index {moveToIndex} will be delete");
+								var originIndex = tempDict[moveToIndex].Data.Index;
+								var originValue = tempDict[moveToIndex].Data.Num;
+								var toValue = originValue * 2;
+								tempDict[moveToIndex].MoveData = new BlockData()
+								{
+									Index = moveToIndex,
+									Num = toValue
+								};
+								tempDict[moveToIndex].Data = new BlockData()
+								{
+									Index = originIndex,
+									Num = originValue,
+									IsMerged = true
+								};
+							}
+							else
+							{
+								moveBlock.MoveData = new BlockData()
+								{
+									Index = moveToIndex,
+									Num = moveBlock.Data.Num
+								};
+								tempDict.Add(moveToIndex, moveBlock);
+							}
+						}
+						else
+						{
+							// 제자리인 경우
+							moveBlock.MoveData = null;
+							tempDict.Add(i, moveBlock);
+						}
 					}
 					else
 					{
-						break;
+						moveBlock.MoveData = null;
+						tempDict.Add(i, moveBlock);
 					}
 				}
 
-				movePairList.Add(new KeyValuePair<Block, int>(block, moveTargetIndex));
-
-				j = (disOrder) ? j - 1 : j + 1;
+				if (disOrder) i--;
+				else i++;
 			}
-
-			foreach (var movePair in movePairList)
-			{
-				moveDict.Add(movePair.Key, movePair.Value);
-			}
-
-			return moveDict;
 		}
 
 		/// <summary>
-		/// 블락들을 이동시키고 합치기
+		/// 블록 이동 결과에 따른 블록 이동 연출
 		/// </summary>
-		private IEnumerator MoveBlocksAndMerge(Dictionary<Block, int> moveDict)
+		private IEnumerator MoveAndMergeBlocks()
 		{
-			var changeBlockDuration = 0.05f;
-			var moveDuration = 0.25f;
-			float maxDuration = 0;
-
-			var mergeDict = new Dictionary<int, Block>();
-			var destroyList = new List<Block>();
-			var changeList = new List<Block>();
-			var dontMoveCount = 0;
-			var moveResCount = 0;
-
 			UIBlocker.Instance.SetEnabled();
 
-			// 1. 이동
-			foreach (var moveData in moveDict)
+			var dontMoveCount = 0;
+			var moveResCount = 0;
+			var blockDictCount = blockDict.Count;
+			var isGameClear = false;
+
+			foreach (var block in blockDict.Values)
 			{
-				var moveBlock = moveData.Key;
-				var moveXIndex = moveData.Value % MaxSize;
-				var moveYIndex = moveData.Value / MaxSize;
-
-				if (moveBlock.Data.Index == moveData.Value)
+				if (block.MoveData == null)
 				{
-					if (!mergeDict.ContainsKey(moveData.Value))
-					{
-						mergeDict.Add(moveData.Value, moveData.Key);
-					}
-
 					dontMoveCount++;
-					continue;
-				}
-
-				if (mergeDict.ContainsKey(moveData.Value))
-				{
-					destroyList.Add(mergeDict[moveData.Value]);
-					changeList.Add(moveBlock);
 				}
 				else
 				{
-					mergeDict.Add(moveData.Value, moveData.Key);
+					StartCoroutine(block.MoveAndChange(() =>
+					{
+						moveResCount++;
+
+						if (block.Data.Num == maxNum)
+						{
+							isGameClear = true;
+						}
+					}));
 				}
-
-				var distance = Mathf.Sqrt(Mathf.Pow(GetXIndex(moveBlock.Data.Index) - moveXIndex, 2) + Mathf.Pow(GetYIndex(moveBlock.Data.Index) - moveYIndex, 2));
-				var duration = moveDuration * (distance * 0.5f);
-
-				if (maxDuration < duration)
-				{
-					maxDuration = duration;
-				}
-
-				StartCoroutine(moveBlock.MoveToBoard(moveData.Value, duration, () =>
-				{
-					moveResCount++;
-				}));
 			}
 
-			// 아무것도 안움직인 경우
-			if (dontMoveCount == moveDict.Count)
+			if (blockDictCount == dontMoveCount)
 			{
+				moveCoroutine = null;
 				UIBlocker.Instance.SetDisabled();
 				yield break;
 			}
 
-			yield return new WaitUntil(() => moveResCount == moveDict.Count - dontMoveCount);
+			yield return new WaitUntil(() => blockDictCount == dontMoveCount + moveResCount);
 
-			var resSum = 0;
-			var isGameClear = false;
-			// 2. 미리 없앨 리스트와 변화시킬 리스트로 합치기
-			foreach (var block in changeList)
-			{
-				var toValue = block.Data.Num * 2;
+			UIBlocker.Instance.SetDisabled();
 
-				if (toValue == Constants.MaxValue[0])
-				{
-					isGameClear = true;
-				}
-
-				StartCoroutine(block.ChangeValue(toValue, changeBlockDuration, () =>
-				{
-					resSum++;
-				}));
-				Stages.Instance.AddScore(toValue);
-			}
-
-			foreach (var block in destroyList)
-			{
-				if (moveDict.ContainsKey(block))
-				{
-					moveDict.Remove(block);
-				}
-
-				block.gameObject.SetActive(false);
-			}
-
-			if (changeList.Count > 0)
-			{
-				yield return new WaitUntil(() => resSum == changeList.Count);
-			}
-
-			// 3. 2048 체크
 			if (isGameClear)
 			{
-				UIBlocker.Instance.SetDisabled();
+				moveCoroutine = null;
 				Stages.Instance.ClearGame();
 				yield break;
 			}
 
-			blockDict.Clear();
+			var moveDict = new Dictionary<int, Block>();
 
-			foreach (var block in moveDict)
+			foreach (var blockData in blockDict)
 			{
-				blockDict.Add(block.Value, block.Key);
+				if (!blockData.Value.gameObject.activeSelf)
+				{
+					continue;
+				}
+
+				// if (moveDict.ContainsKey(blockData.Value.Data.Index))
+				// {
+				// 	//Debug.LogError("Test");
+				// }
+
+				moveDict.Add(blockData.Value.Data.Index, blockData.Value);
 			}
 
-			// 4. 새로 블록 생성
-			var isCreateBlock = CreateBlock();
+			blockDict = moveDict;
 
-			if (!isCreateBlock || CheckGameOver())
-			{
-				moveCoroutine = null;
-				UIBlocker.Instance.SetDisabled();
-				Stages.Instance.EndGame();
-				yield break;
-			}
-
-			UIBlocker.Instance.SetDisabled();
+			CreateBlock();
 
 			moveCoroutine = null;
+
+			if (CheckGameOver())
+			{
+				Stages.Instance.EndGame();
+			}
 		}
 
+		/// <summary>
+		/// 게임 오버인지 체크
+		/// </summary>
 		private bool CheckGameOver()
 		{
-			if (!IsMax)
-			{
-				//Debug.Log($"max size is not {blockDict.Count}");
-				return false;
-			}
+			// 가득 차지 않은 경우면 무조건 게임오버 아님
+			if (!IsMax) return false;
 
+			// 가득찬 경우에는 합칠수 있는 블록 배치인지 체크
 			foreach (var blockData in blockDict)
 			{
 				if (CheckSameValue(blockData.Key)) return false;
@@ -406,38 +415,28 @@ namespace Puzzle.UI
 			return true;
 		}
 
-		public bool IsMax => blockDict.Count == MaxSize * MaxSize;
-
 		/// <summary>
 		/// 특정 인덱스의 4방향에 같은 값이 있는지 체크
 		/// </summary>
 		private bool CheckSameValue(int index)
 		{
-			if (!blockDict.ContainsKey(index))
-			{
-				Debug.Log($"index {index} is not in block dict");
-				return false;
-			}
-
 			var value = blockDict[index].Data.Num;
 
 			var downIndex = index + GetMoveOffset(MoveDirection.Down, 1);
-			var upIndex = index + GetMoveOffset(MoveDirection.Up, 1);
-			var leftIndex = index + GetMoveOffset(MoveDirection.Left, 1);
-			var rightIndex = index + GetMoveOffset(MoveDirection.Right, 1);
-
 			if (blockDict.ContainsKey(downIndex) && blockDict[downIndex].Data.Num == value)
 			{
 				//Debug.Log($"Down {index} / {downIndex} / {blockDict[downIndex].Data.Num} / {value}");
 				return true;
 			}
 
+			var upIndex = index + GetMoveOffset(MoveDirection.Up, 1);
 			if (blockDict.ContainsKey(upIndex) && blockDict[upIndex].Data.Num == value)
 			{
 				//Debug.Log($"Up {index} / {upIndex} / {blockDict[upIndex].Data.Num} / {value}");
 				return true;
 			}
 
+			var leftIndex = index + GetMoveOffset(MoveDirection.Left, 1);
 			if (blockDict.ContainsKey(leftIndex) && GetYIndex(leftIndex) == GetYIndex(index) &&
 				blockDict[leftIndex].Data.Num == value)
 			{
@@ -445,6 +444,7 @@ namespace Puzzle.UI
 				return true;
 			}
 
+			var rightIndex = index + GetMoveOffset(MoveDirection.Right, 1);
 			if (blockDict.ContainsKey(rightIndex) && GetYIndex(rightIndex) == GetYIndex(index) &&
 				blockDict[rightIndex].Data.Num == value)
 			{
@@ -461,17 +461,17 @@ namespace Puzzle.UI
 		/// </summary>
 		private bool IsOutOfIndex(int index)
 		{
-			return index < 0 || index >= MaxSize * MaxSize;
+			return index < 0 || index >= maxSize * maxSize;
 		}
 
 		private int GetYIndex(int index)
 		{
-			return index / MaxSize;
+			return index / maxSize;
 		}
 
 		private int GetXIndex(int index)
 		{
-			return index % MaxSize;
+			return index % maxSize;
 		}
 
 		/// <summary>
@@ -491,9 +491,9 @@ namespace Puzzle.UI
 				case MoveDirection.Left:
 					return -moveDist;
 				case MoveDirection.Down:
-					return moveDist * MaxSize;
+					return moveDist * maxSize;
 				case MoveDirection.Up:
-					return -moveDist * MaxSize;
+					return -moveDist * maxSize;
 				default:
 					return 0;
 			}

@@ -22,7 +22,6 @@ namespace Puzzle.Stage
 			}
 		}
 
-
 		void OnDrag(Vector2 delta)
 		{
 			if (isDragging) return;
@@ -31,7 +30,11 @@ namespace Puzzle.Stage
 
 			isDragging = true;
 
-			MessageSystem.Instance.Publish(BlockMoveEvent.Create(DirectionUtil.GetDirection(delta)));
+			var direction = DirectionUtil.GetDirection(delta);
+
+			if (direction == MoveDirection.None) return;
+
+			MessageSystem.Instance.Publish(BlockMoveEvent.Create(direction));
 		}
 	}
 }

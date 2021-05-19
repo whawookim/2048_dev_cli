@@ -12,7 +12,6 @@ namespace Puzzle.UI
 			widget.width = size;
 			widget.height = size;
 			widget.cachedGameObject.name = widgetName;
-			widget.cachedGameObject.SetActive(true);
 		}
 	}
 }
