@@ -37,6 +37,16 @@ namespace Puzzle.UI
 			MessageSystem.Instance.Unsubscribe<UpdateGameScoreEvent>(OnUpdateGameScore);
 		}
 
+		private void Update()
+		{
+#if UNITY_EDITOR || UNITY_ANDROID
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				OnClickLobby();
+			}
+#endif
+		}
+
 		public void SetGameScore(int score)
 		{
 			totalScore = score;

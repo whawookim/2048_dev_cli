@@ -29,18 +29,19 @@ namespace Puzzle.UI
 		}
 
 		// Start is called before the first frame update
-		void Start()
+		private void Start()
 		{
 			SetCurrentStage((int)Game.Instance.CurrentStage);
 		}
 
-		private void OnEnable()
+		private void Update()
 		{
-		}
-
-		private void OnDisable()
-		{
-			Debug.Log("Close Lobby");
+#if UNITY_EDITOR || UNITY_ANDROID
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				OnClickEndButton();
+			}
+#endif
 		}
 
 		/// <summary>
