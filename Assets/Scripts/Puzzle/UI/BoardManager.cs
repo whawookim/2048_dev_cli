@@ -109,7 +109,7 @@ namespace Puzzle.UI
 		{
 			// 전체 보드 가로(혹은 세로)의 크기 결정
 			maxSize = mode.GetBoardSize();
-			maxNum = Constants.MaxValue[0];
+			maxNum = mode.GetBlockMaxNum();
 
 			// 정사각형 블록 1개의 너비 (혹은 높이)
 			var blockSize = mode.GetBlockSize();
@@ -144,14 +144,29 @@ namespace Puzzle.UI
 
 		/// <summary>
 		/// 블록이 생성될때 초기 수치 반환
+		/// <remarks>게임의 밸런스적인 상수</remarks>
 		/// </summary>
-		/// <returns></returns>
 		private int GetInitBlockNum()
 		{
-			// 2 or 4가 나오게 설정하기 위함
-			const float rangeLimit = 0.95f;
-			var range = Random.Range(0.0f, 1.0f);
-			return (range > rangeLimit) ? 4 : 2;
+			var initValues = Constants.InitValues;
+			var initValuesProb = Constants.InitValuesProb;
+			var roll = Random.Range(0.0f, 1.0f);
+			var index = 0;
+
+			foreach (var prob in initValuesProb)
+			{
+				if (roll > prob)
+				{
+					index++;
+					roll -= prob;
+				}
+				else
+				{
+					break;
+				}
+			}
+
+			return initValues[index];
 		}
 
 		/// <summary>
@@ -281,7 +296,8 @@ namespace Puzzle.UI
 								tempDict[moveToIndex].MoveData = new BlockData()
 								{
 									Index = moveToIndex,
-									Num = toValue
+									Num = toValue,
+									WaitMergeBlock = moveBlock
 								};
 								tempDict[moveToIndex].Data = new BlockData()
 								{
@@ -343,7 +359,7 @@ namespace Puzzle.UI
 					{
 						moveResCount++;
 
-						if (block.Data.Num == maxNum)
+						if (block.Data.Num >= maxNum)
 						{
 							isGameClear = true;
 						}

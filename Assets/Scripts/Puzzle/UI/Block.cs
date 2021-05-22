@@ -11,6 +11,11 @@ namespace Puzzle.UI
 		public int Num { get; set; }
 
 		public bool IsMerged { get; set; }
+
+		/// <summary>
+		/// 합쳐져서 사라지길 기다리는 블락
+		/// </summary>
+		public Block WaitMergeBlock { get; set; }
 	}
 
 	public class Block : MonoBehaviour, IPooledObject
@@ -151,6 +156,12 @@ namespace Puzzle.UI
 			}
 			else if (moveData.Num > Data.Num)
 			{
+				// 합쳐져서 안보이게될때까지 대기
+				if (moveData.WaitMergeBlock != null)
+				{
+					yield return new WaitUntil(() => !moveData.WaitMergeBlock.gameObject.activeSelf);
+				}
+
 				yield return UIAnimations.ElasticScale(transform, ChangeBlockDuration, Vector3.one * ChangeBlockScale,
 					Interpolations.EaseInQuad, Interpolations.EaseOutQuad);
 				blockData.Num = moveData.Num;
