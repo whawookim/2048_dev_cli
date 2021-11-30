@@ -47,6 +47,11 @@ namespace Puzzle.UI
 		/// </summary>
 		private bool IsMax => blockDict.Count == maxSize * maxSize;
 
+		/// <summary>
+		/// 게임 클리어 체크 
+		/// </summary>
+		private bool isGameClear = false;
+		
 		private void OnEnable()
 		{
 			MessageSystem.Instance.Subscribe<BlockMoveEvent>(OnMoveBlockEvent);
@@ -107,6 +112,8 @@ namespace Puzzle.UI
 		/// </summary>
 		public void Init(StageMode mode)
 		{
+			isGameClear = false;
+
 			// 전체 보드 가로(혹은 세로)의 크기 결정
 			maxSize = mode.GetBoardSize();
 			maxNum = mode.GetBlockMaxNum();
@@ -197,6 +204,8 @@ namespace Puzzle.UI
 		{
 			if (e is BlockMoveEvent bme)
 			{
+				// 클리어시 움직이지 않게
+				if (isGameClear) return false;
 				if (moveCoroutine != null) return false;
 
 				var direction = bme.Direction;
@@ -345,7 +354,6 @@ namespace Puzzle.UI
 			var dontMoveCount = 0;
 			var moveResCount = 0;
 			var blockDictCount = blockDict.Count;
-			var isGameClear = false;
 
 			foreach (var block in blockDict.Values)
 			{
