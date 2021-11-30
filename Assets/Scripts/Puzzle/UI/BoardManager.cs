@@ -395,9 +395,9 @@ namespace Puzzle.UI
 
 			var moveDict = new Dictionary<int, Block>();
 
-			foreach (var blockData in blockDict)
+			foreach (var blockData in blockDict.Values)
 			{
-				if (!blockData.Value.gameObject.activeSelf)
+				if (!blockData.gameObject.activeSelf)
 				{
 					continue;
 				}
@@ -407,7 +407,7 @@ namespace Puzzle.UI
 				// 	//Debug.LogError("Test");
 				// }
 
-				moveDict.Add(blockData.Value.Data.Index, blockData.Value);
+				moveDict.Add(blockData.Data.Index, blockData);
 			}
 
 			blockDict = moveDict;
