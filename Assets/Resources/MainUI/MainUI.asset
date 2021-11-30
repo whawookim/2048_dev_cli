@@ -16,7 +16,7 @@ MonoBehaviour:
   mSprites:
   - name: button_corner_square1_1
     x: 0
-    y: 0
+    y: 128
     width: 128
     height: 128
     borderLeft: 10
@@ -27,5 +27,57 @@ MonoBehaviour:
     paddingRight: 0
     paddingTop: 0
     paddingBottom: 0
+  - name: icon_activity_6
+    x: 0
+    y: 11
+    width: 124
+    height: 116
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 2
+    paddingRight: 2
+    paddingTop: 6
+    paddingBottom: 6
+  - name: icon_activity_7
+    x: 125
+    y: 8
+    width: 128
+    height: 119
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 0
+    paddingRight: 0
+    paddingTop: 5
+    paddingBottom: 4
+  - name: icon_arrow_65
+    x: 129
+    y: 153
+    width: 121
+    height: 103
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 3
+    paddingRight: 4
+    paddingTop: 13
+    paddingBottom: 12
+  - name: icon_line_simpleshape_68
+    x: 251
+    y: 137
+    width: 108
+    height: 119
+    borderLeft: 0
+    borderRight: 0
+    borderTop: 0
+    borderBottom: 0
+    paddingLeft: 10
+    paddingRight: 10
+    paddingTop: 5
+    paddingBottom: 4
   mPixelSize: 1
   mReplacement: {fileID: 0}
