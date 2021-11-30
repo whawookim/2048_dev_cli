@@ -95,32 +95,6 @@ namespace Puzzle.UI
 		}
 
 		/// <summary>
-		/// 특정 보드의 위치로 이동 애니메이션
-		/// </summary>
-		public IEnumerator MoveToBoard(int index, float duration, Action resCb)
-		{
-			var targetPos = Stages.Instance.GetBoardPosition(index);
-
-			yield return UIAnimations.Position(widget, duration, targetPos, Interpolations.EaseInQuad);
-
-			blockData.Index = index;
-			transform.position = targetPos;
-
-			resCb?.Invoke();
-		}
-
-		public IEnumerator ChangeValue(int num, float duration, Action resCb)
-		{
-			yield return UIAnimations.ElasticScale(transform, duration, Vector3.one * 1.2f,
-				Interpolations.EaseInQuad, Interpolations.EaseOutQuad);
-
-			blockData.Num = num;
-			UpdateBlock();
-
-			resCb?.Invoke();
-		}
-
-		/// <summary>
 		/// 블록의 이동과 Merge를 한번에 처리
 		/// </summary>
 		/// <param name="resCb">모든 연출 끝나고 콜백</param>
@@ -143,6 +117,7 @@ namespace Puzzle.UI
 					Mathf.Pow(yIndex - moveYIndex, 2));
 				var moveDuration = MoveOneBlockDuration * (distance * 0.5f);
 
+				// TODO: 이동에 걸리는 시간을 실제 거리로 해서 같게 맞추기 (지금 보드가 커지면 더 오래 걸림...)
 				yield return UIAnimations.Position(widget, moveDuration, targetPos, Interpolations.EaseInQuad);
 
 				blockData.Index = moveData.Index;
