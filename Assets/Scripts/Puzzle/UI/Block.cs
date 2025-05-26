@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine.UI;
 
 namespace Puzzle.UI
 {
@@ -55,13 +57,13 @@ namespace Puzzle.UI
 		#endregion
 
 		[SerializeField]
-		private UIWidget widget;
+		private RectTransform rect;
 
 		[SerializeField]
-		private UILabel valueLabel;
+		private TextMeshProUGUI valueLabel;
 
 		[SerializeField]
-		private UISprite bgSprite;
+		private Image bgSprite;
 
 		private BlockData blockData;
 
@@ -91,7 +93,9 @@ namespace Puzzle.UI
 
 			UpdateBlock();
 
-			transform.position = Stages.Instance.GetBoardPosition(index);
+			var worldBoardPos = Stages.Instance.GetBoardPosition(index);
+			var localPos = rect.parent.InverseTransformPoint(worldBoardPos);
+			rect.localPosition = localPos;
 		}
 
 		/// <summary>
@@ -108,7 +112,8 @@ namespace Puzzle.UI
 			if (moveData.Index != Data.Index)
 			{
 				var maxSize = Game.Instance.CurrentStage.GetBoardSize();
-				var targetPos = Stages.Instance.GetBoardPosition(moveData.Index);
+				var worldBoardPos = Stages.Instance.GetBoardPosition(moveData.Index);
+				var localPos = rect.parent.InverseTransformPoint(worldBoardPos);
 				var moveXIndex = moveData.Index % maxSize;
 				var moveYIndex = moveData.Index / maxSize;
 				var xIndex = Data.Index % maxSize;
@@ -118,10 +123,10 @@ namespace Puzzle.UI
 				var moveDuration = MoveOneBlockDuration * (distance * 0.5f);
 
 				// TODO: 이동에 걸리는 시간을 실제 거리로 해서 같게 맞추기 (지금 보드가 커지면 더 오래 걸림...)
-				yield return UIAnimations.Position(widget, moveDuration, targetPos, Interpolations.EaseInQuad);
+				yield return UIAnimations.Position(transform, moveDuration, localPos, Interpolations.EaseInQuad, isLocal: true);
 
 				blockData.Index = moveData.Index;
-				transform.position = targetPos;
+				transform.localPosition = localPos;
 			}
 
 			if (moveData.Num == -1)
@@ -163,8 +168,7 @@ namespace Puzzle.UI
 
 		public void SetSize(int size)
 		{
-			widget.width = size;
-			widget.height = size;
+			rect.sizeDelta = new Vector2(size, size);
 		}
 	}
 }

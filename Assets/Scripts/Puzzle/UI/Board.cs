@@ -5,13 +5,17 @@ namespace Puzzle.UI
 	public class Board : MonoBehaviour, IPooledObject
 	{
 		[SerializeField]
-		private UIWidget widget;
+		private RectTransform rect;
 
-		public void Set(int size, string widgetName)
+		public Vector3 GetPosition()
 		{
-			widget.width = size;
-			widget.height = size;
-			widget.cachedGameObject.name = widgetName;
+			return rect.transform.position;
+		}
+
+		public void Set(int size, string objName)
+		{
+			rect.sizeDelta = new Vector2(size, size);
+			gameObject.name = objName;
 		}
 	}
 }

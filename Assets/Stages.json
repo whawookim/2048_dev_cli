@@ -1,0 +1,19 @@
+{
+  "Stages" :[
+    {
+      "Id": 1001,
+      "SortNum": 1,
+      "BoardSize": [2, 2]
+    },
+    {
+      "Id": 1002,
+      "SortNum": 2,
+      "BoardSize": [3, 3]
+    },
+    {
+      "Id": 1003,
+      "SortNum": 3,
+      "BoardSize": [5, 5]
+    }
+  ]
+}

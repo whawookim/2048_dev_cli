@@ -98,6 +98,7 @@ namespace Puzzle
 		public void Start()
 		{
 			boardManager.ClearBoard();
+			boardManager.ClearBlocks();
 
 			StartGame();
 		}
@@ -122,9 +123,13 @@ namespace Puzzle
 
 		public void RestartGame()
 		{
-			boardManager.ClearBoard();
+			// Board는 그대로 두고 블록들만 꺼주고 비우기
+			boardManager.HideBlocks();
 
-			StartGame();
+			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
+			SetScore(0);
+
+			boardManager.Reset();
 		}
 
 		public void EndGame()
