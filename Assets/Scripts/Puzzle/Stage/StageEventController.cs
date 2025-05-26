@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems; // UGUI 이벤트 인터페이스를 위해 추가
 
 namespace Puzzle.Stage
 {
@@ -10,31 +11,35 @@ namespace Puzzle.Stage
 		Fail
 	}
 
-	public class StageEventController : MonoBehaviour
+	public class StageEventController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 	{
 		private bool isDragging;
 
-		void OnPress(bool pressed)
+		public void OnBeginDrag(PointerEventData eventData)
 		{
-			if (!pressed && isDragging)
-			{
-				isDragging = false;
-			}
+			// Drag 시작
+			isDragging = false;
 		}
 
-		void OnDrag(Vector2 delta)
+		public void OnDrag(PointerEventData eventData)
 		{
 			if (isDragging) return;
 
-			if (delta.magnitude < Constants.DragThreshold) return;
+			if (eventData.delta.magnitude < Constants.DragThreshold) return;
 
 			isDragging = true;
 
-			var direction = DirectionUtil.GetDirection(delta);
+			var direction = DirectionUtil.GetDirection(eventData.delta);
 
 			if (direction == MoveDirection.None) return;
 
 			MessageSystem.Instance.Publish(BlockMoveEvent.Create(direction));
+
+		}
+		
+		public void OnEndDrag(PointerEventData eventData)
+		{
+			isDragging = false;
 		}
 	}
 }

@@ -7,6 +7,7 @@ namespace Puzzle
 	{
 		public static Game Instance { get; private set; }
 
+		[field: SerializeField]
 		public StageMode CurrentStage { get; private set; } = StageMode.Stage3x3;
 
 		private void Awake()

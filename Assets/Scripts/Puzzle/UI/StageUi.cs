@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 namespace Puzzle.UI
@@ -8,10 +9,10 @@ namespace Puzzle.UI
 		public static StageUi Instance { get; private set; }
 
 		[SerializeField]
-		private UILabel gameStatus;
+		private TextMeshProUGUI gameStatus;
 
 		[SerializeField]
-		private UILabel gameScore;
+		private TextMeshProUGUI gameScore;
 
 		private int totalScore = 0;
 

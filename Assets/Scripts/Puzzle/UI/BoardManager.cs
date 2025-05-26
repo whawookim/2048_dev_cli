@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Puzzle.UI
@@ -14,7 +15,7 @@ namespace Puzzle.UI
 		private Block originBlock;
 
 		[SerializeField]
-		private UIGrid grid;
+		private GridLayoutGroup grid;
 
 		[SerializeField]
 		private Transform blockTransform;
@@ -87,7 +88,6 @@ namespace Puzzle.UI
 		public void ClearBoard()
 		{
 			objectPoolBoard.Dispose();
-			objectPoolBlock.Dispose();
 
 			foreach (var board in boards)
 			{
@@ -95,12 +95,37 @@ namespace Puzzle.UI
 			}
 
 			boards.Clear();
+		}
 
+		/// <summary>
+		/// 블록들 비우기
+		/// </summary>
+		public void ClearBlocks()
+		{
+			objectPoolBlock.Dispose();
+			
 			foreach (var block in blockDict)
 			{
 				if (block.Value == null) continue;
 
 				DestroyImmediate(block.Value.gameObject);
+			}
+
+			blockDict.Clear();
+		}
+		
+		/// <summary>
+		/// 블록들 가리기 (지우진 않음)
+		/// </summary>
+		public void HideBlocks()
+		{
+			//objectPoolBlock.Dispose();
+			
+			foreach (var block in blockDict)
+			{
+				if (block.Value == null) continue;
+
+				block.Value.gameObject.SetActive(false);
 			}
 
 			blockDict.Clear();
@@ -125,7 +150,7 @@ namespace Puzzle.UI
 
 			// 오브젝트 풀 초기 개수 세팅 (최대 블럭수만큼 미리 생성)
 			objectPoolBlock.Init(originBlock, blockTransform, maxSize * maxSize);
-			objectPoolBoard.Init(originBoard, originBoard.transform.parent, maxSize * maxSize);
+			objectPoolBoard.Init(originBoard, grid.transform, maxSize * maxSize);
 
 			for (var i = 0; i < maxSize * maxSize; i++)
 			{
@@ -140,12 +165,25 @@ namespace Puzzle.UI
 
 			// grid가 자동으로 보드를 정렬해서 배치를 해줌
 			var gridSize = mode.GetGridSize();
-			grid.cellHeight = gridSize;
-			grid.cellWidth = gridSize;
-			grid.maxPerLine = maxSize;
-			grid.Reposition();
+			grid.cellSize = new Vector2(blockSize, blockSize);
+			grid.spacing = new Vector2((gridSize - blockSize) * 0.5f, (gridSize - blockSize) * 0.5f);
+			grid.constraintCount = maxSize;
 
-			// 처음 배치되는 블록 생
+			// NOTE: LayoutGroup을 사용한 경우 한 프레임 뒤에 자식 위치를 얻어올 수 있다고 함.
+			Canvas.ForceUpdateCanvases();
+
+			// 처음 배치되는 블록 생성
+			CreateBlock();
+		}
+
+		/// <summary>
+		/// 재시작용
+		/// </summary>
+		public void Reset()
+		{
+			isGameClear = false;
+
+			// 처음 배치되는 블록 생성
 			CreateBlock();
 		}
 
@@ -503,7 +541,7 @@ namespace Puzzle.UI
 		/// </summary>
 		public Vector3 GetBoardPosition(int index)
 		{
-			return boards[index].transform.position;
+			return boards[index].GetPosition();
 		}
 
 		private int GetMoveOffset(MoveDirection direction, int moveDist)

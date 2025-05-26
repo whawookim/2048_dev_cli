@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Puzzle.UI
 {
@@ -6,8 +7,11 @@ namespace Puzzle.UI
 	{
 		public static UIBlocker Instance { get; private set; }
 
+		/// <summary>
+		/// Image가 붙어있고 Raycast Target이 되는 오브젝트
+		/// </summary>
 		[SerializeField]
-		private BoxCollider collider;
+		private Image blockerImage;
 
 		private void Awake()
 		{
@@ -21,12 +25,12 @@ namespace Puzzle.UI
 
 		public void SetEnabled()
 		{
-			collider.enabled = true;
+			blockerImage.enabled = true;
 		}
 
 		public void SetDisabled()
 		{
-			collider.enabled = false;
+			blockerImage.enabled = false;
 		}
 	}
 }
