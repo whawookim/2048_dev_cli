@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 namespace Puzzle
 {
@@ -52,9 +53,19 @@ namespace Puzzle
 		/// </summary>
 		public IEnumerator ChangeSceneAsync(string sceneName)
 		{
-			UI.UIBlocker.Instance.SetEnabled();
-			
+			UI.LoadingScreen.Instance.SetEnabled(true);
+
+			// 1) 모든 Tween 중단
+			DG.Tweening.DOTween.KillAll();
+
+			// 2) 새 씬 로드 (이전 씬 자동 언로드)
 			yield return SceneManager.LoadSceneAsync(sceneName);
+			
+			// 3) 사용되지 않는 에셋 해제
+			Resources.UnloadUnusedAssets();
+
+			// 4) (선택) 가비지 컬렉션
+			System.GC.Collect();
 
 			if (sceneName == "Lobby")
 			{
@@ -65,7 +76,7 @@ namespace Puzzle
 				yield return StageManager.LoadAsync();
 			}
 			
-			UI.UIBlocker.Instance.SetDisabled();
+			UI.LoadingScreen.Instance.SetDisabled(true);
 		}
 	}
 }
