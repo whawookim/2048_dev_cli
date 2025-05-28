@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Puzzle
@@ -43,8 +44,28 @@ namespace Puzzle
 		/// </summary>
 		public void ChangeScene(string sceneName)
 		{
-			// TODO: 로비 씬 이동하기
-			SceneManager.LoadScene(sceneName);
+			StartCoroutine(ChangeSceneAsync(sceneName));
+		}
+
+		/// <summary>
+		/// 씬 이동 Async
+		/// </summary>
+		public IEnumerator ChangeSceneAsync(string sceneName)
+		{
+			UI.UIBlocker.Instance.SetEnabled();
+			
+			yield return SceneManager.LoadSceneAsync(sceneName);
+
+			if (sceneName == "Lobby")
+			{
+				yield return LobbyManager.LoadAsync();
+			}
+			else if (sceneName == "Stage")
+			{
+				yield return StageManager.LoadAsync();
+			}
+			
+			UI.UIBlocker.Instance.SetDisabled();
 		}
 	}
 }

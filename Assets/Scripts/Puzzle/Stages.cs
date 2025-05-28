@@ -1,3 +1,4 @@
+using System.Collections;
 using Puzzle.Stage;
 using Puzzle.UI;
 using UnityEngine;
@@ -95,12 +96,15 @@ namespace Puzzle
 			Instance = null;
 		}
 
-		public void Start()
+		public void Init()
 		{
 			boardManager.ClearBoard();
 			boardManager.ClearBlocks();
+		}
 
-			StartGame();
+		public IEnumerator LoadAsync()
+		{
+			yield return boardManager.LoadAsync();
 		}
 
 		public void SetScore(int score)

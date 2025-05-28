@@ -3,17 +3,13 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Puzzle.UI
 {
 	public class BoardManager : MonoBehaviour
 	{
-		[SerializeField]
-		private Board originBoard;
-
-		[SerializeField]
-		private Block originBlock;
-
 		[SerializeField]
 		private GridLayoutGroup grid;
 
@@ -33,6 +29,10 @@ namespace Puzzle.UI
 
 		private readonly ObjectPool<Block> objectPoolBlock = new ObjectPool<Block>();
 
+		private Board originBoard;
+		
+		private Block originBlock;
+		
 		/// <summary>
 		/// n*n 보드 사이즈
 		/// </summary>
@@ -61,6 +61,45 @@ namespace Puzzle.UI
 		private void OnDisable()
 		{
 			MessageSystem.Instance.Unsubscribe<BlockMoveEvent>(OnMoveBlockEvent);
+		}
+
+		public IEnumerator LoadAsync()
+		{
+			var handle = Addressables.LoadAssetAsync<GameObject>("Board");
+			yield return handle;
+            
+			if (handle.Status == AsyncOperationStatus.Failed)
+			{
+				Debug.LogError("Board Prefab Load Failed");
+				yield break;
+			}
+
+			if (handle.Status == AsyncOperationStatus.Succeeded)
+			{
+				var originBoardObj = Instantiate(handle.Result);
+				originBoardObj.transform.SetParent(grid.transform);
+				originBoard = originBoardObj.GetComponent<Board>();
+				originBoard.transform.localScale = Vector3.one;
+			}
+
+			handle = Addressables.LoadAssetAsync<GameObject>("Block");
+			yield return handle;
+			
+			if (handle.Status == AsyncOperationStatus.Failed)
+			{
+				Debug.LogError("Block Prefab Load Failed");
+				yield break;
+			}
+
+			if (handle.Status == AsyncOperationStatus.Succeeded)
+			{
+				var originBlockObj = Instantiate(handle.Result);
+				originBlockObj.transform.SetParent(blockTransform);
+				originBlock = originBlockObj.GetComponent<Block>();
+				originBlock.transform.localScale = Vector3.one;
+			}
+			
+			Addressables.Release(handle);
 		}
 
 		/// <summary>
@@ -143,10 +182,11 @@ namespace Puzzle.UI
 			maxSize = mode.GetBoardSize();
 			maxNum = mode.GetBlockMaxNum();
 
-			// 정사각형 블록 1개의 너비 (혹은 높이)
+			// 정사각형 블록, 보드 1개의 너비 (혹은 높이)
 			var blockSize = mode.GetBlockSize();
-			// 초기 블록의 사이즈 결정
+			// 초기 블록, 보드의 사이즈 결정
 			originBlock.SetSize(blockSize);
+			originBoard.SetSize(blockSize);
 
 			// 오브젝트 풀 초기 개수 세팅 (최대 블럭수만큼 미리 생성)
 			objectPoolBlock.Init(originBlock, blockTransform, maxSize * maxSize);
@@ -155,7 +195,7 @@ namespace Puzzle.UI
 			for (var i = 0; i < maxSize * maxSize; i++)
 			{
 				var obj = objectPoolBoard.GetOrCreate();
-				obj.Set(blockSize, $"board{i}");
+				obj.Set($"board{i}");
 				obj.gameObject.SetActive(true);
 				boards.Add(obj);
 			}
