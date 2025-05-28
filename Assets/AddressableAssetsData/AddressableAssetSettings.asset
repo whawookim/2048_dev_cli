@@ -53,7 +53,7 @@ MonoBehaviour:
     m_Id: 9970aeb58a14cdb4a85b468cd0ecee8a
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -61,6 +61,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: ef2ece752e7f725449ce8f8a0d956dfc, type: 2}
   - {fileID: 11400000, guid: e7a3f0a0bc391c741a0b8e918559ad15, type: 2}
+  - {fileID: 11400000, guid: fc9673dde21d49d4b8bb6af2d0fb3a07, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
@@ -102,6 +103,7 @@ MonoBehaviour:
     - default
     - Stage
     - Lobby
+    - SharedUI
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 51d4b5fb38565ea4aa629278f73a843c, type: 2}

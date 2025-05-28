@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Shared Assets Group
+  m_EditorClassIdentifier: 
+  m_GroupName: Shared Assets Group
+  m_GUID: c0d067fd20627bc4ba97ea6b78cd5766
+  m_SerializeEntries:
+  - m_GUID: 14546b23a484545d8bdef6535b4fb8dc
+    m_Address: MainUI/Sprites/icon_activity_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 60310d76f27c248ecb78a584c9323027
+    m_Address: MainUI/Sprites/button_corner_square1_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6769770b6b2fc4284bb81a118d183b8f
+    m_Address: MainUI/Sprites/icon_activity_7
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9f7a670cbbdf896428745184aceae7e7
+    m_Address: MainUI/MainUI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3b161f3021e54a7aa5a782cffafaa53
+    m_Address: MainUI/Sprites/icon_arrow_65
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d6822211421734f6794c1653c250bfa9
+    m_Address: MainUI/Sprites/icon_line_simpleshape_68
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: faf385abf9866e340854dd99bcb239cf, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 0939ce15cd9d88d46932fdbc17fa7c09, type: 2}
+    - {fileID: 11400000, guid: cf64d5ecec9a0fe449cc2ba0d915d357, type: 2}
