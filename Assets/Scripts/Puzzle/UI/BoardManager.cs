@@ -65,41 +65,47 @@ namespace Puzzle.UI
 
 		public IEnumerator LoadAsync()
 		{
-			var handle = Addressables.LoadAssetAsync<GameObject>("Board");
-			yield return handle;
+			// Board 로드
+			var boardHandle = Addressables.LoadAssetAsync<GameObject>("Board");
+			yield return boardHandle;
             
-			if (handle.Status == AsyncOperationStatus.Failed)
+			if (boardHandle.Status == AsyncOperationStatus.Failed)
 			{
 				Debug.LogError("Board Prefab Load Failed");
 				yield break;
 			}
 
-			if (handle.Status == AsyncOperationStatus.Succeeded)
+			if (boardHandle.Status == AsyncOperationStatus.Succeeded)
 			{
-				var originBoardObj = Instantiate(handle.Result);
+				var originBoardObj = Instantiate(boardHandle.Result);
 				originBoardObj.transform.SetParent(grid.transform);
 				originBoard = originBoardObj.GetComponent<Board>();
 				originBoard.transform.localScale = Vector3.one;
 			}
-
-			handle = Addressables.LoadAssetAsync<GameObject>("Block");
-			yield return handle;
 			
-			if (handle.Status == AsyncOperationStatus.Failed)
+			// Board 프리팹 handle 해제
+			Addressables.Release(boardHandle);
+
+			// Block 로드
+			var blockHandle = Addressables.LoadAssetAsync<GameObject>("Block");
+			yield return blockHandle;
+			
+			if (blockHandle.Status == AsyncOperationStatus.Failed)
 			{
 				Debug.LogError("Block Prefab Load Failed");
 				yield break;
 			}
 
-			if (handle.Status == AsyncOperationStatus.Succeeded)
+			if (blockHandle.Status == AsyncOperationStatus.Succeeded)
 			{
-				var originBlockObj = Instantiate(handle.Result);
+				var originBlockObj = Instantiate(blockHandle.Result);
 				originBlockObj.transform.SetParent(blockTransform);
 				originBlock = originBlockObj.GetComponent<Block>();
 				originBlock.transform.localScale = Vector3.one;
 			}
 			
-			Addressables.Release(handle);
+			// Block 프리팹 handle 해제
+			Addressables.Release(blockHandle);
 		}
 
 		/// <summary>
