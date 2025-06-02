@@ -1,33 +1,46 @@
 using System.Collections;
+using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Puzzle
 {
-    public class LobbyManager : MonoBehaviour
+    /// <summary>
+    /// 로비 매니저
+    /// </summary>
+    public class LobbyManager : IAddressableManager
     {
+        private static LobbyManager _instance;
+        public static LobbyManager Instance => _instance ??= new LobbyManager();
+        
+        private AsyncOperationHandle<GameObject> _lobbyHandle;
+        
         /// <summary>
         /// Lobby 로드
         /// </summary>
-        public static IEnumerator LoadAsync()
+        public IEnumerator LoadAsync()
         {
             // Addressable 로드
-            var handle = Addressables.LoadAssetAsync<GameObject>("Lobby Main");
-            yield return handle;
-            
-            if (handle.Status == AsyncOperationStatus.Failed)
-            {
-                Debug.LogError("LobbyMain Prefab Load Failed");
-                yield break;
-            }
+            _lobbyHandle = Addressables.InstantiateAsync(nameof(LobbyMain));
+            yield return _lobbyHandle;
 
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                Instantiate(handle.Result);
-            }
+            if (_lobbyHandle.Status == AsyncOperationStatus.Succeeded)
+                Debug.Log("LobbyMain Loaded!");
+            else
+                Debug.LogError("LobbyMain Load Failed!");
             
-            Addressables.Release(handle);
+            // 매니저 등록
+            GameManager.Instance.RegisterManger(this);
+        }
+        
+        public void Release()
+        {
+            if (_lobbyHandle.IsValid())
+            {
+                Addressables.ReleaseInstance(_lobbyHandle);
+                Debug.Log("LobbyMain Released!");
+            }
         }
     }
 }

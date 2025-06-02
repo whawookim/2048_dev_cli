@@ -5,37 +5,85 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Puzzle
 {
-    public class StageManager : MonoBehaviour
+    /// <summary>
+    /// 스테이지 매니저
+    /// </summary>
+    public class StageManager : IAddressableManager
     {
-        /// <summary>
-        /// Stage 로드
-        /// </summary>
-        public static IEnumerator LoadAsync()
+        private static StageManager _instance;
+        public static StageManager Instance => _instance ??= new StageManager();
+
+        private AsyncOperationHandle<GameObject> _stageHandle;
+
+        private AsyncOperationHandle<GameObject> _boardHandle;
+
+        private AsyncOperationHandle<GameObject> _blockHandle;
+        
+        public GameObject OriginBoardObj => _boardHandle.Result;
+        
+        public GameObject OriginBlockObj => _blockHandle.Result;
+        
+        public IEnumerator LoadAsync()
         {
-            // Addressable 로드
-            var handle = Addressables.LoadAssetAsync<GameObject>("Stages");
-            yield return handle;
+            _stageHandle = Addressables.InstantiateAsync(nameof(Stages));
+            yield return _stageHandle;
 
-            if (handle.Status == AsyncOperationStatus.Failed)
+            if (_stageHandle.Status == AsyncOperationStatus.Succeeded)
             {
-                Debug.LogError("Stages Prefab Load Failed");
-                yield break;
-            }
-            
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-            {
-                Instantiate(handle.Result);
+                Debug.Log("Stage Loaded!");
+                
+                _boardHandle = Addressables.InstantiateAsync(nameof(UI.Board));
+                yield return _boardHandle;
 
-                if (Stages.Instance != null)
+                if (_boardHandle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    yield return Stages.Instance.LoadAsync();
+                    Debug.Log("Board Loaded!");
+                }
+                else
+                {
+                    Debug.LogError("Board Load Failed!");
+                }
+                
+                _blockHandle = Addressables.InstantiateAsync(nameof(UI.Block));
+                yield return _blockHandle;
 
-                    Stages.Instance.Init();
-                    Stages.Instance.StartGame();
+                if (_blockHandle.Status == AsyncOperationStatus.Succeeded)
+                {
+                    Debug.Log("Block Loaded!");
+                }
+                else
+                {
+                    Debug.LogError("Block Load Failed!");
                 }
             }
+            else
+            {
+                Debug.LogError("Stage Load Failed!");
+            }
             
-            Addressables.Release(handle);
+            // 매니저 등록
+            GameManager.Instance.RegisterManger(this);
+        }
+
+        public void Release()
+        {
+            if (_stageHandle.IsValid())
+            {
+                Addressables.ReleaseInstance(_stageHandle);
+                Debug.Log("Stage Released!");
+            }
+            
+            if (_boardHandle.IsValid())
+            {
+                Addressables.ReleaseInstance(_boardHandle);
+                Debug.Log("Board Released!");
+            }
+            
+            if (_blockHandle.IsValid())
+            {
+                Addressables.ReleaseInstance(_blockHandle);
+                Debug.Log("Block Released!");
+            }
         }
     }
 }

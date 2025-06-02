@@ -1,17 +1,21 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 
 namespace Puzzle
 {
-	public class Game : MonoBehaviour
+	public class GameManager : MonoBehaviour
 	{
-		public static Game Instance { get; private set; }
+		public static GameManager Instance { get; private set; }
 
 		[field: SerializeField]
 		public StageMode CurrentStage { get; private set; } = StageMode.Stage3x3;
 
+		private readonly List<IAddressableManager> addressableManagers = new List<IAddressableManager>();
+
+		#region MonoBehaviour
+		
 		private void Awake()
 		{
 			Instance = this;
@@ -30,6 +34,30 @@ namespace Puzzle
 		void Start()
 		{
 			ChangeScene("Lobby");
+		}
+		
+		#endregion
+
+		/// <summary>
+		/// AddressableManager 등록
+		/// </summary>
+		/// <remarks>현재 씬 Addressable 관리자 등록</remarks>
+		public void RegisterManger(IAddressableManager manager)
+		{
+			if (!addressableManagers.Contains(manager))
+				addressableManagers.Add(manager);
+		}
+
+		/// <summary>
+		/// Addressable 매니저들 해제
+		/// </summary>
+		public void ReleaseAll()
+		{
+			foreach (var manager in addressableManagers)
+			{
+				manager.Release();
+			}
+			addressableManagers.Clear();
 		}
 
 		/// <summary>
@@ -67,13 +95,23 @@ namespace Puzzle
 			// 4) (선택) 가비지 컬렉션
 			System.GC.Collect();
 
+			// 5) 씬 전환시 기존에 등록한 AddressableManager 전체 해제
+			ReleaseAll();
+
 			if (sceneName == "Lobby")
 			{
-				yield return LobbyManager.LoadAsync();
+				yield return LobbyManager.Instance.LoadAsync();
 			}
 			else if (sceneName == "Stage")
 			{
-				yield return StageManager.LoadAsync();
+				yield return StageManager.Instance.LoadAsync();
+				
+				if (Stages.Instance != null)
+				{ 
+					Stages.Instance.InitBoard(StageManager.Instance.OriginBoardObj,
+						StageManager.Instance.OriginBlockObj);
+					Stages.Instance.StartGame();
+				}
 			}
 			
 			UI.LoadingScreen.Instance.SetDisabled(true);

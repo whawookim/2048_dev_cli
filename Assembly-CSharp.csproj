@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Puzzle\Constants.cs" />
+    <Compile Include="Assets\Scripts\Interface\IAddressableManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\Block.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\UIBlocker.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageData.cs" />
@@ -56,9 +57,9 @@
     <Compile Include="Assets\Scripts\Puzzle\UI\StageUi.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stages.cs" />
     <Compile Include="Assets\Scripts\MessageSystem.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\Game.cs" />
     <Compile Include="Assets\Scripts\UISceneManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\Board.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\GameManager.cs" />
     <Compile Include="Assets\Scripts\ClickTest.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\Puzzle\LobbyManager.cs" />

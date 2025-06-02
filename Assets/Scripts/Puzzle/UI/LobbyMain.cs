@@ -31,7 +31,7 @@ namespace Puzzle.UI
 		// Start is called before the first frame update
 		private void Start()
 		{
-			SetCurrentStage((int)Game.Instance.CurrentStage);
+			SetCurrentStage((int)GameManager.Instance.CurrentStage);
 		}
 
 		private void Update()
@@ -53,7 +53,7 @@ namespace Puzzle.UI
 			stages[index].gameObject.SetActive(true);
 			stageIndex = index;
 
-			Game.Instance.ChangeStage(stages[stageIndex].Mode);
+			GameManager.Instance.ChangeStage(stages[stageIndex].Mode);
 		}
 
 		/// <summary>
@@ -77,7 +77,7 @@ namespace Puzzle.UI
 		/// </summary>
 		public void OnClickStartButton()
 		{
-			Game.Instance.ChangeScene("Stage");
+			GameManager.Instance.ChangeScene("Stage");
 		}
 
 		public void OnClickEndButton()

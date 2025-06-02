@@ -93,7 +93,7 @@ namespace Puzzle.UI
 		public void OnClickLobby()
 		{
 			GC.Collect();
-			Game.Instance.ChangeScene("Lobby");
+			GameManager.Instance.ChangeScene("Lobby");
 		}
 
 		private bool OnChangeGameState(Events e)

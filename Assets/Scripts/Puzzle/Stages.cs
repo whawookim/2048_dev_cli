@@ -96,15 +96,11 @@ namespace Puzzle
 			Instance = null;
 		}
 
-		public void Init()
+		public void InitBoard(GameObject originBoard, GameObject originBlock)
 		{
 			boardManager.ClearBoard();
 			boardManager.ClearBlocks();
-		}
-
-		public IEnumerator LoadAsync()
-		{
-			yield return boardManager.LoadAsync();
+			boardManager.InitOriginResource(originBoard, originBlock);
 		}
 
 		public void SetScore(int score)
@@ -122,7 +118,7 @@ namespace Puzzle
 			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
 			SetScore(0);
 
-			boardManager.Init(Game.Instance.CurrentStage);
+			boardManager.Init(GameManager.Instance.CurrentStage);
 		}
 
 		public void RestartGame()

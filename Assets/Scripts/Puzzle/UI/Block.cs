@@ -111,7 +111,7 @@ namespace Puzzle.UI
 
 			if (moveData.Index != Data.Index)
 			{
-				var maxSize = Game.Instance.CurrentStage.GetBoardSize();
+				var maxSize = GameManager.Instance.CurrentStage.GetBoardSize();
 				var worldBoardPos = Stages.Instance.GetBoardPosition(moveData.Index);
 				var localPos = rect.parent.InverseTransformPoint(worldBoardPos);
 				var moveXIndex = moveData.Index % maxSize;
