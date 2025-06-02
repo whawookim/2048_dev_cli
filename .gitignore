@@ -88,3 +88,5 @@ CMakeFiles/
 *.log
 *.json
 .utmp/
+
+BuildOutput/
