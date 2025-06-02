@@ -19,7 +19,7 @@ public class UpdateGameScoreEvent : Events
 
 	public override void Dispose()
 	{
-		pool.Dispose();
+		pool.Return(this);
 	}
 
 	public static UpdateGameScoreEvent Create(UpdateGameScoreType type, int value)

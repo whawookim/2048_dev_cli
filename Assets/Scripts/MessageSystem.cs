@@ -29,13 +29,19 @@ public class MessageSystem
 		}
 	}
 
-	public void Unsubscribe<T>(PublishEvent e) where T : Events
+	public void Unsubscribe<T>(PublishEvent e, bool deleteKey = false) where T : Events
 	{
 		var name = typeof(T).ToString();
 
 		if (publishDict.ContainsKey(name))
 		{
 			publishDict[name] -= e;
+			
+			// 더이상 key 자체를 안 쓸 거 같다 싶으면 날려버린다
+			if (deleteKey)
+			{
+				publishDict.Remove(name);
+			}
 		}
 	}
 }

@@ -13,7 +13,7 @@ public class ChangeGameStateEvent : Events
 
 	public override void Dispose()
 	{
-		pool.Dispose();
+		pool.Return(this);
 	}
 
 	public static ChangeGameStateEvent Create(StageState state)

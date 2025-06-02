@@ -97,6 +97,9 @@ namespace Puzzle
 
 			// 5) 씬 전환시 기존에 등록한 AddressableManager 전체 해제
 			ReleaseAll();
+			
+			// 6) Event용으로 쓰였던 ObjectPool 해제
+			TinyObjectPool.ClearAll();
 
 			if (sceneName == "Lobby")
 			{

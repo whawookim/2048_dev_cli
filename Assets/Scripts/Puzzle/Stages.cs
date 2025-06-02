@@ -91,15 +91,21 @@ namespace Puzzle
 
 		private void OnDestroy()
 		{
+			// 데이터 날리기용
+			Dispose();
+			
 			Debug.Assert(Instance != null);
 
 			Instance = null;
 		}
 
+		public void Dispose()
+		{
+			boardManager.Dispose();
+		}
+
 		public void InitBoard(GameObject originBoard, GameObject originBlock)
 		{
-			boardManager.ClearBoard();
-			boardManager.ClearBlocks();
 			boardManager.InitOriginResource(originBoard, originBlock);
 		}
 

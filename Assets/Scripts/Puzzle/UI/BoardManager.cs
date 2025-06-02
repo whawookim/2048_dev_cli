@@ -1,10 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Puzzle.UI
 {
@@ -18,16 +17,16 @@ namespace Puzzle.UI
 
 		private Coroutine moveCoroutine;
 
-		private readonly List<Board> boards = new List<Board>();
+		private List<Board> boards;
 
 		/// <summary>
 		/// 현재 위치에 있는 Block 캐시
 		/// </summary>
-		private Dictionary<int, Block> blockDict = new Dictionary<int, Block>();
+		private Dictionary<int, Block> blockDict;
 
-		private readonly ObjectPool<Board> objectPoolBoard = new ObjectPool<Board>();
+		private ObjectPool<Board> objectPoolBoard;
 
-		private readonly ObjectPool<Block> objectPoolBlock = new ObjectPool<Block>();
+		private ObjectPool<Block> objectPoolBlock;
 
 		private Board originBoard;
 		
@@ -52,15 +51,25 @@ namespace Puzzle.UI
 		/// 게임 클리어 체크 
 		/// </summary>
 		private bool isGameClear = false;
-		
-		private void OnEnable()
+
+		private void Awake()
+		{
+			SubscribeEvent();
+		}
+
+		private void OnDestroy()
+		{
+			UnsubscribeEvent(true);
+		}
+
+		private void SubscribeEvent()
 		{
 			MessageSystem.Instance.Subscribe<BlockMoveEvent>(OnMoveBlockEvent);
 		}
 
-		private void OnDisable()
+		private void UnsubscribeEvent(bool deleteKey = false)
 		{
-			MessageSystem.Instance.Unsubscribe<BlockMoveEvent>(OnMoveBlockEvent);
+			MessageSystem.Instance.Unsubscribe<BlockMoveEvent>(OnMoveBlockEvent, deleteKey);
 		}
 
 		public void InitOriginResource(GameObject originBoardObj, GameObject originBlockObj)
@@ -93,36 +102,50 @@ namespace Puzzle.UI
 			return candidates[Random.Range(0, candidates.Count)];
 		}
 
-		/// <summary>
-		/// 보드 비우기
-		/// </summary>
-		public void ClearBoard()
+		public void Dispose()
 		{
-			objectPoolBoard.Dispose();
+			blockDict?.Clear();
+			blockDict = null;
 
-			foreach (var board in boards)
-			{
-				DestroyImmediate(board.gameObject);
-			}
-
-			boards.Clear();
+			DisposeBoard();
+			DisposeBlock();
 		}
 
-		/// <summary>
-		/// 블록들 비우기
-		/// </summary>
-		public void ClearBlocks()
+		private void DisposeBoard()
 		{
-			objectPoolBlock.Dispose();
-			
-			foreach (var block in blockDict)
+			objectPoolBoard?.Dispose();
+			objectPoolBoard = null;
+
+			if (boards != null)
 			{
-				if (block.Value == null) continue;
-
-				DestroyImmediate(block.Value.gameObject);
+				foreach (var board in boards)
+				{
+					DestroyImmediate(board.gameObject);
+				}
+				
+				boards.Clear();
 			}
+			
+			boards = null;
+		}
 
-			blockDict.Clear();
+		private void DisposeBlock()
+		{
+			objectPoolBlock?.Dispose();
+			objectPoolBlock = null;
+
+			if (blockDict != null)
+			{
+				foreach (var block in blockDict)
+				{
+					if (block.Value == null) continue;
+
+					DestroyImmediate(block.Value.gameObject);
+				}
+				blockDict.Clear();
+			}
+			
+			blockDict = null;
 		}
 		
 		/// <summary>
@@ -149,6 +172,11 @@ namespace Puzzle.UI
 		public void Init(StageMode mode)
 		{
 			isGameClear = false;
+			
+			blockDict = new Dictionary<int, Block>();
+			boards = new List<Board>();
+			objectPoolBoard = new ObjectPool<Board>();
+			objectPoolBlock = new ObjectPool<Block>();
 
 			// 전체 보드 가로(혹은 세로)의 크기 결정
 			maxSize = mode.GetBoardSize();

@@ -19,23 +19,27 @@ namespace Puzzle.UI
 		private void Awake()
 		{
 			Instance = this;
+
+			SubscribeEvent();
 		}
 
 		private void OnDestroy()
 		{
 			Instance = null;
+			
+			UnsubscribeEvent(true);
 		}
 
-		private void OnEnable()
+		private void SubscribeEvent()
 		{
 			MessageSystem.Instance.Subscribe<ChangeGameStateEvent>(OnChangeGameState);
 			MessageSystem.Instance.Subscribe<UpdateGameScoreEvent>(OnUpdateGameScore);
 		}
 
-		private void OnDisable()
+		private void UnsubscribeEvent(bool deleteKey = false)
 		{
-			MessageSystem.Instance.Unsubscribe<ChangeGameStateEvent>(OnChangeGameState);
-			MessageSystem.Instance.Unsubscribe<UpdateGameScoreEvent>(OnUpdateGameScore);
+			MessageSystem.Instance.Unsubscribe<ChangeGameStateEvent>(OnChangeGameState, deleteKey);
+			MessageSystem.Instance.Unsubscribe<UpdateGameScoreEvent>(OnUpdateGameScore, deleteKey);
 		}
 
 		private void Update()

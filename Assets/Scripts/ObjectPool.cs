@@ -49,11 +49,6 @@ public class ObjectPool<T> where T : MonoBehaviour, new()
 		return objList;
 	}
 
-	public static void Clear()
-	{
-		poolList.Clear();
-	}
-
 	private List<T> Find()
 	{
 		return poolList.Find((list) => list != null && list[0].GetType() == typeof(T));
@@ -61,7 +56,7 @@ public class ObjectPool<T> where T : MonoBehaviour, new()
 
 	public void Dispose()
 	{
-		Clear();
+		Find()?.Clear();
 	}
 
 	public T GetOrCreate()

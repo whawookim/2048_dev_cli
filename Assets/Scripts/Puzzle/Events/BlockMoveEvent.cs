@@ -11,7 +11,7 @@ public class BlockMoveEvent : Events
 
 	public override void Dispose()
 	{
-		pool.Dispose();
+		pool.Return(this);
 	}
 
 	public static BlockMoveEvent Create(MoveDirection direction)
