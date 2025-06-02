@@ -12,10 +12,14 @@ namespace Puzzle.UI
 			return rect.transform.position;
 		}
 
-		public void Set(int size, string objName)
+		public void Set(string objName)
+		{
+			gameObject.name = objName;
+		}
+		
+		public void SetSize(int size)
 		{
 			rect.sizeDelta = new Vector2(size, size);
-			gameObject.name = objName;
 		}
 	}
 }

@@ -1,3 +1,4 @@
+using System.Collections;
 using Puzzle.Stage;
 using Puzzle.UI;
 using UnityEngine;
@@ -90,17 +91,22 @@ namespace Puzzle
 
 		private void OnDestroy()
 		{
+			// 데이터 날리기용
+			Dispose();
+			
 			Debug.Assert(Instance != null);
 
 			Instance = null;
 		}
 
-		public void Start()
+		public void Dispose()
 		{
-			boardManager.ClearBoard();
-			boardManager.ClearBlocks();
+			boardManager.Dispose();
+		}
 
-			StartGame();
+		public void InitBoard(GameObject originBoard, GameObject originBlock)
+		{
+			boardManager.InitOriginResource(originBoard, originBlock);
 		}
 
 		public void SetScore(int score)
@@ -118,7 +124,7 @@ namespace Puzzle
 			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
 			SetScore(0);
 
-			boardManager.Init(Game.Instance.CurrentStage);
+			boardManager.Init(GameManager.Instance.CurrentStage);
 		}
 
 		public void RestartGame()

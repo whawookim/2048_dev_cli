@@ -9,6 +9,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/[Rr]ecordings/
 
 # IDE/Editor
 .idea/
@@ -80,3 +81,10 @@ crashlytics-build.properties
 
 *.DS_Store
 Thumbs.db
+
+build/
+CMakeFiles/
+*.o
+*.log
+*.json
+.utmp/
