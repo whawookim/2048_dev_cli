@@ -52,6 +52,7 @@
     <Compile Include="Assets\Scripts\Puzzle\UI\UIBlocker.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageData.cs" />
     <Compile Include="Assets\Scripts\Interpolations.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\LocaleSelector.cs" />
     <Compile Include="Assets\Scripts\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\BlockMoveEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageUi.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Assets\Scripts\Puzzle\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\DirectionUtil.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
+    <Compile Include="Assets\Scripts\Plugins\Ad\AdManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\LobbyMain.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\BoardManager.cs" />
@@ -76,15 +78,18 @@
     <Compile Include="Assets\Scripts\Puzzle\Stage\StageEventController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\StageManager.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\ButtonScaleEffect.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\UI\SafeAreaFitter.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
+    <None Include="Assets\GoogleMobileAds\GoogleMobileAds_version-10.2.0_manifest.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\Stages.json" />
     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\GoogleMobileAds\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
@@ -94,13 +99,13 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
-    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -441,14 +446,35 @@
     <Reference Include="UnityEditor.XRModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEditor.XRModule.dll</HintPath>
     </Reference>
+    <Reference Include="GoogleMobileAds.Common">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Common.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.Collections.LowLevel.ILSupport">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.collections\Unity.Collections.LowLevel.ILSupport\Unity.Collections.LowLevel.ILSupport.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.ext.nunit\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="GoogleMobileAds">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Core">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Core.dll</HintPath>
+    </Reference>
     <Reference Include="DOTween">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Ump.Unity">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Ump">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.dll</HintPath>
+    </Reference>
+    <Reference Include="GoogleMobileAds.Unity">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
@@ -975,6 +1001,9 @@
     <Reference Include="Unity.2D.SpriteShape.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Localization.Editor">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Localization.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
@@ -1002,11 +1031,18 @@
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Localization.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp-firstpass.csproj">
       <Project>{4110e80e-0627-2f3e-1d4e-b137b9038042}</Project>
       <Name>Assembly-CSharp-firstpass</Name>
+    </ProjectReference>
+    <ProjectReference Include="GoogleMobileAds.Editor.csproj">
+      <Project>{19d8f986-9d89-d332-5b16-6749d44f3f67}</Project>
+      <Name>GoogleMobileAds.Editor</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -19,7 +19,7 @@ namespace Puzzle
 		private void Awake()
 		{
 			Instance = this;
-
+			
 			DontDestroyOnLoad(gameObject);
 		}
 
@@ -33,6 +33,10 @@ namespace Puzzle
 		/// </summary>
 		void Start()
 		{
+			// 광고 초기화
+			AdManager.Instance.Init();
+			
+			// 시작 씬 이동
 			ChangeScene("Lobby");
 		}
 		
@@ -118,6 +122,17 @@ namespace Puzzle
 			}
 			
 			UI.LoadingScreen.Instance.SetDisabled(true);
+
+			if (sceneName == "Lobby")
+			{
+				// Banner 로드 및 Show
+				// 로비씬 에서만 로딩이 다 끝나고 보여주자
+				yield return AdManager.Instance.LoadAndShowBannerProcess();
+			}
+			else
+			{
+				AdManager.Instance.HideBanner();
+			}
 		}
 	}
 }
