@@ -1,6 +1,7 @@
 using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 
 namespace Puzzle.UI
 {
@@ -15,7 +16,15 @@ namespace Puzzle.UI
 		private TextMeshProUGUI gameScore;
 
 		private int totalScore = 0;
-
+		
+		private readonly LocalizedString status_start = new("GameStrings", "status_start");
+		private readonly LocalizedString status_clear = new("GameStrings", "status_clear");
+		private readonly LocalizedString status_pause = new("GameStrings", "status_pause");
+		private readonly LocalizedString status_fail  = new("GameStrings", "status_fail");
+		private LocalizedString currentStatus;
+		
+		private LocalizedString localizedScore = new("GameStrings", "score_display");
+		
 		private void Awake()
 		{
 			Instance = this;
@@ -66,7 +75,17 @@ namespace Puzzle.UI
 
 		public void UpdateGameScore()
 		{
-			gameScore.text = $"Score : {totalScore}";
+			// 값 전달용 변수 바인딩
+			localizedScore.Arguments = new object[] { new { score = totalScore } };
+
+			localizedScore.StringChanged -= UpdateScoreText;
+			localizedScore.StringChanged += UpdateScoreText;
+			localizedScore.RefreshString();
+		}
+
+		private void UpdateScoreText(string localizedText)
+		{
+			gameScore.text = localizedText;
 		}
 
 		public void SetGameState(Stage.StageState state)
@@ -74,18 +93,30 @@ namespace Puzzle.UI
 			switch (state)
 			{
 				case Stage.StageState.Start:
-					gameStatus.text = "Game Start !!!";
+					currentStatus = status_start;
 					break;
 				case Stage.StageState.Clear:
-					gameStatus.text = "Game Clear !!!";
+					currentStatus = status_clear;
 					break;
 				case Stage.StageState.Pause:
-					gameStatus.text = "Game Pause !!!";
+					currentStatus = status_pause;
 					break;
 				case Stage.StageState.Fail:
-					gameStatus.text = "Game Fail !!!";
+					currentStatus = status_fail;
 					break;
 			}
+
+			// 이벤트 연결 제거 → 재연결
+			currentStatus.StringChanged -= OnStatusChanged;
+			currentStatus.StringChanged += OnStatusChanged;
+
+			// 수동 갱신
+			currentStatus.RefreshString(); 
+		}
+		
+		private void OnStatusChanged(string localizedValue)
+		{
+			gameStatus.text = localizedValue;
 		}
 
 		public void OnClickRestart()

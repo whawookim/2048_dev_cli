@@ -19,7 +19,7 @@ namespace Puzzle
 		private void Awake()
 		{
 			Instance = this;
-
+			
 			DontDestroyOnLoad(gameObject);
 		}
 

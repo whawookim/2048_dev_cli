@@ -52,6 +52,7 @@
     <Compile Include="Assets\Scripts\Puzzle\UI\UIBlocker.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageData.cs" />
     <Compile Include="Assets\Scripts\Interpolations.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\LocaleSelector.cs" />
     <Compile Include="Assets\Scripts\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\BlockMoveEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageUi.cs" />
@@ -100,7 +101,6 @@
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
-    <None Include="Assets\AddressableAssetsData\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -449,6 +449,9 @@
     </Reference>
     <Reference Include="DOTween">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
@@ -975,6 +978,9 @@
     <Reference Include="Unity.2D.SpriteShape.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.2D.SpriteShape.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Localization.Editor">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Localization.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
@@ -1001,6 +1007,9 @@
     </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Localization">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Localization.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
