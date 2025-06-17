@@ -51,7 +51,7 @@ public class ObjectPool<T> where T : MonoBehaviour, new()
 
 	private List<T> Find()
 	{
-		return poolList.Find((list) => list != null && list[0].GetType() == typeof(T));
+		return poolList.Find((list) => list is { Count: > 0 } && list[0].GetType() == typeof(T));
 	}
 
 	public void Dispose()
