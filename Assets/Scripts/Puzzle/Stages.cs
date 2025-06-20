@@ -121,6 +121,9 @@ namespace Puzzle
 
 		public void StartGame()
 		{
+			// TODO: Analyitcs 테스트 (실제 필요한 걸로 바꾸기)
+			Firebase.Analytics.FirebaseAnalytics.LogEvent(Firebase.Analytics.FirebaseAnalytics.EventLevelStart);
+			
 			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
 			SetScore(0);
 

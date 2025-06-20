@@ -35,6 +35,9 @@ namespace Puzzle
 		{
 			// 광고 초기화
 			AdManager.Instance.Init();
+
+			// Firebase Analytics Init
+			FirebaseManager.Instance.Init();
 			
 			// 시작 씬 이동
 			ChangeScene("Lobby");

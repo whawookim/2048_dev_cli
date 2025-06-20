@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 09f2dd6acc922d343ba4368eb2c369ca
   m_currentHash:
     serializedVersion: 2
-    Hash: e52f14417aa0137138226c690465cacf
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -61,6 +61,7 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: ef2ece752e7f725449ce8f8a0d956dfc, type: 2}
   - {fileID: 11400000, guid: 5c187885633f08346bb05c39432b8eaa, type: 2}
+  - {fileID: 11400000, guid: 8b6cb14c88829864eb96174b841850b0, type: 2}
   - {fileID: 11400000, guid: da0c0f50326e8e649889f6d20a16a438, type: 2}
   - {fileID: 11400000, guid: 61bb9cd27952e3c4aa167c9f90d13a45, type: 2}
   - {fileID: 11400000, guid: 4400eb74176a3954e9092b416c712251, type: 2}
@@ -84,7 +85,7 @@ MonoBehaviour:
       - m_Id: e1099e1677db4df44a32e9da79ccf860
         m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
       - m_Id: e5c5a14e09a51be4d9cb01354cf32c90
-        m_Value: <undefined>
+        m_Value: 'https://whawoo-2048-bucket.s3.ap-southeast-2.amazonaws.com/[BuildTarget]'
     m_ProfileEntryNames:
     - m_Id: 1f55c38b66540304f877fe902d168e0f
       m_Name: Local.LoadPath
@@ -111,6 +112,8 @@ MonoBehaviour:
     - Locale
     - Locale-en
     - Locale-ko
+    - font-ko
+    - font-en
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 51d4b5fb38565ea4aa629278f73a843c, type: 2}
