@@ -48,6 +48,9 @@
   <ItemGroup>
     <Compile Include="Assets\Editor\Build\BuildScript.cs" />
     <None Include="Assets\ExternalDependencyManager\Editor\external-dependency-manager_version-1.2.186_manifest.txt" />
+    <None Include="Assets\Firebase\Editor\FirebaseAnalytics_version-12.10.0_manifest.txt" />
+    <None Include="Assets\Firebase\Editor\AppDependencies.xml" />
+    <None Include="Assets\Firebase\Editor\AnalyticsDependencies.xml" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -417,6 +420,9 @@
     <Reference Include="UnityEditor.iOS.Extensions">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.Analytics">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.Analytics.dll</HintPath>
+    </Reference>
     <Reference Include="GoogleMobileAds.Common">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Common.dll</HintPath>
     </Reference>
@@ -432,6 +438,9 @@
     <Reference Include="Google.IOSResolver">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\ExternalDependencyManager\Editor\1.2.186\Google.IOSResolver.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.App">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.App.dll</HintPath>
+    </Reference>
     <Reference Include="unityplastic">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\unityplastic.dll</HintPath>
     </Reference>
@@ -443,6 +452,9 @@
     </Reference>
     <Reference Include="Unity.Plastic.Newtonsoft.Json">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.TaskExtension">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.TaskExtension.dll</HintPath>
     </Reference>
     <Reference Include="GoogleMobileAds.Core">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Core.dll</HintPath>
@@ -479,6 +491,15 @@
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Platform">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.Platform.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.MiniJson">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Google.MiniJson.dll</HintPath>
+    </Reference>
+    <Reference Include="Firebase.Editor">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Editor\Firebase.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
