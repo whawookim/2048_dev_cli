@@ -15,17 +15,56 @@ MonoBehaviour:
   m_GroupName: Shared Fonts Group
   m_GUID: 35370b9c9a5016044854e34f5e60c93b
   m_SerializeEntries:
+  - m_GUID: 01d8b017bba9c254c9da3dc5047dc1a3
+    m_Address: Assets/Fonts/Roboto-Bold.ttf
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - font-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 057367efb8dbdfb449c04814d75efaf9
     m_Address: Assets/Fonts/NanumGothicBold.ttf
     m_ReadOnly: 0
     m_SerializedLabels:
     - font-ko
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 13c9af6c82cb9ca42b2046b09132ef0a
+    m_Address: Assets/Fonts/EmptyFont-Content SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 19e0f831cfb03d44cbc21b9ae1df380f
+    m_Address: Assets/Fonts/Roboto-Regular SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - font-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2b86fd2221adaef40a117f027fa2e75b
+    m_Address: Assets/Fonts/Roboto-Regular.ttf
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - font-en
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 772096523cb3df646b6aedf71056623f
     m_Address: Assets/Fonts/NanumGothicBold SDF.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - font-ko
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7ced6171ff55a7145b1f5f5ba4526739
+    m_Address: Assets/Fonts/EmptyFont SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a0e9a40fb96ce8b42bf72b8cde44b410
+    m_Address: Assets/Fonts/Roboto-Bold SDF.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - font-en
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b085af9dab43d22469b7e72ce980395e
+    m_Address: Assets/Fonts/EmptyFont.ttf
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: faf385abf9866e340854dd99bcb239cf, type: 2}

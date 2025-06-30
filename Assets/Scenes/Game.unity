@@ -119,6 +119,67 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &112639504
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 112639505}
+  - component: {fileID: 112639506}
+  m_Layer: 0
+  m_Name: FontManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &112639505
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112639504}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1765220052}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &112639506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 112639504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2cf59b7ea7884e329efb5c05262e240b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiBaseFont: {fileID: 11400000, guid: 7ced6171ff55a7145b1f5f5ba4526739, type: 2}
+  contentBaseFont: {fileID: 11400000, guid: 13c9af6c82cb9ca42b2046b09132ef0a, type: 2}
+  localeFontMappings:
+  - localeCode: ko
+    fallbackFonts:
+    - m_AssetGUID: 772096523cb3df646b6aedf71056623f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+  - localeCode: en
+    fallbackFonts:
+    - m_AssetGUID: 19e0f831cfb03d44cbc21b9ae1df380f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
 --- !u!1 &601388528
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +240,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: 
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 63749e20c93fb544ca80379f747800d9, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7ced6171ff55a7145b1f5f5ba4526739, type: 2}
   m_sharedMaterial: {fileID: -7800460284100635194, guid: 63749e20c93fb544ca80379f747800d9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -650,7 +711,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1765220052}
   - component: {fileID: 1765220051}
-  - component: {fileID: 1765220053}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -686,21 +746,9 @@ Transform:
   m_Children:
   - {fileID: 1415156653}
   - {fileID: 1389153851}
+  - {fileID: 112639505}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1765220053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1765220050}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b819407e2314baca1029833b07c00f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentLocale: 0
 --- !u!1 &1960894043
 GameObject:
   m_ObjectHideFlags: 0
