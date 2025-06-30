@@ -165,16 +165,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiBaseFont: {fileID: 11400000, guid: 7ced6171ff55a7145b1f5f5ba4526739, type: 2}
   contentBaseFont: {fileID: 11400000, guid: 13c9af6c82cb9ca42b2046b09132ef0a, type: 2}
-  uiFontLabelMappings:
-  - locale: English(en)
-    addressableLabels:
-    - font-en
-  - locale: Korean(ko)
-    addressableLabels:
-    - font-ko
-  contentFontLabels:
-  - font-en
-  - font-ko
+  localeFontMappings:
+  - localeCode: ko
+    fallbackFonts:
+    - m_AssetGUID: 772096523cb3df646b6aedf71056623f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 0
+  - localeCode: en
+    fallbackFonts:
+    - m_AssetGUID: 19e0f831cfb03d44cbc21b9ae1df380f
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_SubObjectGUID: 
+      m_EditorAssetChanged: 1
 --- !u!1 &601388528
 GameObject:
   m_ObjectHideFlags: 0
