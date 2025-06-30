@@ -71,6 +71,10 @@ MonoBehaviour:
     m_Key: score_display
     m_Metadata:
       m_Items: []
+  - m_Id: 5081902075883520
+    m_Key: ranking_popup_title
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

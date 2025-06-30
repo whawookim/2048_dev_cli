@@ -80,7 +80,7 @@ namespace Puzzle
 		/// </summary>
 		public void ChangeScene(string sceneName)
 		{
-			StartCoroutine(ChangeSceneAsync(sceneName));
+			CoroutineManager.Instance.Run(ChangeSceneAsync(sceneName));
 		}
 
 		/// <summary>

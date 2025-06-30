@@ -291,7 +291,7 @@ namespace Puzzle.UI
 				if (direction == MoveDirection.None) return false;
 
 				SetMoveBlockResultNew(direction);
-				moveCoroutine = StartCoroutine(MoveAndMergeBlocks());
+				moveCoroutine = CoroutineManager.Instance.Run(MoveAndMergeBlocks());
 
 				return true;
 			}
@@ -441,7 +441,7 @@ namespace Puzzle.UI
 				}
 				else
 				{
-					StartCoroutine(block.MoveAndChange(() =>
+					CoroutineManager.Instance.Run(block.MoveAndChange(() =>
 					{
 						moveResCount++;
 

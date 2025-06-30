@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\Build\BuildScript.cs" />
+    <Compile Include="Assets\Editor\FontManagerEditor.cs" />
     <None Include="Assets\ExternalDependencyManager\Editor\external-dependency-manager_version-1.2.186_manifest.txt" />
     <None Include="Assets\Firebase\Editor\FirebaseAnalytics_version-12.10.0_manifest.txt" />
     <None Include="Assets\Firebase\Editor\AppDependencies.xml" />

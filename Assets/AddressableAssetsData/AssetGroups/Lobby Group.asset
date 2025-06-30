@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Lobby
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fe9b1c72c8d630f42a9d94a72582b034
+    m_Address: RankingPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Lobby
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: faf385abf9866e340854dd99bcb239cf, type: 2}
   m_SchemaSet:

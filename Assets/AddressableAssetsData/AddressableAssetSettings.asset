@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 09f2dd6acc922d343ba4368eb2c369ca
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 0fe952fc3c4fa6b2fb4d5b5b2a41f738
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -81,11 +81,11 @@ MonoBehaviour:
       - m_Id: 7106737f73c376b4faff8fbfb943a501
         m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
       - m_Id: 9970aeb58a14cdb4a85b468cd0ecee8a
-        m_Value: 'ServerData/[BuildTarget]'
+        m_Value: '[BuildPath]/[BuildTarget]/RemoteAssets'
       - m_Id: e1099e1677db4df44a32e9da79ccf860
         m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
       - m_Id: e5c5a14e09a51be4d9cb01354cf32c90
-        m_Value: 'https://whawoo-2048-bucket.s3.ap-southeast-2.amazonaws.com/[BuildTarget]'
+        m_Value: https://d38kwlpirpvyt.cloudfront.net/[BuildTarget]/RemoteAssets
     m_ProfileEntryNames:
     - m_Id: 1f55c38b66540304f877fe902d168e0f
       m_Name: Local.LoadPath
@@ -114,6 +114,7 @@ MonoBehaviour:
     - Locale-ko
     - font-ko
     - font-en
+    - font-base
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 51d4b5fb38565ea4aa629278f73a843c, type: 2}

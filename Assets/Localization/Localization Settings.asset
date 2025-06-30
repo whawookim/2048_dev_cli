@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StartupSelectors:
   - rid: 4125917624403493053
-  - rid: 4125917624403493054
+  - rid: 4125918002888573002
   - rid: 4125917624403493055
   m_AvailableLocales:
     rid: 4125917624403493056
@@ -37,9 +37,6 @@ MonoBehaviour:
       type: {class: CommandLineLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
       data:
         m_CommandLineArgument: -language=
-    - rid: 4125917624403493054
-      type: {class: SystemLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
-      data: 
     - rid: 4125917624403493055
       type: {class: SpecificLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
       data:
@@ -205,3 +202,6 @@ MonoBehaviour:
         - default
         - d
         - 
+    - rid: 4125918002888573002
+      type: {class: SystemLocaleSelector, ns: UnityEngine.Localization.Settings, asm: Unity.Localization}
+      data: 

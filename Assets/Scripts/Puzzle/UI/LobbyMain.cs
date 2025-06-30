@@ -88,5 +88,13 @@ namespace Puzzle.UI
 			Application.Quit();
 #endif
 		}
+
+		public void OnClickRankingButton()
+		{
+			UISceneManager.Instance.PushOverlay(RankingPopup.Instance, new RankingPopupState()
+			{
+				CurrentStage = GameManager.Instance.CurrentStage
+			}, typeof(RankingPopup));
+		}
 	}
 }

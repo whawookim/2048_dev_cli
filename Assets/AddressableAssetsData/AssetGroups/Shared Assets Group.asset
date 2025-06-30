@@ -16,37 +16,43 @@ MonoBehaviour:
   m_GUID: c0d067fd20627bc4ba97ea6b78cd5766
   m_SerializeEntries:
   - m_GUID: 14546b23a484545d8bdef6535b4fb8dc
-    m_Address: MainUI/Sprites/icon_activity_6
+    m_Address: icon_activity_6
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60310d76f27c248ecb78a584c9323027
-    m_Address: MainUI/Sprites/button_corner_square1_1
+    m_Address: button_corner_square1_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6769770b6b2fc4284bb81a118d183b8f
-    m_Address: MainUI/Sprites/icon_activity_7
+    m_Address: icon_activity_7
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9f7a670cbbdf896428745184aceae7e7
-    m_Address: MainUI/MainUI
+    m_Address: MainUI
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d3b161f3021e54a7aa5a782cffafaa53
-    m_Address: MainUI/Sprites/icon_arrow_65
+    m_Address: icon_arrow_65
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6822211421734f6794c1653c250bfa9
-    m_Address: MainUI/Sprites/icon_line_simpleshape_68
+    m_Address: icon_line_simpleshape_68
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: db67fb1c381b3f644b60b6c81af9d087
+    m_Address: icon_game_28
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI

@@ -82,6 +82,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 4125917624713609294
+  - m_Id: 5081902075883520
+    m_Localized: Ranking {stage}
+    m_Metadata:
+      m_Items:
+      - rid: 4125917624713609294
   references:
     version: 2
     RefIds:
@@ -91,3 +96,4 @@ MonoBehaviour:
         m_Entries: 
         m_SharedEntries:
         - id: 15506956169216
+        - id: 5081902075883520
