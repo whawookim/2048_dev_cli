@@ -950,6 +950,9 @@
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Mobile.AndroidLogcat.Editor">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Mobile.AndroidLogcat.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>
     </Reference>
