@@ -96,5 +96,10 @@ namespace Puzzle.UI
 				CurrentStage = GameManager.Instance.CurrentStage
 			}, typeof(RankingPopup));
 		}
+
+		public void OnCLickGoogleLoginButton()
+		{
+
+		}
 	}
 }

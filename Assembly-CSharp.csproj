@@ -52,11 +52,14 @@
     <Compile Include="Assets\Scripts\Puzzle\UI\UIBlocker.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageData.cs" />
     <Compile Include="Assets\Scripts\UGUIReusableScrollList.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\TitleScreen.cs" />
     <Compile Include="Assets\Scripts\Interpolations.cs" />
     <Compile Include="Assets\Scripts\Puzzle\LocaleSelector.cs" />
     <Compile Include="Assets\Scripts\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\BlockMoveEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageUi.cs" />
+    <Compile Include="Assets\Scripts\Login\GuestLoginProvider.cs" />
+    <Compile Include="Assets\Scripts\Network\ApiConnection.User.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stages.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Data\RankingData.cs" />
     <Compile Include="Assets\Scripts\MessageSystem.cs" />
@@ -74,6 +77,7 @@
     <Compile Include="Assets\Scripts\DirectionUtil.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
     <Compile Include="Assets\Scripts\Manager\FontManager.cs" />
+    <Compile Include="Assets\Scripts\Network\ApiConnection.cs" />
     <Compile Include="Assets\Scripts\Plugins\Ad\AdManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\LobbyMain.cs" />
@@ -82,6 +86,8 @@
     <Compile Include="Assets\Scripts\UIAnimations.cs" />
     <Compile Include="Assets\Scripts\Events.cs" />
     <Compile Include="Assets\Scripts\PooledObject.cs" />
+    <Compile Include="Assets\Scripts\Network\ApiManager.cs" />
+    <Compile Include="Assets\Scripts\Login\LoginManager.cs" />
     <Compile Include="Assets\Scripts\TinyObjectPool.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\StageEventController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\StageManager.cs" />
