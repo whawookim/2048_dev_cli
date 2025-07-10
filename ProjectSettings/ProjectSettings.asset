@@ -265,7 +265,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/User/iCloudDrive/KeyStores/2048-release.jks
+  AndroidKeystoreName: C:/Users/User/dev-cli/KeyStores/2048-release.jks
   AndroidKeyaliasName: 2048alias
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
