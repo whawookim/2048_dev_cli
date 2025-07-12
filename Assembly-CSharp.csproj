@@ -53,13 +53,18 @@
     <Compile Include="Assets\Scripts\Puzzle\UI\StageData.cs" />
     <Compile Include="Assets\Scripts\UGUIReusableScrollList.cs" />
     <Compile Include="Assets\Scripts\Puzzle\TitleScreen.cs" />
+    <Compile Include="Assets\GoogleSignIn\Future.cs" />
     <Compile Include="Assets\Scripts\Interpolations.cs" />
     <Compile Include="Assets\Scripts\Puzzle\LocaleSelector.cs" />
     <Compile Include="Assets\Scripts\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Login\Google\GoogleLoginUI.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\BlockMoveEvent.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\BaseObject.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\StageUi.cs" />
     <Compile Include="Assets\Scripts\Login\GuestLoginProvider.cs" />
     <Compile Include="Assets\Scripts\Network\ApiConnection.User.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\GoogleSignInImpl.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignIn.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stages.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Data\RankingData.cs" />
     <Compile Include="Assets\Scripts\MessageSystem.cs" />
@@ -68,8 +73,13 @@
     <Compile Include="Assets\Scripts\Puzzle\GameManager.cs" />
     <Compile Include="Assets\Scripts\ClickTest.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\LoadingScreen.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInStatusCode.cs" />
     <Compile Include="Assets\Scripts\Puzzle\CoroutineManager.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInUser.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInConfiguration.cs" />
     <Compile Include="Assets\Scripts\Plugins\Firebase\FirebaseManager.cs" />
+    <Compile Include="Assets\Scripts\Login\Google\GoogleLoginProvider.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\NativeFuture.cs" />
     <Compile Include="Assets\Scripts\Puzzle\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\RankingPopup\RankingPopupItem.cs" />
     <Compile Include="Assets\Scripts\Puzzle\AddressablesCDNOverride.cs" />
@@ -82,6 +92,7 @@
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\LobbyMain.cs" />
     <Compile Include="Assets\Scripts\Puzzle\UI\BoardManager.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\SignInHelperObject.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\ChangeGameStateEvent.cs" />
     <Compile Include="Assets\Scripts\UIAnimations.cs" />
     <Compile Include="Assets\Scripts\Events.cs" />
@@ -89,6 +100,7 @@
     <Compile Include="Assets\Scripts\Network\ApiManager.cs" />
     <Compile Include="Assets\Scripts\Login\LoginManager.cs" />
     <Compile Include="Assets\Scripts\TinyObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\UI\IUIScene.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\StageEventController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\StageManager.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\ButtonScaleEffect.cs" />
@@ -105,6 +117,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\StreamingAssets\google-services-desktop.json" />
     <None Include="Assets\GoogleMobileAds\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -112,8 +125,8 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\StreamingAssets\google-services-desktop.json" />
     <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-analytics-unity\maven-metadata.xml" />
+    <None Include="Assets\GoogleService\google-services.json" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
@@ -121,7 +134,6 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\google-services.json" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />

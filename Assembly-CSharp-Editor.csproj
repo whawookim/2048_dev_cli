@@ -49,6 +49,10 @@
     <Compile Include="Assets\Editor\Build\BuildScript.cs" />
     <Compile Include="Assets\Editor\FontManagerEditor.cs" />
     <Compile Include="Assets\Editor\AddressableUploader.cs" />
+    <None Include="Assets\GoogleSignIn\Editor\GoogleSignInDependencies.xml" />
+    <None Include="Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\maven-metadata.xml" />
+    <None Include="Assets\GoogleSignIn\Editor\google-signin-plugin_v1.0.4.txt" />
+    <None Include="Assets\GoogleSignIn\Editor\GoogleSignInSupportDependencies.xml" />
     <None Include="Assets\ExternalDependencyManager\Editor\external-dependency-manager_version-1.2.186_manifest.txt" />
     <None Include="Assets\Firebase\Editor\FirebaseAnalytics_version-12.10.0_manifest.txt" />
     <None Include="Assets\Firebase\Editor\AppDependencies.xml" />

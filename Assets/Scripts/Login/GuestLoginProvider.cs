@@ -4,40 +4,39 @@ using UnityEngine;
 
 public class GuestLoginProvider : ILoginProvider
 {
-    private const string GuestUUIDKey = "guest_uuid";
-    private string _cachedUUID;
-
     public LoginType ProviderType => LoginType.Guest;
+    public bool IsLoggedIn => _isLoggedIn;
 
-    public bool IsLoggedIn => !string.IsNullOrEmpty(_cachedUUID);
+    private bool _isLoggedIn;
+    private string _guestId;
 
-    public async Task<LoginResult> LoginAsync()
+    private const string PlayerPrefsKey = "guest_uuid";
+
+    public Task<LoginResult> LoginAsync()
     {
-        // 이미 저장된 UUID가 있는지 확인
-        if (PlayerPrefs.HasKey(GuestUUIDKey))
+        if (_isLoggedIn)
+            return Task.FromResult(LoginResult.Success(_guestId));
+
+        if (PlayerPrefs.HasKey(PlayerPrefsKey))
         {
-            _cachedUUID = PlayerPrefs.GetString(GuestUUIDKey);
+            _guestId = PlayerPrefs.GetString(PlayerPrefsKey);
         }
         else
         {
-            _cachedUUID = Guid.NewGuid().ToString();
-            PlayerPrefs.SetString(GuestUUIDKey, _cachedUUID);
+            _guestId = SystemInfo.deviceUniqueIdentifier + "_" + Guid.NewGuid().ToString("N");
+            PlayerPrefs.SetString(PlayerPrefsKey, _guestId);
             PlayerPrefs.Save();
         }
 
-        Debug.Log($"[GuestLogin] UUID: {_cachedUUID}");
-
-        return await Task.FromResult(new LoginResult(
-            userId: _cachedUUID,
-            token: string.Empty, // 게스트는 외부 토큰 없음
-            provider: LoginType.Guest,
-            isLinked: false
-        ));
+        _isLoggedIn = true;
+        Debug.Log($"Guest login success: {_guestId}");
+        return Task.FromResult(LoginResult.Success(_guestId));
     }
 
-    public async Task LogoutAsync()
+    public Task LogoutAsync()
     {
-        // 로그아웃해도 UUID는 유지 (앱 삭제 시만 초기화됨)
-        await Task.CompletedTask;
+        _isLoggedIn = false;
+        _guestId = string.Empty;
+        return Task.CompletedTask;
     }
 }

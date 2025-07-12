@@ -11,20 +11,26 @@ public enum LoginType
     // 추가 가능
 }
 
-public struct LoginResult
+public class LoginResult
 {
-    public string UserId;       // UUID or External ID
-    public string Token;        // 외부 인증 토큰 (ex. Google OAuth ID Token)
-    public LoginType Provider;  // 어떤 로그인 방식인지
-    public bool IsLinkedAccount; // 게스트 → 연동 여부
+    public bool IsSuccess { get; }
+    public string UserId { get; }
+    public string Token { get; }
+    public string ErrorMessage { get; }
 
-    public LoginResult(string userId, string token, LoginType provider, bool isLinked)
+    public LoginResult(bool isSuccess, string userId, string token = null, string errorMessage = null)
     {
+        IsSuccess = isSuccess;
         UserId = userId;
         Token = token;
-        Provider = provider;
-        IsLinkedAccount = isLinked;
+        ErrorMessage = errorMessage;
     }
+
+    public static LoginResult Success(string userId, string token = null)
+        => new LoginResult(true, userId, token);
+
+    public static LoginResult Failed(string errorMessage)
+        => new LoginResult(false, null, null, errorMessage);
 }
 
 public interface ILoginProvider
@@ -41,41 +47,81 @@ public interface ILoginProvider
 /// </summary>
 public class LoginManager
 {
-    private static LoginManager instance;
-    
-    public static LoginManager Instance => instance ??= new LoginManager();
-    
-    private readonly Dictionary<LoginType, ILoginProvider> _providers = new();
-    private readonly Dictionary<LoginType, LoginResult> _linkedAccounts = new();
+    public static LoginManager Instance { get; } = new LoginManager();
 
+    private readonly Dictionary<LoginType, ILoginProvider> _providers = new();
+
+    private LoginManager() { }
+
+    /// <summary>
+    /// 로그인 제공자 등록
+    /// </summary>
     public void RegisterProvider(ILoginProvider provider)
     {
-        _providers[provider.ProviderType] = provider;
+        if (!_providers.ContainsKey(provider.ProviderType))
+        {
+            _providers.Add(provider.ProviderType, provider);
+        }
     }
 
-    public async Task<LoginResult> LoginAsync(LoginType type)
+    /// <summary>
+    /// 특정 로그인 제공자에 대해 로그인 시도
+    /// </summary>
+    public async Task<LoginResult> LoginAsync(LoginType loginType)
     {
-        if (!_providers.TryGetValue(type, out var provider))
-            throw new Exception($"{type} provider not found");
+        if (!_providers.TryGetValue(loginType, out var provider))
+        {
+            Debug.LogError($"Login provider not registered: {loginType}");
+            return LoginResult.Failed($"Provider {loginType} not registered.");
+        }
 
-        var result = await provider.LoginAsync();
-
-        if (!string.IsNullOrEmpty(result.UserId))
-            _linkedAccounts[type] = result;
-
-        return result;
+        return await provider.LoginAsync();
     }
 
-    public bool IsLinked(LoginType type) => _linkedAccounts.ContainsKey(type);
-
-    public async Task UnlinkAsync(LoginType type)
+    /// <summary>
+    /// 특정 provider의 로그인 여부
+    /// </summary>
+    public bool IsLoggedIn(LoginType loginType)
     {
-        if (!_providers.TryGetValue(type, out var provider)) return;
-
-        await provider.LogoutAsync();
-        _linkedAccounts.Remove(type);
+        return _providers.TryGetValue(loginType, out var provider) && provider.IsLoggedIn;
     }
 
-    public IReadOnlyDictionary<LoginType, LoginResult> LinkedAccounts => _linkedAccounts;
+    /// <summary>
+    /// 전체 provider 중 하나라도 로그인되어 있는지 확인
+    /// </summary>
+    public bool IsAnyLoggedIn()
+    {
+        foreach (var provider in _providers.Values)
+        {
+            if (provider.IsLoggedIn)
+                return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 모든 provider 로그아웃 (강제 로그아웃)
+    /// </summary>
+    public async Task LogoutAllAsync()
+    {
+        foreach (var provider in _providers.Values)
+        {
+            if (provider.IsLoggedIn)
+            {
+                await provider.LogoutAsync();
+            }
+        }
+    }
+
+    /// <summary>
+    /// 특정 provider 로그아웃
+    /// </summary>
+    public async Task LogoutAsync(LoginType loginType)
+    {
+        if (_providers.TryGetValue(loginType, out var provider) && provider.IsLoggedIn)
+        {
+            await provider.LogoutAsync();
+        }
+    }
 }
-
