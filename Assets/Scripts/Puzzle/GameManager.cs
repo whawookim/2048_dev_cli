@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -40,7 +41,7 @@ namespace Puzzle
 			FirebaseManager.Instance.Init();
 			
 			// 시작 씬 이동
-			ChangeScene("Lobby");
+			ChangeScene("Lobby", nameof(TitleScreen));
 		}
 		
 		#endregion
@@ -78,64 +79,81 @@ namespace Puzzle
 		/// <summary>
 		/// 씬 이동
 		/// </summary>
-		public void ChangeScene(string sceneName)
+		public void ChangeScene(string sceneName, string uiSceneName = null)
 		{
-			CoroutineManager.Instance.Run(ChangeSceneAsync(sceneName));
+			CoroutineManager.Instance.Run(ChangeSceneAsync(sceneName, uiSceneName));
 		}
 
 		/// <summary>
 		/// 씬 이동 Async
 		/// </summary>
-		public IEnumerator ChangeSceneAsync(string sceneName)
+		public IEnumerator ChangeSceneAsync(string unitySceneName, string uiSceneName)
 		{
 			UI.LoadingScreen.Instance.SetEnabled(true);
 
 			// 1) 모든 Tween 중단
 			DG.Tweening.DOTween.KillAll();
 
-			// 2) 새 씬 로드 (이전 씬 자동 언로드)
-			yield return SceneManager.LoadSceneAsync(sceneName);
-			
-			// 3) 사용되지 않는 에셋 해제
-			Resources.UnloadUnusedAssets();
+			// 2) 현재 씬 스택 날리면서 Pause, Finish 호출 날리기
+			UISceneManager.Instance.ClearStackScenes();
 
-			// 4) (선택) 가비지 컬렉션
-			System.GC.Collect();
-
-			// 5) 씬 전환시 기존에 등록한 AddressableManager 전체 해제
+			// 3) 씬 전환시 기존에 등록한 AddressableManager 전체 해제
 			ReleaseAll();
 			
-			// 6) Event용으로 쓰였던 ObjectPool 해제
+			// 4) 새 씬 로드 (이전 씬 자동 언로드)
+			yield return SceneManager.LoadSceneAsync(unitySceneName);
+			
+			// 5) 사용되지 않는 에셋 해제
+			Resources.UnloadUnusedAssets();
+
+			// 6) (선택) 가비지 컬렉션
+			System.GC.Collect();
+			
+			// 7) Event용으로 쓰였던 ObjectPool 해제
 			TinyObjectPool.ClearAll();
 
-			if (sceneName == "Lobby")
+			if (unitySceneName == "Lobby")
 			{
-				yield return LobbyManager.Instance.LoadAsync();
-			}
-			else if (sceneName == "Stage")
-			{
-				yield return StageManager.Instance.LoadAsync();
-				
-				if (Stages.Instance != null)
-				{ 
-					Stages.Instance.InitBoard(StageManager.Instance.OriginBoardObj,
-						StageManager.Instance.OriginBlockObj);
-					Stages.Instance.StartGame();
+				yield return LobbyManager.Instance.LoadAllAsync();
+
+				if (uiSceneName == nameof(TitleScreen))
+				{
+					UISceneManager.Instance.SetTransition(new UITransition()
+					{
+						NextScene = TitleScreen.Instance,
+						NextSceneType = typeof(TitleScreen),
+						TransitionType = UITransitionType.Push,
+					});
+				}
+				else if (uiSceneName == nameof(LobbyMain))
+				{
+					UISceneManager.Instance.SetTransition(new UITransition()
+					{
+						NextScene = LobbyMain.Instance,
+						NextSceneType = typeof(LobbyMain),
+						TransitionType = UITransitionType.Push,
+					});
 				}
 			}
+			else if (unitySceneName == "Stage")
+			{
+				yield return StageManager.Instance.LoadAllAsync();
+
+				if (uiSceneName == nameof(Stages))
+				{
+					UISceneManager.Instance.SetTransition(new UITransition()
+					{
+						NextScene = Stages.Instance,
+						NextSceneType = typeof(Stages),
+						TransitionType = UITransitionType.Push,
+					});
+				}
+			}
+
+			// 씬 트랜지션 끝날때까지 대기
+			yield return new WaitUntil(() => UISceneManager.Instance.CurrentTransition == null);
 			
 			UI.LoadingScreen.Instance.SetDisabled(true);
-
-			if (sceneName == "Lobby")
-			{
-				// Banner 로드 및 Show
-				// 로비씬 에서만 로딩이 다 끝나고 보여주자
-				yield return AdManager.Instance.LoadAndShowBannerProcess();
-			}
-			else
-			{
-				AdManager.Instance.HideBanner();
-			}
 		}
 	}
 }

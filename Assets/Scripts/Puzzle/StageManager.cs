@@ -23,7 +23,7 @@ namespace Puzzle
         
         public GameObject OriginBlockObj => _blockHandle.Result;
         
-        public IEnumerator LoadAsync()
+        public IEnumerator LoadAllAsync()
         {
             _stageHandle = Addressables.InstantiateAsync(nameof(Stages));
             yield return _stageHandle;

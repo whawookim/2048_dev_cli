@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 381cd3a3e49f79742839332b530ea48b
+    m_Address: icon_device_101
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 60310d76f27c248ecb78a584c9323027
     m_Address: button_corner_square1_1
     m_ReadOnly: 0
@@ -53,6 +59,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d6822211421734f6794c1653c250bfa9
     m_Address: icon_line_simpleshape_68
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d806fc4445081384e8dd705dad8675c3
+    m_Address: android_neutral_rd_na@4x
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI

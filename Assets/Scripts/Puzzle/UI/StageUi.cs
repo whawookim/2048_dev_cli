@@ -24,12 +24,22 @@ namespace Puzzle.UI
 		private LocalizedString currentStatus;
 		
 		private LocalizedString localizedScore = new("GameStrings", "score_display");
-		
+#region MonoBehaviour
 		private void Awake()
 		{
 			Instance = this;
 
 			SubscribeEvent();
+		}
+		
+		private void Update()
+		{
+#if UNITY_EDITOR || UNITY_ANDROID
+			if (Input.GetKeyDown(KeyCode.Escape))
+			{
+				OnClickLobby();
+			}
+#endif
 		}
 
 		private void OnDestroy()
@@ -38,6 +48,7 @@ namespace Puzzle.UI
 			
 			UnsubscribeEvent(true);
 		}
+#endregion
 
 		private void SubscribeEvent()
 		{
@@ -49,16 +60,6 @@ namespace Puzzle.UI
 		{
 			MessageSystem.Instance.Unsubscribe<ChangeGameStateEvent>(OnChangeGameState, deleteKey);
 			MessageSystem.Instance.Unsubscribe<UpdateGameScoreEvent>(OnUpdateGameScore, deleteKey);
-		}
-
-		private void Update()
-		{
-#if UNITY_EDITOR || UNITY_ANDROID
-			if (Input.GetKeyDown(KeyCode.Escape))
-			{
-				OnClickLobby();
-			}
-#endif
 		}
 
 		public void SetGameScore(int score)
@@ -128,7 +129,7 @@ namespace Puzzle.UI
 		public void OnClickLobby()
 		{
 			GC.Collect();
-			GameManager.Instance.ChangeScene("Lobby");
+			GameManager.Instance.ChangeScene("Lobby", nameof(LobbyMain));
 		}
 
 		private bool OnChangeGameState(Events e)

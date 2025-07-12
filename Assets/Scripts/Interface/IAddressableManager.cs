@@ -5,6 +5,6 @@ using System.Collections;
 /// </summary>
 public interface IAddressableManager
 {
-    IEnumerator LoadAsync();
+    IEnumerator LoadAllAsync();
     void Release();
 }

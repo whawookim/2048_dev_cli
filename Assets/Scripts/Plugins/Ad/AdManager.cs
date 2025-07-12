@@ -39,7 +39,7 @@ public class AdManager : MonoBehaviour
     
     private BannerView bannerView;
 
-    public IEnumerator LoadAndShowBannerProcess()
+    public IEnumerator LoadAndShowBannerProcess(bool showBanner = false)
     {
         if (bannerView == null)
         {
@@ -72,7 +72,10 @@ public class AdManager : MonoBehaviour
             }
         }
 
-        ShowBanner();
+        if (showBanner)
+        {
+            ShowBanner();
+        }
     }
 
     public void ShowBanner()
@@ -80,6 +83,7 @@ public class AdManager : MonoBehaviour
         if (bannerView == null) return;
         
         bannerView.Show();
+        Debug.LogWarning("Show Banner");
     }
 
     public void HideBanner()
@@ -87,5 +91,6 @@ public class AdManager : MonoBehaviour
         if (bannerView == null) return;
         
         bannerView.Hide();
+        Debug.LogWarning("Hide Banner");
     }
 }

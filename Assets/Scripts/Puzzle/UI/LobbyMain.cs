@@ -1,11 +1,12 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Puzzle.UI
 {
 	/// <summary>
 	/// 게임의 로비 메인을 관리하는 메인 UI
 	/// </summary>
-	public class LobbyMain : MonoBehaviour
+	public class LobbyMain : MonoBehaviour, IUIScene
 	{
 		public static LobbyMain Instance { get; private set; }
 
@@ -13,7 +14,7 @@ namespace Puzzle.UI
 
 		[SerializeField]
 		private StageData[] stages;
-
+#region MonoBehaviour
 		void Awake()
 		{
 			Debug.Assert(Instance == null);
@@ -23,7 +24,7 @@ namespace Puzzle.UI
 
 		private void OnDestroy()
 		{
-			Debug.Assert(Instance != null);
+			Debug.Assert(Instance == this);
 
 			Instance = null;
 		}
@@ -36,13 +37,49 @@ namespace Puzzle.UI
 
 		private void Update()
 		{
-#if UNITY_EDITOR || UNITY_ANDROID
+		#if UNITY_EDITOR || UNITY_ANDROID
 			if (Input.GetKeyDown(KeyCode.Escape))
 			{
 				OnClickEndButton();
 			}
-#endif
+		#endif
 		}
+#endregion
+		
+#region IUIScene
+        
+		string IUIScene.Name => nameof(LobbyMain);
+		public UISceneManager UISceneManager { get; set; }
+		IEnumerator IUIScene.Load(object savedState)
+		{
+			yield return AdManager.Instance.LoadAndShowBannerProcess();
+		}
+
+		void IUIScene.Begin()
+		{
+			
+		}
+
+		void IUIScene.Resume(object result)
+		{
+			AdManager.Instance.ShowBanner();
+		}
+
+		void IUIScene.Pause()
+		{
+			AdManager.Instance.HideBanner();
+		}
+
+		void IUIScene.Finish()
+		{
+		}
+
+		object IUIScene.GetState()
+		{
+			return null;
+		}
+
+#endregion
 
 		/// <summary>
 		/// 현재 선택된 스테이지에 맞게 UI 업데이트
@@ -77,7 +114,7 @@ namespace Puzzle.UI
 		/// </summary>
 		public void OnClickStartButton()
 		{
-			GameManager.Instance.ChangeScene("Stage");
+			GameManager.Instance.ChangeScene("Stage", nameof(Stages));
 		}
 
 		public void OnClickEndButton()
@@ -95,11 +132,6 @@ namespace Puzzle.UI
 			{
 				CurrentStage = GameManager.Instance.CurrentStage
 			}, typeof(RankingPopup));
-		}
-
-		public void OnCLickGoogleLoginButton()
-		{
-
 		}
 	}
 }

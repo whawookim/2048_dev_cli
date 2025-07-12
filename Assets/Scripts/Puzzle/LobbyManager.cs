@@ -3,6 +3,7 @@ using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System.Collections.Generic;
 
 namespace Puzzle
 {
@@ -14,33 +15,58 @@ namespace Puzzle
         private static LobbyManager _instance;
         public static LobbyManager Instance => _instance ??= new LobbyManager();
         
-        private AsyncOperationHandle<GameObject> _lobbyHandle;
+        private List<GameObject> _lobbyObjectList = new List<GameObject>();
+
+        public IEnumerator LoadAllAsync()
+        {
+            // 매니저 등록
+            GameManager.Instance.RegisterManger(this);
+
+            var loadList = new List<AsyncOperationHandle<GameObject>>()
+            {
+                Addressables.InstantiateAsync(nameof(TitleScreen)),
+                Addressables.InstantiateAsync(nameof(LobbyMain)),
+            };
+
+            foreach (var handle in loadList)
+            {
+                yield return handle;
+                
+                if (handle.Result != null)
+                {
+                    _lobbyObjectList.Add(handle.Result);
+                    handle.Result.SetActive(false);
+                }
+            }
+        }
         
         /// <summary>
         /// Lobby 로드
         /// </summary>
-        public IEnumerator LoadAsync()
+        public IEnumerator LoadAsync(string key)
         {
             // Addressable 로드
-            _lobbyHandle = Addressables.InstantiateAsync(nameof(LobbyMain));
-            yield return _lobbyHandle;
+            var handle = Addressables.InstantiateAsync(key);
+            yield return handle;
 
-            if (_lobbyHandle.Status == AsyncOperationStatus.Succeeded)
-                Debug.Log("LobbyMain Loaded!");
+            if (handle.Status == AsyncOperationStatus.Succeeded)
+                Debug.Log($"{key} Loaded!");
             else
-                Debug.LogError("LobbyMain Load Failed!");
-            
-            // 매니저 등록
-            GameManager.Instance.RegisterManger(this);
+                Debug.LogError($"{key} Load Failed!");
         }
         
         public void Release()
         {
-            if (_lobbyHandle.IsValid())
+            foreach (var handleObj in _lobbyObjectList)
             {
-                Addressables.ReleaseInstance(_lobbyHandle);
-                Debug.Log("LobbyMain Released!");
+                if (handleObj != null)
+                {
+                    Debug.Log($"{handleObj.name} Released");
+                    Addressables.ReleaseInstance(handleObj);
+                }
             }
+            
+            _lobbyObjectList.Clear();
         }
     }
 }

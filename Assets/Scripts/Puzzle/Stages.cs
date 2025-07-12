@@ -75,7 +75,7 @@ namespace Puzzle
 		}
 	}
 
-	public class Stages : MonoBehaviour
+	public class Stages : MonoBehaviour, IUIScene
 	{
 		public static Stages Instance { get; private set; }
 
@@ -94,10 +94,45 @@ namespace Puzzle
 			// 데이터 날리기용
 			Dispose();
 			
-			Debug.Assert(Instance != null);
+			Debug.Assert(Instance == this);
 
 			Instance = null;
 		}
+		
+#region IUIScene
+        
+		string IUIScene.Name => nameof(Stages);
+		public UISceneManager UISceneManager { get; set; }
+		IEnumerator IUIScene.Load(object savedState)
+		{
+			InitBoard(StageManager.Instance.OriginBoardObj,
+				StageManager.Instance.OriginBlockObj);
+			yield break;
+		}
+
+		void IUIScene.Begin()
+		{
+			StartGame();
+		}
+
+		void IUIScene.Resume(object result)
+		{
+		}
+
+		void IUIScene.Pause()
+		{
+		}
+
+		void IUIScene.Finish()
+		{
+		}
+
+		object IUIScene.GetState()
+		{
+			return null;
+		}
+
+#endregion
 
 		public void Dispose()
 		{
