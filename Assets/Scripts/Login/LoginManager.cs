@@ -51,7 +51,28 @@ public class LoginManager
 
     private readonly Dictionary<LoginType, ILoginProvider> _providers = new();
 
-    private LoginManager() { }
+    private LoginManager()
+    {
+        RegisterProviders();
+    }
+
+    public void RegisterProviders()
+    {
+        var availableIdps = IDPPlatformSupportUtil.GetSupportedIDPs();
+
+        foreach (var idp in availableIdps)
+        {
+            switch (idp)
+            {
+                case LoginType.Guest:
+                    RegisterProvider(new GuestLoginProvider());
+                    break;
+                case LoginType.Google:
+                    RegisterProvider(new GoogleLoginProvider());
+                    break;
+            }
+        }
+    }
 
     /// <summary>
     /// 로그인 제공자 등록

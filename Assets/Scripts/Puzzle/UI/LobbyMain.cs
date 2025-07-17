@@ -133,5 +133,16 @@ namespace Puzzle.UI
 				CurrentStage = GameManager.Instance.CurrentStage
 			}, typeof(RankingPopup));
 		}
+		
+		/// <summary>
+		/// IDP 로그인 팝업
+		/// </summary>
+		public void OnClickIDPButton()
+		{
+			UISceneManager.Instance.PushOverlay(IDPChoicePopup.Instance, new IDPChoicePopupState()
+			{
+				IDPList = IDPPlatformSupportUtil.GetSupportedIDPs()
+			}, typeof(IDPChoicePopup));
+		}
 	}
 }

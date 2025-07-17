@@ -15,8 +15,20 @@ MonoBehaviour:
   m_GroupName: Shared Assets Group
   m_GUID: c0d067fd20627bc4ba97ea6b78cd5766
   m_SerializeEntries:
+  - m_GUID: 0f785269c5c9ea14b915c651d6760b0b
+    m_Address: button_square_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 14546b23a484545d8bdef6535b4fb8dc
     m_Address: icon_activity_6
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 187e1ac030cb2174280040f6ed5210b5
+    m_Address: icon_device_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
@@ -39,8 +51,26 @@ MonoBehaviour:
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6f15b54d1b2c5ac4cb88375c8a161491
+    m_Address: button_corner_square3_5
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76281e6b0e327f74a9a9a48f6fff18b8
+    m_Address: icon_app_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 8e51b0aba2de65743bf532fd4368cb94
     m_Address: web_neutral_rd_na@1x
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8f92549b6f4f84d4db57330eb610fcac
+    m_Address: button_corner_square2_1
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI
@@ -69,8 +99,26 @@ MonoBehaviour:
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d80beefceaec3de4f97fa6b1363a74ca
+    m_Address: button_corner_square3_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: db67fb1c381b3f644b60b6c81af9d087
     m_Address: icon_game_28
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dfd916c235895944ea6fb5d6dd5a584d
+    m_Address: icon_app_26
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3907b8c3cfd6e24e9c42d04225229f7
+    m_Address: web_neutral_sq_na@4x
     m_ReadOnly: 0
     m_SerializedLabels:
     - SharedUI

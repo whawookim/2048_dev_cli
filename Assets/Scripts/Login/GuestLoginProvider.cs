@@ -12,10 +12,10 @@ public class GuestLoginProvider : ILoginProvider
 
     private const string PlayerPrefsKey = "guest_uuid";
 
-    public Task<LoginResult> LoginAsync()
+    public async Task<LoginResult> LoginAsync()
     {
         if (_isLoggedIn)
-            return Task.FromResult(LoginResult.Success(_guestId));
+            return LoginResult.Success(_guestId);
 
         if (PlayerPrefs.HasKey(PlayerPrefsKey))
         {
@@ -27,10 +27,23 @@ public class GuestLoginProvider : ILoginProvider
             PlayerPrefs.SetString(PlayerPrefsKey, _guestId);
             PlayerPrefs.Save();
         }
+        
+        // 서버로 로그인 요청
+        var request = ApiConnection.Login(nameof(LoginType.Guest), _guestId, null);
+        while (!request.IsDone)
+            await Task.Yield();
 
-        _isLoggedIn = true;
-        Debug.Log($"Guest login success: {_guestId}");
-        return Task.FromResult(LoginResult.Success(_guestId));
+        if (request.Ok)
+        { 
+            _isLoggedIn = true;
+            return LoginResult.Success(User.Me.UserId); // User.Me 사용
+        }
+        else
+        {
+            Debug.LogError(
+                $"Guest login failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
+            return LoginResult.Failed(request.Response?.error?.message ?? "Unknown Error");
+        }
     }
 
     public Task LogoutAsync()
