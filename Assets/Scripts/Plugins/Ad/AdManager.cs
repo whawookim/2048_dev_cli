@@ -33,7 +33,7 @@ public class AdManager : MonoBehaviour
     {
         MobileAds.Initialize(initStatus =>
         {
-            Debug.Log("Admob initialized");
+            MyDebug.Log("Admob initialized");
         });
     }
     
@@ -51,13 +51,13 @@ public class AdManager : MonoBehaviour
             bannerView.OnBannerAdLoaded += () =>
             {
                 isLoading = false;
-                Debug.Log("Banner Ad load Success");
+                MyDebug.Log("Banner Ad load Success");
             };
         
             bannerView.OnBannerAdLoadFailed += (error) =>
             {
                 isLoading = false;
-                Debug.LogError($"{error} Banner Ad load Failed");
+                MyDebug.LogError($"{error} Banner Ad load Failed");
             };
             
             // 광고 요청 객체 생성 (v10 방식: 매개변수 없이 기본 생성자 사용)
@@ -83,7 +83,7 @@ public class AdManager : MonoBehaviour
         if (bannerView == null) return;
         
         bannerView.Show();
-        Debug.LogWarning("Show Banner");
+        MyDebug.LogWarning("Show Banner");
     }
 
     public void HideBanner()
@@ -91,6 +91,6 @@ public class AdManager : MonoBehaviour
         if (bannerView == null) return;
         
         bannerView.Hide();
-        Debug.LogWarning("Hide Banner");
+        MyDebug.LogWarning("Hide Banner");
     }
 }

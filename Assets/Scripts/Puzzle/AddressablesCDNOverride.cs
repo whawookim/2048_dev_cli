@@ -12,12 +12,12 @@ public class AddressableCDNRedirector : MonoBehaviour
         string platform = GetPlatformFolder();
         string baseUrl = $"{cdnDomain}/{platform}";
 
-        Debug.Log($"[Addressables] CDN Override → {baseUrl}");
+        MyDebug.Log($"[Addressables] CDN Override → {baseUrl}");
 
         Addressables.ResourceManager.InternalIdTransformFunc = (location) =>
         {
             string origin = location.InternalId;
-            Debug.Log($"[Addressables] Original URL: {origin}");
+            MyDebug.Log($"[Addressables] Original URL: {origin}");
 
             if (origin.StartsWith("http") || origin.StartsWith("https"))
             {
@@ -27,14 +27,14 @@ public class AddressableCDNRedirector : MonoBehaviour
                 if (idx < 0) idx = origin.IndexOf("/WebGL");
                 if (idx < 0)
                 {
-                    Debug.LogWarning("[Addressables] URL에서 플랫폼 경로를 찾지 못함. 원본 URL 사용.");
+                    MyDebug.LogWarning("[Addressables] URL에서 플랫폼 경로를 찾지 못함. 원본 URL 사용.");
                     return origin;
                 }
 
                 string path = origin.Substring(idx);
                 string newUrl = $"{baseUrl}{path}";
 
-                Debug.Log($"[Addressables] Override: {origin} → {newUrl}");
+                MyDebug.Log($"[Addressables] Override: {origin} → {newUrl}");
                 return newUrl;
             }
 

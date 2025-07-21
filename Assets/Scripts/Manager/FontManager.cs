@@ -58,7 +58,7 @@ public class FontManager : MonoBehaviour
 
     public async Task ApplyFontFallbacks(string locale)
     {
-        Debug.Log($"[FontManager] Applying fallback for locale: {locale}");
+        MyDebug.Log($"[FontManager] Applying fallback for locale: {locale}");
 
         List<TMP_FontAsset> fallbackList = await LoadFallbackFontsForLocale(locale);
 
@@ -75,7 +75,7 @@ public class FontManager : MonoBehaviour
         var mapping = localeFontMappings.FirstOrDefault(x => x.localeCode == locale);
         if (mapping == null)
         {
-            Debug.LogWarning($"[FontManager] No fallback fonts found for locale: {locale}");
+            MyDebug.LogWarning($"[FontManager] No fallback fonts found for locale: {locale}");
             return new List<TMP_FontAsset>();
         }
 
@@ -103,13 +103,13 @@ public class FontManager : MonoBehaviour
 
         if (font != null)
         {
-            Debug.Log($"[FontManager] (Editor) Loaded font: {font.name}");
+            MyDebug.Log($"[FontManager] (Editor) Loaded font: {font.name}");
             FixFontMaterial(font);
             return font;
         }
         else
         {
-            Debug.LogWarning($"[FontManager] (Editor) Failed to load font via AssetDatabase: {reference.RuntimeKey}");
+            MyDebug.LogWarning($"[FontManager] (Editor) Failed to load font via AssetDatabase: {reference.RuntimeKey}");
             return null;
         }
 #else
@@ -120,12 +120,12 @@ public class FontManager : MonoBehaviour
         {
             _runtimeHandles.Add(handle);
             FixFontMaterial(handle.Result);
-            Debug.Log($"[FontManager] (Runtime) Loaded font: {handle.Result.name}");
+            MyDebug.Log($"[FontManager] (Runtime) Loaded font: {handle.Result.name}");
             return handle.Result;
         }
         else
         {
-            Debug.LogError($"[FontManager] (Runtime) Failed to load font: {reference.RuntimeKey}");
+            MyDebug.LogError($"[FontManager] (Runtime) Failed to load font: {reference.RuntimeKey}");
             return null;
         }
 #endif
@@ -135,19 +135,19 @@ public class FontManager : MonoBehaviour
     {
         if (baseFont == null)
         {
-            Debug.LogWarning("[FontManager] Base font is null.");
+            MyDebug.LogWarning("[FontManager] Base font is null.");
             return;
         }
 
         baseFont.fallbackFontAssetTable = fallbacks;
-        Debug.Log($"[FontManager] Applied fallback to {baseFont.name}: {string.Join(", ", fallbacks.Select(f => f.name))}");
+        MyDebug.Log($"[FontManager] Applied fallback to {baseFont.name}: {string.Join(", ", fallbacks.Select(f => f.name))}");
     }
 
     private void ApplyFallbackToTMPSettings(List<TMP_FontAsset> fallbacks)
     {
         TMP_Settings.fallbackFontAssets.Clear();
         TMP_Settings.fallbackFontAssets.AddRange(fallbacks);
-        Debug.Log($"[FontManager] TMP_Settings fallback applied: {string.Join(", ", fallbacks.Select(f => f.name))}");
+        MyDebug.Log($"[FontManager] TMP_Settings fallback applied: {string.Join(", ", fallbacks.Select(f => f.name))}");
     }
 
     private void FixFontMaterial(TMP_FontAsset fontAsset)
@@ -157,13 +157,13 @@ public class FontManager : MonoBehaviour
         if (fontAsset.material == null)
         {
             fontAsset.material = new Material(Shader.Find("TextMeshPro/Distance Field"));
-            Debug.LogWarning($"Material가 null이어서 새로 생성: {fontAsset.name}");
+            MyDebug.LogWarning($"Material가 null이어서 새로 생성: {fontAsset.name}");
         }
 
         if (fontAsset.material.mainTexture == null)
         {
             fontAsset.material.mainTexture = fontAsset.atlasTexture;
-            Debug.LogWarning($"mainTexture가 없어서 atlas로 연결함: {fontAsset.name}");
+            MyDebug.LogWarning($"mainTexture가 없어서 atlas로 연결함: {fontAsset.name}");
         }
     }
 }

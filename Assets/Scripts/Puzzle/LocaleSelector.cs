@@ -41,7 +41,7 @@ namespace Puzzle
                 .Find(l => l.Identifier.Code == currentLocale.ToString());
 
             LocalizationSettings.SelectedLocale = locale;
-            Debug.Log($"[LocaleSelector] Locale changed to: {locale?.Identifier.Code}");
+            MyDebug.Log($"[LocaleSelector] Locale changed to: {locale?.Identifier.Code}");
         }
     }
 }

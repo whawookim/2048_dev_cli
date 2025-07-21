@@ -92,7 +92,7 @@ public class LoginManager
     {
         if (!_providers.TryGetValue(loginType, out var provider))
         {
-            Debug.LogError($"Login provider not registered: {loginType}");
+            MyDebug.LogError($"Login provider not registered: {loginType}");
             return LoginResult.Failed($"Provider {loginType} not registered.");
         }
 

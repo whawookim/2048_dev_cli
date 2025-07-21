@@ -50,9 +50,9 @@ namespace Puzzle
             yield return handle;
 
             if (handle.Status == AsyncOperationStatus.Succeeded)
-                Debug.Log($"{key} Loaded!");
+                MyDebug.Log($"{key} Loaded!");
             else
-                Debug.LogError($"{key} Load Failed!");
+                MyDebug.LogError($"{key} Load Failed!");
         }
         
         public void Release()
@@ -61,7 +61,7 @@ namespace Puzzle
             {
                 if (handleObj != null)
                 {
-                    Debug.Log($"{handleObj.name} Released");
+                    MyDebug.Log($"{handleObj.name} Released");
                     Addressables.ReleaseInstance(handleObj);
                 }
             }

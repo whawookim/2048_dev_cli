@@ -131,7 +131,7 @@ namespace Puzzle.UI
 
 			if (moveData.Num == -1)
 			{
-				//Debug.LogError($"index {blockData.Index} num{blockData.Num} is Delete");
+				//MyDebug.LogError($"index {blockData.Index} num{blockData.Num} is Delete");
 				gameObject.SetActive(false);
 			}
 			else if (moveData.Num > Data.Num)

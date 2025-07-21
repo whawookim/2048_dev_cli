@@ -27,7 +27,7 @@ public class GoogleLoginProvider : ILoginProvider
         try
         {
             var user = await GoogleSignIn.DefaultInstance.SignIn();
-            Debug.Log($"Google Login Success: {user.Email}, ID Token: {user.IdToken}");
+            MyDebug.Log($"Google Login Success: {user.Email}, ID Token: {user.IdToken}");
 
             // 서버에 로그인 요청
             var request = ApiConnection.Login(nameof(LoginType.Google), user.UserId, user.IdToken);
@@ -41,14 +41,14 @@ public class GoogleLoginProvider : ILoginProvider
             }
             else
             {
-                Debug.LogError(
+                MyDebug.LogError(
                     $"Google login failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
                 return LoginResult.Failed(request.Response?.error?.message ?? "Google Login Server Error");
             }
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"Google Login Failed: {ex.Message}");
+            MyDebug.LogError($"Google Login Failed: {ex.Message}");
             _isLoggedIn = false;
             return LoginResult.Failed($"Google Sign-In Failed: {ex.Message}");
         }
@@ -65,17 +65,17 @@ public class GoogleLoginProvider : ILoginProvider
             
             if (request.Ok)
             {
-                Debug.Log("Unbind 성공");
+                MyDebug.Log("Unbind 성공");
             }
             else
             {
-                Debug.LogWarning(
+                MyDebug.LogWarning(
                     $"Unbind 실패: {request.Response?.error?.code}, message {request.Response?.error?.message}");
             }
         }
         catch (System.Exception ex)
         {
-            Debug.LogError($"Google Logout Failed: {ex.Message}");
+            MyDebug.LogError($"Google Logout Failed: {ex.Message}");
             _isLoggedIn = false;
         }
 

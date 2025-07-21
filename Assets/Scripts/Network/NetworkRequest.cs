@@ -25,7 +25,7 @@ public class NetworkRequest : CustomYieldInstruction
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"API Call Failed: {e.Message}");
+            MyDebug.LogError($"API Call Failed: {e.Message}");
             Ok = false;
         }
         IsDone = true;

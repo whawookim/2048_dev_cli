@@ -119,7 +119,7 @@ namespace Puzzle.UI
             {
                 if (idpBindings.Count == 1)
                 {
-                    Debug.Log("User IDP Binding need count more than 1");
+                    MyDebug.Log("User IDP Binding need count more than 1");
                     return;
                 }
 
@@ -145,7 +145,7 @@ namespace Puzzle.UI
                 
             if (isSuccess)
             {
-                Debug.Log($"Logout Success! : {loginType}");
+                MyDebug.Log($"Logout Success! : {loginType}");
                 RefreshUI();
 
                 var autoLoginType = PlayerPrefs.GetString("auto_login_type");
@@ -161,13 +161,13 @@ namespace Puzzle.UI
                     }
                     else
                     {
-                        Debug.LogError("User IDP Binding is empty");
+                        MyDebug.LogError("User IDP Binding is empty");
                     }
                 }
             }
             else
             {
-                Debug.LogError($"Logout Failed! : {loginType}");
+                MyDebug.LogError($"Logout Failed! : {loginType}");
             }
         }
 
@@ -184,7 +184,7 @@ namespace Puzzle.UI
                 
             if (isSuccess)
             {
-                Debug.Log($"Login Success! UserId: {result.UserId}, LoginType: {loginType}");
+                MyDebug.Log($"Login Success! UserId: {result.UserId}, LoginType: {loginType}");
                 RefreshUI();
 
                 PlayerPrefs.SetString("auto_login_type", loginType.ToString());
@@ -192,7 +192,7 @@ namespace Puzzle.UI
             }
             else
             {
-                Debug.LogError($"Login Failed! : {loginType}");
+                MyDebug.LogError($"Login Failed! : {loginType}");
             }
         }
     }

@@ -124,7 +124,7 @@ namespace Puzzle
                 return;
             }
 
-            Debug.Log($"Auto Login Try: {loginType}");
+            MyDebug.Log($"Auto Login Try: {loginType}");
 
             UIBlocker.Instance.SetEnabled();
             
@@ -134,7 +134,7 @@ namespace Puzzle
 
             if (result.IsSuccess)
             {
-                Debug.Log($"Auto Login Success! UserId: {result.UserId}");
+                MyDebug.Log($"Auto Login Success! UserId: {result.UserId}");
                 // 바로 다음 씬으로 전환하거나 로그인 완료 UI 갱신 등 처리
                 PlayerPrefs.SetString("auto_login_type", loginType.ToString());
                 PlayerPrefs.Save();
@@ -142,7 +142,7 @@ namespace Puzzle
             else
             {
                 // TODO: 에러가 어떤 식으로 날지 모르니 생각좀 해볼 것 DeleteKey는
-                Debug.LogError($"Auto Login Fail: {result.ErrorMessage}");
+                MyDebug.LogError($"Auto Login Fail: {result.ErrorMessage}");
                 PlayerPrefs.DeleteKey("auto_login_type");
                 PlayerPrefs.Save();// 실패 시 저장 삭제
                 ShowLoginChoicePopup();

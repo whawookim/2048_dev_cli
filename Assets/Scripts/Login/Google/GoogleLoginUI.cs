@@ -32,12 +32,12 @@ public class GoogleLoginUI : MonoBehaviour
     {
         if (task.IsCanceled || task.IsFaulted)
         {
-            Debug.LogError("Google Sign-In Failed");
+            MyDebug.LogError("Google Sign-In Failed");
         }
         else
         {
             var user = task.Result;
-            Debug.Log($"Google Login Success: {user.DisplayName}, {user.IdToken}");
+            MyDebug.Log($"Google Login Success: {user.DisplayName}, {user.IdToken}");
         }
     }
 }

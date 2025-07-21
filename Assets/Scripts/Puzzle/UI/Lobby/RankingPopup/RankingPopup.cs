@@ -79,7 +79,7 @@ namespace Puzzle.UI
             
             Debug.Assert(states != null);
             
-            Debug.Log(states.StageMode);
+            MyDebug.Log(states.StageMode.ToString());
             
             localizedTitle.Arguments = new object[] { new { stage = states.StageMode.ToString() }};
             localizedTitle.StringChanged -= OnTitleChanged;

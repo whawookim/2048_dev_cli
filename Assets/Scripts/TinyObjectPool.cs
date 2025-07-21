@@ -17,8 +17,8 @@ public abstract class TinyObjectPool
 	public static void ClearAll()
 	{
 #if UNITY_EDITOR
-		Debug.Log($"{nameof(TinyObjectPool)}.{nameof(ClearAll)}"
-		          + $" tinyObjectPools.Count: {tinyObjectPools.Count}");
+		MyDebug.Log($"{nameof(TinyObjectPool)}.{nameof(ClearAll)}"
+		            + $" tinyObjectPools.Count: {tinyObjectPools.Count}");
 #endif
 		for (int i = 0; i < tinyObjectPools.Count; i++)
 		{
@@ -68,7 +68,7 @@ public class TinyObjectPool<T> : TinyObjectPool where T : class, new()
 		if (pool.Contains(obj))
 		{
 			// 풀에 같은 오브젝트가 두 번 들어가면 안 됨.
-			UnityEngine.Debug.LogError(
+			MyDebug.LogError(
 				$"Pushing an object {obj} already exists in TinyObjectPool<{typeof(T)}>. It might cause a serious problem!");
 
 			return;

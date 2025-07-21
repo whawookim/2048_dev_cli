@@ -1,5 +1,6 @@
 using Firebase;
 using Firebase.Analytics;
+using Firebase.Crashlytics;
 using UnityEngine;
 
 public class FirebaseManager
@@ -18,11 +19,18 @@ public class FirebaseManager
             if (task.Result == DependencyStatus.Available)
             {
                 FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                Debug.Log("Firebase Analytics initialized.");
+                MyDebug.Log("Firebase Analytics initialized.");
+                
+                // Crashlytics 초기화 및 테스트 로그
+                Crashlytics.Log("Firebase Crashlytics initialized!");
+
+                // 강제 오류 테스트 (비치명적)
+                Crashlytics.Log("Triggering test non-fatal error");
+                Crashlytics.LogException(new System.Exception("This is a test non-fatal exception."));
             }
             else
             {
-                Debug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+                MyDebug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
             }
         });
     }

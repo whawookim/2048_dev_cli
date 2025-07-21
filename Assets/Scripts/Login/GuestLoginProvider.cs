@@ -40,7 +40,7 @@ public class GuestLoginProvider : ILoginProvider
         }
         else
         {
-            Debug.LogError(
+            MyDebug.LogError(
                 $"Guest login failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
             return LoginResult.Failed(request.Response?.error?.message ?? "Unknown Error");
         }

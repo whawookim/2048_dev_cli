@@ -54,7 +54,7 @@ namespace Puzzle
 		{
 			if (overlayStack.Contains(overlay))
 			{
-				Debug.LogWarning("Overlay Already Exists");
+				MyDebug.LogWarning("Overlay Already Exists");
 				return;
 			}
 			
@@ -99,7 +99,7 @@ namespace Puzzle
 			// 쌓인 오버레이가 없는 경우 팝 안됨
 			if (CurrentOverlay == null || overlayStack.Count == 0)
 			{
-				Debug.LogWarning("No stacked overlay");
+				MyDebug.LogWarning("No stacked overlay");
 				yield break;
 			}
 			
@@ -262,7 +262,7 @@ namespace Puzzle
 
 			if (addressableName == null)
 			{
-				Debug.LogError($"{assetType} does not have the 'AddressableName' property.");
+				MyDebug.LogError($"{assetType} does not have the 'AddressableName' property.");
 
 				yield break;
 			}
@@ -272,14 +272,14 @@ namespace Puzzle
 
 			if (handle.Status != AsyncOperationStatus.Succeeded)
 			{
-				Debug.Log("UI Load Failed!");
+				MyDebug.Log("UI Load Failed!");
 			}
 
 			var prefab = handle.Result;
 
 			if (prefab == null)
 			{
-				Debug.LogError($"{assetType} does not have the 'Prefab' property.");
+				MyDebug.LogError($"{assetType} does not have the 'Prefab' property.");
 				yield break;
 			}
 			
@@ -295,7 +295,7 @@ namespace Puzzle
 			}
 			else
 			{
-				Debug.LogError("Cannot recognize a type of the UI asset: " + assetInstance);
+				MyDebug.LogError("Cannot recognize a type of the UI asset: " + assetInstance);
 			}
 		}
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -34,6 +35,20 @@ namespace Puzzle
 		/// </summary>
 		void Start()
 		{
+			_ = InitAsync();
+		}
+		
+		#endregion
+
+		private async Task InitAsync()
+		{
+			LoadingScreen.Instance.SetEnabled(true);
+			
+			// Firebase RemoteConfig에서 설정한 LogLevel로 MyDebug CurrentLevel 제어
+			// Unity 내부 Debug.Exception이나 Assert를 Crashlytics로 호출될 수 있게 초기화.
+			// 무조건 한번만 불리게 하자.
+			await MyDebug.InitializeAsync();
+			
 			// 광고 초기화
 			AdManager.Instance.Init();
 
@@ -43,8 +58,6 @@ namespace Puzzle
 			// 시작 씬 이동
 			ChangeScene("Lobby", nameof(TitleScreen));
 		}
-		
-		#endregion
 
 		/// <summary>
 		/// AddressableManager 등록

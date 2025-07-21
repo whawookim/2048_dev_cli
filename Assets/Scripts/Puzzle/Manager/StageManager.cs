@@ -34,18 +34,18 @@ namespace Puzzle
 
             if (_stageHandle.Status == AsyncOperationStatus.Succeeded)
             {
-                Debug.Log("Stage Loaded!");
+                MyDebug.Log("Stage Loaded!");
                 
                 _boardHandle = Addressables.InstantiateAsync(nameof(UI.Board));
                 yield return _boardHandle;
 
                 if (_boardHandle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    Debug.Log("Board Loaded!");
+                    MyDebug.Log("Board Loaded!");
                 }
                 else
                 {
-                    Debug.LogError("Board Load Failed!");
+                    MyDebug.LogError("Board Load Failed!");
                 }
                 
                 _blockHandle = Addressables.InstantiateAsync(nameof(UI.Block));
@@ -53,16 +53,16 @@ namespace Puzzle
 
                 if (_blockHandle.Status == AsyncOperationStatus.Succeeded)
                 {
-                    Debug.Log("Block Loaded!");
+                    MyDebug.Log("Block Loaded!");
                 }
                 else
                 {
-                    Debug.LogError("Block Load Failed!");
+                    MyDebug.LogError("Block Load Failed!");
                 }
             }
             else
             {
-                Debug.LogError("Stage Load Failed!");
+                MyDebug.LogError("Stage Load Failed!");
             }
             
             // 매니저 등록
@@ -74,19 +74,19 @@ namespace Puzzle
             if (_stageHandle.IsValid())
             {
                 Addressables.ReleaseInstance(_stageHandle);
-                Debug.Log("Stage Released!");
+                MyDebug.Log("Stage Released!");
             }
             
             if (_boardHandle.IsValid())
             {
                 Addressables.ReleaseInstance(_boardHandle);
-                Debug.Log("Board Released!");
+                MyDebug.Log("Board Released!");
             }
             
             if (_blockHandle.IsValid())
             {
                 Addressables.ReleaseInstance(_blockHandle);
-                Debug.Log("Block Released!");
+                MyDebug.Log("Block Released!");
             }
         }
 
@@ -102,19 +102,19 @@ namespace Puzzle
 
                 if (request.Ok)
                 {
-                    Debug.Log("Stage Clear!");
+                    MyDebug.Log("Stage Clear!");
                     // TODO: 후처리?
 
                     return true;
                 }
                 else
                 {
-                    Debug.LogError($"Clear Game Request Failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
+                    MyDebug.LogError($"Clear Game Request Failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
                 }
             }
             catch (System.Exception ex)
             {
-                Debug.LogError($"Clear Game Failed: {ex.Message}");
+                MyDebug.LogError($"Clear Game Failed: {ex.Message}");
             }
             
             return false;

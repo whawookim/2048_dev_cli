@@ -55,14 +55,14 @@ namespace Puzzle
                 }
                 else
                 {
-                    UnityEngine.Debug.LogError(
+                    MyDebug.LogError(
                         $"Get Ranking Request Failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
                     return null;
                 }
             }
             catch (System.Exception ex)
             {
-                UnityEngine.Debug.LogError($"Get Ranking Failed: {ex.Message}");
+                MyDebug.LogError($"Get Ranking Failed: {ex.Message}");
                 return null;
             }
         }

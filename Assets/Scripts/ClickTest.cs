@@ -14,7 +14,7 @@ namespace DefaultNamespace
                 List<RaycastResult> results = new List<RaycastResult>();
                 EventSystem.current.RaycastAll(pointerData, results);
                 foreach (var r in results)
-                    Debug.Log("Hit: " + r.gameObject.name);
+                    MyDebug.Log("Hit: " + r.gameObject.name);
             }
         }
     }

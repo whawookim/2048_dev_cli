@@ -98,7 +98,7 @@ namespace Puzzle.Stage
 
         public void GameFail()
         {
-	        Debug.Log($"Game Fail ! [Mode {GameManager.Instance.CurrentStage}. Score - {CurrentScore}, Move Count - {MovedCount}, Play Time - {PlayTime}s]");
+	        MyDebug.Log($"Game Fail ! [Mode {GameManager.Instance.CurrentStage}. Score - {CurrentScore}, Move Count - {MovedCount}, Play Time - {PlayTime}s]");
 	        
 	        SetEndTime(GameTime.Instance.CurrentTime);
 	        Firebase.Analytics.FirebaseAnalytics.LogEvent(AnalyticsData.StageFail);
@@ -117,7 +117,7 @@ namespace Puzzle.Stage
 	        SetEndTime(GameTime.Instance.CurrentTime);
 	        Firebase.Analytics.FirebaseAnalytics.LogEvent(AnalyticsData.StageClear);
 	        
-	        Debug.Log($"Game Clear ! [Mode {GameManager.Instance.CurrentStage}. Score - {CurrentScore}, Move Count - {MovedCount}, Play Time - {PlayTime}s]");
+	        MyDebug.Log($"Game Clear ! [Mode {GameManager.Instance.CurrentStage}. Score - {CurrentScore}, Move Count - {MovedCount}, Play Time - {PlayTime}s]");
 
         	var request = StageManager.Instance.ClearGameAsync(CurrentScore, PlayTime, MovedCount);
             

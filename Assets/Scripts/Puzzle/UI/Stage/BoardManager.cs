@@ -378,7 +378,7 @@ namespace Puzzle.UI
 									Index = moveToIndex,
 									Num = -1
 								};
-								//Debug.LogError($"index {moveToIndex} will be delete");
+								//MyDebug.LogError($"index {moveToIndex} will be delete");
 								var originIndex = tempDict[moveToIndex].Data.Index;
 								var originValue = tempDict[moveToIndex].Data.Num;
 								var toValue = originValue * 2;
@@ -487,7 +487,7 @@ namespace Puzzle.UI
 
 				// if (moveDict.ContainsKey(blockData.Value.Data.Index))
 				// {
-				// 	//Debug.LogError("Test");
+				// 	//MyDebug.LogError("Test");
 				// }
 
 				moveDict.Add(blockData.Data.Index, blockData);
@@ -532,14 +532,14 @@ namespace Puzzle.UI
 			var downIndex = index + GetMoveOffset(MoveDirection.Down, 1);
 			if (blockDict.ContainsKey(downIndex) && blockDict[downIndex].Data.Num == value)
 			{
-				//Debug.Log($"Down {index} / {downIndex} / {blockDict[downIndex].Data.Num} / {value}");
+				//MyDebug.Log($"Down {index} / {downIndex} / {blockDict[downIndex].Data.Num} / {value}");
 				return true;
 			}
 
 			var upIndex = index + GetMoveOffset(MoveDirection.Up, 1);
 			if (blockDict.ContainsKey(upIndex) && blockDict[upIndex].Data.Num == value)
 			{
-				//Debug.Log($"Up {index} / {upIndex} / {blockDict[upIndex].Data.Num} / {value}");
+				//MyDebug.Log($"Up {index} / {upIndex} / {blockDict[upIndex].Data.Num} / {value}");
 				return true;
 			}
 
@@ -547,7 +547,7 @@ namespace Puzzle.UI
 			if (blockDict.ContainsKey(leftIndex) && GetYIndex(leftIndex) == GetYIndex(index) &&
 				blockDict[leftIndex].Data.Num == value)
 			{
-				//Debug.Log($"Left {index} / {leftIndex} / {blockDict[leftIndex].Data.Num} / {value}");
+				//MyDebug.Log($"Left {index} / {leftIndex} / {blockDict[leftIndex].Data.Num} / {value}");
 				return true;
 			}
 
@@ -555,11 +555,11 @@ namespace Puzzle.UI
 			if (blockDict.ContainsKey(rightIndex) && GetYIndex(rightIndex) == GetYIndex(index) &&
 				blockDict[rightIndex].Data.Num == value)
 			{
-				//Debug.Log($"Right {index} / {rightIndex} / {blockDict[rightIndex].Data.Num} / {value}");
+				//MyDebug.Log($"Right {index} / {rightIndex} / {blockDict[rightIndex].Data.Num} / {value}");
 				return true;
 			}
 
-			//Debug.Log($"value {value} and index {index} is not checked");
+			//MyDebug.Log($"value {value} and index {index} is not checked");
 			return false;
 		}
 
