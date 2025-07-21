@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Network;
@@ -6,6 +5,7 @@ using UnityEngine;
 
 public class NetworkRequest : CustomYieldInstruction
 {
+    public const string RESULT_RESOURCE_KEY = "res";
     public bool IsDone { get; private set; }
     public bool Ok { get; private set; }
     public ApiResponse Response { get; private set; }
@@ -25,7 +25,7 @@ public class NetworkRequest : CustomYieldInstruction
         }
         catch (System.Exception e)
         {
-            Debug.LogError($"API 호출 실패: {e.Message}");
+            Debug.LogError($"API Call Failed: {e.Message}");
             Ok = false;
         }
         IsDone = true;

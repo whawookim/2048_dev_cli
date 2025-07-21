@@ -146,7 +146,7 @@ namespace Puzzle.UI
 					Interpolations.EaseInQuad, Interpolations.EaseOutQuad);
 				blockData.Num = moveData.Num;
 				UpdateBlock();
-				Stages.Instance.AddScore(blockData.Num);
+				StageManager.Instance.StatusController.AddScore(blockData.Num);
 			}
 
 			blockData.IsMerged = false;

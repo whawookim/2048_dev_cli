@@ -130,7 +130,7 @@ namespace Puzzle.UI
 		{
 			UISceneManager.Instance.PushOverlay(RankingPopup.Instance, new RankingPopupState()
 			{
-				CurrentStage = GameManager.Instance.CurrentStage
+				StageMode = GameManager.Instance.CurrentStage
 			}, typeof(RankingPopup));
 		}
 		

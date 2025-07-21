@@ -1,45 +1,40 @@
-using UnityEngine;
 using UnityEngine.EventSystems; // UGUI 이벤트 인터페이스를 위해 추가
 
 namespace Puzzle.Stage
 {
-	public enum StageState
+	public class StageEventController : EventTrigger
 	{
-		Start,
-		Pause,
-		Clear,
-		Fail
-	}
+		public bool IsDragging { get; private set; }
 
-	public class StageEventController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
-	{
-		private bool isDragging;
-
-		public void OnBeginDrag(PointerEventData eventData)
+		public override void OnBeginDrag(PointerEventData eventData)
 		{
+			base.OnBeginDrag(eventData);
 			// Drag 시작
-			isDragging = false;
+			IsDragging = false;
 		}
 
-		public void OnDrag(PointerEventData eventData)
+		public override void OnDrag(PointerEventData eventData)
 		{
-			if (isDragging) return;
+			base.OnDrag(eventData);
+
+			if (IsDragging) return;
 
 			if (eventData.delta.magnitude < Constants.DragThreshold) return;
 
-			isDragging = true;
+			IsDragging = true;
 
 			var direction = DirectionUtil.GetDirection(eventData.delta);
 
 			if (direction == MoveDirection.None) return;
 
 			MessageSystem.Instance.Publish(BlockMoveEvent.Create(direction));
-
 		}
 		
-		public void OnEndDrag(PointerEventData eventData)
+		public override void OnEndDrag(PointerEventData eventData)
 		{
-			isDragging = false;
+			base.OnEndDrag(eventData);
+
+			IsDragging = false;
 		}
 	}
 }

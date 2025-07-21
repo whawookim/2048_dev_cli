@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Puzzle.Data;
+using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -15,7 +15,13 @@ namespace Puzzle.UI
         /// 현재 스테이지 모드
         /// TODO: StageSpec 변환
         /// </summary>
-        public StageMode CurrentStage { get; set; }
+        public StageMode StageMode { get; set; }
+
+        /// <summary>
+        /// 랭킹을 표시할 모드 선택
+        /// </summary>
+        /// <remarks>default로 Score</remarks>
+        public RankingMode RankingMode { get; set; } = RankingMode.Score;
     }
     
     /// <summary>
@@ -40,7 +46,7 @@ namespace Puzzle.UI
        
         private LocalizedString localizedTitle = new("GameStrings", "ranking_popup_title");
         
-        private List<RankingData> rankingDataList;
+        private List<RankingData> rankingDataList = new ();
         
         #region Monobehavior
 
@@ -73,31 +79,21 @@ namespace Puzzle.UI
             
             Debug.Assert(states != null);
             
-            Debug.Log(states.CurrentStage);
+            Debug.Log(states.StageMode);
             
-            localizedTitle.Arguments = new object[] { new { stage = states.CurrentStage.ToString() }};
+            localizedTitle.Arguments = new object[] { new { stage = states.StageMode.ToString() }};
             localizedTitle.StringChanged -= OnTitleChanged;
             localizedTitle.StringChanged += OnTitleChanged;
             localizedTitle.RefreshString();
+            
+            // TODO: 캐시된 거 있으면 특정 시간동안 그대로 사용하기 기능
         }
 
         public IEnumerator OpenAnimation()
         {
-            // TODO: 서버에서 랭킹 데이터 받아오기 작업 해서 고치기
-            rankingDataList = new List<RankingData>();
-            rankingDataList.Add(new RankingData(1, "abc", 1000));
-            rankingDataList.Add(new RankingData(2, "def", 920));
-            rankingDataList.Add(new RankingData(3, "dfdf", 800));
-            rankingDataList.Add(new RankingData(4, "gdfd", 60));
-            rankingDataList.Add(new RankingData(5, "fdfdf", 19));
-            rankingDataList.Add(new RankingData(6, "fdfdf", 17));
-            rankingDataList.Add(new RankingData(7, "fdfdf", 15));
-            rankingDataList.Add(new RankingData(8, "fdfdf", 12));
-            rankingDataList.Add(new RankingData(9, "fdfdf", 11));
-            rankingDataList.Add(new RankingData(10, "fdfdf", 9));
-            rankingDataList.Add(new RankingData(11, "fdfdf", 5));
-            
-            SetUI();
+            InitUI();
+
+            _ = LoadDataAsync();
             
             yield break;
         }
@@ -117,10 +113,33 @@ namespace Puzzle.UI
         }
         #endregion
 
+        private async Task LoadDataAsync()
+        {
+            UIBlocker.Instance.SetEnabled();
+            
+            var request = RankingManager.Instance.GetRankingData(states.StageMode, states.RankingMode);
+            
+            await request;
+
+            rankingDataList = request.Result ?? new List<RankingData>();
+
+            SetUI();
+            
+            UIBlocker.Instance.SetDisabled();
+        }
+
         private void OnItemUpdated(GameObject go, int index)
         {
             var item = go.GetComponent<RankingPopupItem>();
             item.SetData(rankingDataList[index]);
+        }
+
+        public void InitUI()
+        {
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)scrollRect.transform);
+            scrollList.Init();
+            scrollList.SetItemCount(0);
+            scrollList.ResetScroll();
         }
 
         public void SetUI(bool resetScroll = true)

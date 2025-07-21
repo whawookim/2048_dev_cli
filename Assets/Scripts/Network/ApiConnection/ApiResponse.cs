@@ -11,6 +11,8 @@ namespace Network
     
     public class ApiResponse
     {
+        public const string ResponseKey = "res";
+        
         public bool ok;
         public ApiError error { get; set; }
         public Dictionary<string, object> data;

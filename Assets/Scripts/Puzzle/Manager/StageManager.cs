@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections;
+using System.Threading.Tasks;
+using Puzzle.Stage;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -22,6 +24,8 @@ namespace Puzzle
         public GameObject OriginBoardObj => _boardHandle.Result;
         
         public GameObject OriginBlockObj => _blockHandle.Result;
+        
+        public readonly StageStatusController StatusController = new ();
         
         public IEnumerator LoadAllAsync()
         {
@@ -84,6 +88,53 @@ namespace Puzzle
                 Addressables.ReleaseInstance(_blockHandle);
                 Debug.Log("Block Released!");
             }
+        }
+
+        public async Task<bool> ClearGameAsync(int score = -1, int clearTime = -1, int moveCount = -1)
+        {
+            try
+            {
+                // 서버에 Ranking 요청
+                var request = ApiConnection.EndStage(User.Me, GameManager.Instance.CurrentStage, score, clearTime,
+                    moveCount);
+                while (!request.IsDone)
+                    await Task.Yield();
+
+                if (request.Ok)
+                {
+                    Debug.Log("Stage Clear!");
+                    // TODO: 후처리?
+
+                    return true;
+                }
+                else
+                {
+                    Debug.LogError($"Clear Game Request Failed: {request.Response?.error?.code}, message {request.Response?.error?.message}");
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"Clear Game Failed: {ex.Message}");
+            }
+            
+            return false;
+        }
+
+        public void RestartGame()
+        {
+            CollectGC();
+            StatusController.RestartGame();
+        }
+
+        public void GoToLobby()
+        {
+            CollectGC();
+            GameManager.Instance.ChangeScene("Lobby", nameof(UI.LobbyMain));
+        }
+
+        public void CollectGC()
+        {
+            System.GC.Collect();
         }
     }
 }

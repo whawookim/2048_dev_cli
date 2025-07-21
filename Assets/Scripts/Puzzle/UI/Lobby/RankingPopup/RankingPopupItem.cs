@@ -1,4 +1,3 @@
-using Puzzle.Data;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ namespace Puzzle.UI
         public void SetData(RankingData data)
         {
             rankText.text = data.Rank.ToString();
-            nameText.text = data.Nickname;
+            nameText.text = data.NickName;
             scoreText.text = data.Score.ToString();
         }
     }

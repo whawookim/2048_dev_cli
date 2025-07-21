@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Localization;
@@ -7,15 +6,11 @@ namespace Puzzle.UI
 {
 	public class StageUi : MonoBehaviour
 	{
-		public static StageUi Instance { get; private set; }
-
 		[SerializeField]
 		private TextMeshProUGUI gameStatus;
 
 		[SerializeField]
 		private TextMeshProUGUI gameScore;
-
-		private int totalScore = 0;
 		
 		private readonly LocalizedString status_start = new("GameStrings", "status_start");
 		private readonly LocalizedString status_clear = new("GameStrings", "status_clear");
@@ -27,8 +22,6 @@ namespace Puzzle.UI
 #region MonoBehaviour
 		private void Awake()
 		{
-			Instance = this;
-
 			SubscribeEvent();
 		}
 		
@@ -44,8 +37,6 @@ namespace Puzzle.UI
 
 		private void OnDestroy()
 		{
-			Instance = null;
-			
 			UnsubscribeEvent(true);
 		}
 #endregion
@@ -62,19 +53,7 @@ namespace Puzzle.UI
 			MessageSystem.Instance.Unsubscribe<UpdateGameScoreEvent>(OnUpdateGameScore, deleteKey);
 		}
 
-		public void SetGameScore(int score)
-		{
-			totalScore = score;
-			UpdateGameScore();
-		}
-
-		public void AddGameScore(int score)
-		{
-			totalScore += score;
-			UpdateGameScore();
-		}
-
-		public void UpdateGameScore()
+		public void UpdateGameScoreText(int totalScore)
 		{
 			// 값 전달용 변수 바인딩
 			localizedScore.Arguments = new object[] { new { score = totalScore } };
@@ -122,14 +101,12 @@ namespace Puzzle.UI
 
 		public void OnClickRestart()
 		{
-			GC.Collect();
-			Stages.Instance.RestartGame();
+			StageManager.Instance.RestartGame();
 		}
 
 		public void OnClickLobby()
 		{
-			GC.Collect();
-			GameManager.Instance.ChangeScene("Lobby", nameof(LobbyMain));
+			StageManager.Instance.GoToLobby();
 		}
 
 		private bool OnChangeGameState(Events e)
@@ -148,15 +125,7 @@ namespace Puzzle.UI
 		{
 			if (e is UpdateGameScoreEvent ugse)
 			{
-				switch (ugse.Type)
-				{
-					case UpdateGameScoreType.Add:
-						AddGameScore(ugse.Value);
-						break;
-					case UpdateGameScoreType.Set:
-						SetGameScore(ugse.Value);
-						break;
-				}
+				UpdateGameScoreText(ugse.Value);
 				return true;
 			}
 

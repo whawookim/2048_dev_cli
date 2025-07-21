@@ -65,11 +65,13 @@ namespace Puzzle.UI
 		private void SubscribeEvent()
 		{
 			MessageSystem.Instance.Subscribe<BlockMoveEvent>(OnMoveBlockEvent);
+			MessageSystem.Instance.Subscribe<ResetBoardEvent>(OnResetBoard);
 		}
 
 		private void UnsubscribeEvent(bool deleteKey = false)
 		{
 			MessageSystem.Instance.Unsubscribe<BlockMoveEvent>(OnMoveBlockEvent, deleteKey);
+			MessageSystem.Instance.Unsubscribe<ResetBoardEvent>(OnResetBoard);
 		}
 
 		public void InitOriginResource(GameObject originBoardObj, GameObject originBlockObj)
@@ -460,6 +462,9 @@ namespace Puzzle.UI
 				yield break;
 			}
 
+			// 움직인 횟수 기록용
+			StageManager.Instance.StatusController.AddMoveCount(1);
+
 			yield return new WaitUntil(() => blockDictCount == dontMoveCount + moveResCount);
 
 			UIBlocker.Instance.SetDisabled();
@@ -467,7 +472,7 @@ namespace Puzzle.UI
 			if (isGameClear)
 			{
 				moveCoroutine = null;
-				Stages.Instance.ClearGame();
+				StageManager.Instance.StatusController.ClearGame();
 				yield break;
 			}
 
@@ -496,7 +501,7 @@ namespace Puzzle.UI
 
 			if (CheckGameOver())
 			{
-				Stages.Instance.EndGame();
+				StageManager.Instance.StatusController.GameFail();
 			}
 		}
 
@@ -599,6 +604,18 @@ namespace Puzzle.UI
 				default:
 					return 0;
 			}
+		}
+		
+		private bool OnResetBoard(Events e)
+		{
+			if (e is ResetBoardEvent rbe)
+			{
+				HideBlocks();
+				Reset();
+				return true;
+			}
+
+			return false;
 		}
 	}
 }

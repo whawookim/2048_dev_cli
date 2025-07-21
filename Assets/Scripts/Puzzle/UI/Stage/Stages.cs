@@ -1,5 +1,4 @@
 using System.Collections;
-using Puzzle.Stage;
 using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -112,7 +111,9 @@ namespace Puzzle
 
 		void IUIScene.Begin()
 		{
-			StartGame();
+			StageManager.Instance.StatusController.StartGame();
+			
+			boardManager.Init(GameManager.Instance.CurrentStage);
 		}
 
 		void IUIScene.Resume(object result)
@@ -143,49 +144,7 @@ namespace Puzzle
 		{
 			boardManager.InitOriginResource(originBoard, originBlock);
 		}
-
-		public void SetScore(int score)
-		{
-			MessageSystem.Instance.Publish(UpdateGameScoreEvent.Create(UpdateGameScoreType.Set, score));
-		}
-
-		public void AddScore(int score)
-		{
-			MessageSystem.Instance.Publish(UpdateGameScoreEvent.Create(UpdateGameScoreType.Add, score));
-		}
-
-		public void StartGame()
-		{
-			// TODO: Analyitcs 테스트 (실제 필요한 걸로 바꾸기)
-			Firebase.Analytics.FirebaseAnalytics.LogEvent(Firebase.Analytics.FirebaseAnalytics.EventLevelStart);
-			
-			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
-			SetScore(0);
-
-			boardManager.Init(GameManager.Instance.CurrentStage);
-		}
-
-		public void RestartGame()
-		{
-			// Board는 그대로 두고 블록들만 꺼주고 비우기
-			boardManager.HideBlocks();
-
-			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Start));
-			SetScore(0);
-
-			boardManager.Reset();
-		}
-
-		public void EndGame()
-		{
-			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Fail));
-		}
-
-		public void ClearGame()
-		{
-			MessageSystem.Instance.Publish(ChangeGameStateEvent.Create(StageState.Clear));
-		}
-
+		
 		/// <summary>
 		/// x, y 인덱스(zero-based)로 찾은 board 위치
 		/// </summary>

@@ -1,16 +1,29 @@
-namespace Puzzle.Data
+using System.Collections.Generic;
+
+namespace Puzzle
 {
     public struct RankingData
     {
         public int Rank;
-        public string Nickname;
+        public string NickName;
         public int Score;
+        public int ClearTime;
+        public int MoveCount;
 
-        public RankingData(int rank, string nickname, int score)
+        public void SetRank(int rank)
         {
             Rank = rank;
-            Nickname = nickname;
-            Score = score;
+        }
+
+        public static RankingData Populate(Dictionary<string, object> data)
+        {
+            var resData = new RankingData();
+            resData.NickName = data.Populate(nameof(NickName), resData.NickName);
+            resData.Score = data.Populate(nameof(Score), resData.Score);
+            resData.ClearTime = data.Populate(nameof(ClearTime), resData.ClearTime);
+            resData.MoveCount = data.Populate(nameof(MoveCount), resData.MoveCount);
+            
+            return resData;
         }
     }
 }
