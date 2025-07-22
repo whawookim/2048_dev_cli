@@ -1,37 +1,30 @@
+using System.Threading.Tasks;
 using Firebase;
 using Firebase.Analytics;
 using Firebase.Crashlytics;
-using UnityEngine;
 
-public class FirebaseManager
+public static class FirebaseManager
 {
-    private static FirebaseManager instnace;
-    
-    public static FirebaseManager Instance => instnace ??= new FirebaseManager();
-    
     /// <summary>
     /// Analytics 초기화
     /// </summary>
-    public void Init()
+    public static async Task InitializeAsync()
     {
-        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
-        {
-            if (task.Result == DependencyStatus.Available)
-            {
-                FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
-                MyDebug.Log("Firebase Analytics initialized.");
-                
-                // Crashlytics 초기화 및 테스트 로그
-                Crashlytics.Log("Firebase Crashlytics initialized!");
+        var task = FirebaseApp.CheckAndFixDependenciesAsync();
 
-                // 강제 오류 테스트 (비치명적)
-                Crashlytics.Log("Triggering test non-fatal error");
-                Crashlytics.LogException(new System.Exception("This is a test non-fatal exception."));
-            }
-            else
-            {
-                MyDebug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
-            }
-        });
+        await task;
+        
+        if (task.Result == DependencyStatus.Available)
+        {
+            FirebaseAnalytics.SetAnalyticsCollectionEnabled(true);
+            MyDebug.Log("Firebase Analytics initialized.");
+
+            Crashlytics.IsCrashlyticsCollectionEnabled = true;
+            MyDebug.Log("Firebase Crashlytics initialized!");
+        }
+        else
+        {
+            MyDebug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+        }
     }
 }

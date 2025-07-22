@@ -11,11 +11,10 @@ namespace Puzzle
 	{
 		public static GameManager Instance { get; private set; }
 
-		[field: SerializeField]
-		public StageMode CurrentStage { get; private set; } = StageMode.Stage3x3;
-
 		private readonly List<IAddressableManager> addressableManagers = new List<IAddressableManager>();
 
+		public readonly InputManager InputManager = new ();
+		
 		#region MonoBehaviour
 		
 		private void Awake()
@@ -33,30 +32,38 @@ namespace Puzzle
 		/// <summary>
 		/// 게임의 시작 부분
 		/// </summary>
-		void Start()
+		private void Start()
 		{
 			_ = InitAsync();
 		}
-		
+
 		#endregion
 
 		private async Task InitAsync()
 		{
 			LoadingScreen.Instance.SetEnabled(true);
+
+			// inputManager UpdateFrame 추가
+			UpdateFrameManager.Instance.AddUpdatable(InputManager);
 			
 			// Firebase RemoteConfig에서 설정한 LogLevel로 MyDebug CurrentLevel 제어
 			// Unity 내부 Debug.Exception이나 Assert를 Crashlytics로 호출될 수 있게 초기화.
 			// 무조건 한번만 불리게 하자.
 			await MyDebug.InitializeAsync();
 			
+			// Firebase Analytics Init
+			await FirebaseManager.InitializeAsync();
+
 			// 광고 초기화
 			AdManager.Instance.Init();
-
-			// Firebase Analytics Init
-			FirebaseManager.Instance.Init();
 			
 			// 시작 씬 이동
-			ChangeScene("Lobby", nameof(TitleScreen));
+			ChangeScene(UnityScene.Lobby, new UITransition()
+			{
+				NextScene = TitleScreen.Instance,
+				NextSceneType = typeof(TitleScreen),
+				TransitionType = UITransitionType.Push,
+			});
 		}
 
 		/// <summary>
@@ -66,7 +73,9 @@ namespace Puzzle
 		public void RegisterManger(IAddressableManager manager)
 		{
 			if (!addressableManagers.Contains(manager))
+			{
 				addressableManagers.Add(manager);
+			}
 		}
 
 		/// <summary>
@@ -78,29 +87,22 @@ namespace Puzzle
 			{
 				manager.Release();
 			}
-			addressableManagers.Clear();
-		}
 
-		/// <summary>
-		/// 현재 선택한 스테이지 변경
-		/// </summary>
-		public void ChangeStage(StageMode mode)
-		{
-			CurrentStage = mode;
+			addressableManagers.Clear();
 		}
 
 		/// <summary>
 		/// 씬 이동
 		/// </summary>
-		public void ChangeScene(string sceneName, string uiSceneName = null)
+		public void ChangeScene(UnityScene unitySceneEnum, UITransition transition)
 		{
-			CoroutineManager.Instance.Run(ChangeSceneAsync(sceneName, uiSceneName));
+			CoroutineManager.Instance.Run(ChangeSceneAsync(unitySceneEnum, transition));
 		}
 
 		/// <summary>
 		/// 씬 이동 Async
 		/// </summary>
-		public IEnumerator ChangeSceneAsync(string unitySceneName, string uiSceneName)
+		public IEnumerator ChangeSceneAsync(UnityScene unitySceneEnum, UITransition transition)
 		{
 			UI.LoadingScreen.Instance.SetEnabled(true);
 
@@ -114,7 +116,7 @@ namespace Puzzle
 			ReleaseAll();
 			
 			// 4) 새 씬 로드 (이전 씬 자동 언로드)
-			yield return SceneManager.LoadSceneAsync(unitySceneName);
+			yield return SceneManager.LoadSceneAsync(unitySceneEnum.ToString());
 			
 			// 5) 사용되지 않는 에셋 해제
 			Resources.UnloadUnusedAssets();
@@ -124,44 +126,16 @@ namespace Puzzle
 			
 			// 7) Event용으로 쓰였던 ObjectPool 해제
 			TinyObjectPool.ClearAll();
+			
+			// 8) Addressable 로드할 것들 로드
+			var addressableManager = UnitySceneManager.GetAddressableManager(unitySceneEnum);
 
-			if (unitySceneName == "Lobby")
+			if (addressableManager != null)
 			{
-				yield return LobbyManager.Instance.LoadAllAsync();
-
-				if (uiSceneName == nameof(TitleScreen))
-				{
-					UISceneManager.Instance.SetTransition(new UITransition()
-					{
-						NextScene = TitleScreen.Instance,
-						NextSceneType = typeof(TitleScreen),
-						TransitionType = UITransitionType.Push,
-					});
-				}
-				else if (uiSceneName == nameof(LobbyMain))
-				{
-					UISceneManager.Instance.SetTransition(new UITransition()
-					{
-						NextScene = LobbyMain.Instance,
-						NextSceneType = typeof(LobbyMain),
-						TransitionType = UITransitionType.Push,
-					});
-				}
+				yield return addressableManager.LoadAllAsync();
 			}
-			else if (unitySceneName == "Stage")
-			{
-				yield return StageManager.Instance.LoadAllAsync();
 
-				if (uiSceneName == nameof(Stages))
-				{
-					UISceneManager.Instance.SetTransition(new UITransition()
-					{
-						NextScene = Stages.Instance,
-						NextSceneType = typeof(Stages),
-						TransitionType = UITransitionType.Push,
-					});
-				}
-			}
+			UISceneManager.Instance.SetTransition(transition);
 
 			// 씬 트랜지션 끝날때까지 대기
 			yield return new WaitUntil(() => UISceneManager.Instance.CurrentTransition == null);

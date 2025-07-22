@@ -79,6 +79,10 @@ MonoBehaviour:
     m_Key: idp_choice_popup_title
     m_Metadata:
       m_Items: []
+  - m_Id: 14873589767286784
+    m_Key: ranking_empty
+    m_Metadata:
+      m_Items: []
   m_Metadata:
     m_Items: []
   m_KeyGenerator:

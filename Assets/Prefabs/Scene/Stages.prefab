@@ -1353,4 +1353,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0317b95437e946ef9e2e518ac38c8753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardManager: {fileID: 8389119942759793371}
+  boardUI: {fileID: 8389119942759793371}
+  stageUI: {fileID: 832942681138080128}

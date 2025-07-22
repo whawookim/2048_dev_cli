@@ -641,7 +641,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659554f97c14c53b3dd3b19fe5280c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mode: 2
+  <Mode>k__BackingField: 2
 --- !u!114 &3571755796372193019
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1213,7 +1213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659554f97c14c53b3dd3b19fe5280c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mode: 1
+  <Mode>k__BackingField: 1
 --- !u!114 &799853136856721139
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1920,7 +1920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c659554f97c14c53b3dd3b19fe5280c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Mode: 0
+  <Mode>k__BackingField: 0
 --- !u!114 &4849130854637032251
 MonoBehaviour:
   m_ObjectHideFlags: 0

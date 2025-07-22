@@ -29,7 +29,7 @@ namespace Puzzle
         
         public IEnumerator LoadAllAsync()
         {
-            _stageHandle = Addressables.InstantiateAsync(nameof(Stages));
+            _stageHandle = Addressables.InstantiateAsync(nameof(UI.Stages));
             yield return _stageHandle;
 
             if (_stageHandle.Status == AsyncOperationStatus.Succeeded)
@@ -90,12 +90,12 @@ namespace Puzzle
             }
         }
 
-        public async Task<bool> ClearGameAsync(int score = -1, int clearTime = -1, int moveCount = -1)
+        public async Task<bool> ClearGameAsync(StageMode stageMode, int score = -1, int clearTime = -1, int moveCount = -1)
         {
             try
             {
                 // 서버에 Ranking 요청
-                var request = ApiConnection.EndStage(User.Me, GameManager.Instance.CurrentStage, score, clearTime,
+                var request = ApiConnection.EndStage(User.Me, stageMode, score, clearTime,
                     moveCount);
                 while (!request.IsDone)
                     await Task.Yield();
@@ -129,7 +129,16 @@ namespace Puzzle
         public void GoToLobby()
         {
             CollectGC();
-            GameManager.Instance.ChangeScene("Lobby", nameof(UI.LobbyMain));
+            GameManager.Instance.ChangeScene(UnityScene.Lobby, new UI.UITransition()
+            {
+                NextScene = UI.LobbyMain.Instance,
+                NextSceneType = typeof(UI.LobbyMain),
+                TransitionType = UI.UITransitionType.Push,
+                SavedState = new UI.LobbyMainState()
+                {
+                    CurrentStageMode = StatusController.CurrentStageMode
+                }
+            });
         }
 
         public void CollectGC()
