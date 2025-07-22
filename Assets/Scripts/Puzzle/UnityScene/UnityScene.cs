@@ -27,7 +27,7 @@ namespace Puzzle
             return null;
         }
         
-        public static IAddressableManager GetAddressableManager(UnityScene unityScene)
+        public static IAddressableManager GetAddressableManager(this UnityScene unityScene)
         {
             switch (unityScene)
             {

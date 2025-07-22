@@ -139,8 +139,8 @@ namespace Puzzle
 			// 7) Event용으로 쓰였던 ObjectPool 해제
 			TinyObjectPool.ClearAll();
 			
-			// 8) Addressable 로드할 것들 로드
-			var addressableManager = UnitySceneManager.GetAddressableManager(unitySceneEnum);
+			// 8) Addressable 로드할 것들 로드 (씬은 SetTransition 과정에서 로드함. 그 외의 것들 할 것)
+			var addressableManager = unitySceneEnum.GetAddressableManager();
 
 			if (addressableManager != null)
 			{
