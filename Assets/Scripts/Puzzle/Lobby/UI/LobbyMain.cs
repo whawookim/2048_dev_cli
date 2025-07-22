@@ -126,11 +126,7 @@ namespace Puzzle.UI
 
 		public void OnClickEndButton()
 		{
-#if UNITY_EDITOR
-			UnityEditor.EditorApplication.isPlaying = false;
-#else
-			Application.Quit();
-#endif
+			GameManager.Instance.QuitGame();
 		}
 
 		public void OnClickRankingButton()

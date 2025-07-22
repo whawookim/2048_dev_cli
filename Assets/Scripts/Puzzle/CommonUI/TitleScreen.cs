@@ -103,11 +103,7 @@ namespace Puzzle
         /// </summary>
         public void OnCLickEndButton()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-			Application.Quit();
-#endif
+            GameManager.Instance.QuitGame();
         }
         
         /// <summary>

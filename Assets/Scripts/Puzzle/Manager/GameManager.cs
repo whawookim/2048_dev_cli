@@ -92,6 +92,18 @@ namespace Puzzle
 		}
 
 		/// <summary>
+		/// 게임 종료 함수
+		/// </summary>
+		public void QuitGame()
+		{
+#if UNITY_EDITOR
+			UnityEditor.EditorApplication.isPlaying = false;
+#else
+			Application.Quit();
+#endif
+		}
+
+		/// <summary>
 		/// 씬 이동
 		/// </summary>
 		public void ChangeScene(UnityScene unitySceneEnum, UITransition transition)
