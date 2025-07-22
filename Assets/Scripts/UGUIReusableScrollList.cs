@@ -29,6 +29,9 @@ public class UGUIReusableScrollList : MonoBehaviour
     public void Init()
     {
         Clear();
+        
+        // 원본 게임오브젝트는 꺼져도 됨.
+        itemPrefab.SetActive(false);
 
         if (itemPrefab.TryGetComponent(out LayoutElement layout))
         {

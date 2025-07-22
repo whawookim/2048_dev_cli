@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Puzzle
 {
@@ -38,13 +39,17 @@ namespace Puzzle
 
                 if (request.Ok && request.Result != null &&
                     request.Result.TryGetValue(NetworkRequest.RESULT_RESOURCE_KEY, out var resObj) &&
-                    resObj is List<object> resList)
+                    resObj is JArray resList)
                 {
                     var rankingDataList = new List<RankingData>();
 
                     for (int i = 0; i < resList.Count; i++)
                     {
-                        var data = RankingData.Populate(resList[i] as Dictionary<string, object>);
+                        var dataDict = (resList[i] as JObject)?.ToObject<Dictionary<string, object>>();
+                        if (dataDict == null)
+                            continue;
+                        
+                        var data = RankingData.Populate(dataDict);
                         data.SetRank(i + 1);
                         rankingDataList.Add(data);
                     }

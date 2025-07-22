@@ -43,6 +43,9 @@ namespace Puzzle.UI
 
         [SerializeField]
         private UGUIReusableScrollList scrollList;
+
+        [SerializeField]
+        private GameObject emptyObj;
        
         private LocalizedString localizedTitle = new("GameStrings", "ranking_popup_title");
         
@@ -152,6 +155,8 @@ namespace Puzzle.UI
             {
                 scrollList.ResetScroll();
             }
+            
+            emptyObj.SetActive(rankingDataList.Count <= 0);
         }
 
         public void OnTitleChanged(string localizedValue)
