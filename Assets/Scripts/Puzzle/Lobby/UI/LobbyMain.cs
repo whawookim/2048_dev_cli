@@ -13,6 +13,8 @@ namespace Puzzle.UI
 	/// </summary>
 	public class LobbyMain : MonoBehaviour, IUIScene
 	{
+		public string AddressableName => nameof(LobbyMain);
+
 		public static LobbyMain Instance { get; private set; }
 
 		private int stageIndex = 0;

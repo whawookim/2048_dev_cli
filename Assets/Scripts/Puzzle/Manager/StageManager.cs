@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Puzzle.Stage;
 using UnityEngine.AddressableAssets;
@@ -14,80 +15,66 @@ namespace Puzzle
     {
         private static StageManager _instance;
         public static StageManager Instance => _instance ??= new StageManager();
-
-        private AsyncOperationHandle<GameObject> _stageHandle;
-
-        private AsyncOperationHandle<GameObject> _boardHandle;
-
-        private AsyncOperationHandle<GameObject> _blockHandle;
         
-        public GameObject OriginBoardObj => _boardHandle.Result;
+        private List<GameObject> loadedObjectList = new List<GameObject>();
         
-        public GameObject OriginBlockObj => _blockHandle.Result;
+        public GameObject OriginBoardObj { get; private set; }
+        
+        public GameObject OriginBlockObj { get; private set; }
         
         public readonly StageStatusController StatusController = new ();
         
         public IEnumerator LoadAllAsync()
         {
-            _stageHandle = Addressables.InstantiateAsync(nameof(UI.Stages));
-            yield return _stageHandle;
+            // 매니저 등록
+            GameManager.Instance.RegisterManger(this);
+            
+            var boardHandle = Addressables.InstantiateAsync(nameof(UI.Board));
+            yield return boardHandle;
 
-            if (_stageHandle.Status == AsyncOperationStatus.Succeeded)
+            if (boardHandle.Status == AsyncOperationStatus.Succeeded)
             {
-                MyDebug.Log("Stage Loaded!");
-                
-                _boardHandle = Addressables.InstantiateAsync(nameof(UI.Board));
-                yield return _boardHandle;
-
-                if (_boardHandle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    MyDebug.Log("Board Loaded!");
-                }
-                else
-                {
-                    MyDebug.LogError("Board Load Failed!");
-                }
-                
-                _blockHandle = Addressables.InstantiateAsync(nameof(UI.Block));
-                yield return _blockHandle;
-
-                if (_blockHandle.Status == AsyncOperationStatus.Succeeded)
-                {
-                    MyDebug.Log("Block Loaded!");
-                }
-                else
-                {
-                    MyDebug.LogError("Block Load Failed!");
-                }
+                MyDebug.Log("Board Loaded!");
+                loadedObjectList.Add(boardHandle.Result);
+                OriginBoardObj = boardHandle.Result;
             }
             else
             {
-                MyDebug.LogError("Stage Load Failed!");
+                MyDebug.LogError("Board Load Failed!");
             }
-            
-            // 매니저 등록
-            GameManager.Instance.RegisterManger(this);
+                
+            var blockHandle = Addressables.InstantiateAsync(nameof(UI.Block));
+            yield return blockHandle;
+
+            if (blockHandle.Status == AsyncOperationStatus.Succeeded)
+            {
+                MyDebug.Log("Block Loaded!");
+                loadedObjectList.Add(blockHandle.Result);
+                OriginBlockObj = blockHandle.Result;
+            }
+            else
+            {
+                MyDebug.LogError("Block Load Failed!");
+            }
         }
 
         public void Release()
         {
-            if (_stageHandle.IsValid())
+            foreach (var handleObj in loadedObjectList)
             {
-                Addressables.ReleaseInstance(_stageHandle);
-                MyDebug.Log("Stage Released!");
+                if (handleObj != null)
+                {
+                    MyDebug.Log($"{handleObj.name} Released");
+                    Addressables.ReleaseInstance(handleObj);
+                }
             }
             
-            if (_boardHandle.IsValid())
-            {
-                Addressables.ReleaseInstance(_boardHandle);
-                MyDebug.Log("Board Released!");
-            }
-            
-            if (_blockHandle.IsValid())
-            {
-                Addressables.ReleaseInstance(_blockHandle);
-                MyDebug.Log("Block Released!");
-            }
+            loadedObjectList.Clear();
+        }
+
+        public void AddLoadedObject(GameObject obj)
+        {
+            loadedObjectList.Add(obj);
         }
 
         public async Task<bool> ClearGameAsync(StageMode stageMode, int score = -1, int clearTime = -1, int moveCount = -1)

@@ -84,8 +84,8 @@
     <Compile Include="Assets\Scripts\Common\Manager\CoroutineManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\CommonUI\LoadingScreen.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\IDPChoiceButton.cs" />
-    <Compile Include="Assets\GoogleSignIn\GoogleSignInStatusCode.cs" />
     <Compile Include="Assets\Scripts\Common\Locale\LocaleSelector.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInStatusCode.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\RankingPopup.cs" />
     <Compile Include="Assets\GoogleSignIn\GoogleSignInUser.cs" />
     <Compile Include="Assets\GoogleSignIn\GoogleSignInConfiguration.cs" />
@@ -522,6 +522,9 @@
     <Reference Include="Firebase.App">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.App.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.RemoteConfig">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.RemoteConfig.dll</HintPath>
+    </Reference>
     <Reference Include="Firebase.TaskExtension">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.TaskExtension.dll</HintPath>
     </Reference>
@@ -554,9 +557,6 @@
     </Reference>
     <Reference Include="Google.MiniJson">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Google.MiniJson.dll</HintPath>
-    </Reference>
-    <Reference Include="Firebase.RemoteConfig">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.RemoteConfig.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>

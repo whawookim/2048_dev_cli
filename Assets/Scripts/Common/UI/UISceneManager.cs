@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -190,6 +191,12 @@ namespace Puzzle
 				Debug.Assert(transition.NextSceneType != null);
 				
 				yield return LoadUIAsset(transition.NextSceneType);
+				
+				// 로드가 완료되면 Awake() 에서 스태틱 Instance 를 세팅함
+				transition.NextScene = transition.NextSceneType
+					.GetProperty("Instance")?.GetValue(null) as IUIScene;
+
+				Debug.Assert(transition.NextScene != null, "UI 씬을 로드할 수 없음!");
 			}
 			
 			var nextScene = transition.NextScene;
@@ -258,7 +265,7 @@ namespace Puzzle
 		
 		private IEnumerator LoadUIAsset(Type assetType)
 		{
-			var addressableName = assetType.GetProperty("AddressableName")?.GetValue(null);
+			var addressableName = assetType.GetProperty("AddressableName")?.GetValue(null) as string;
 
 			if (addressableName == null)
 			{
@@ -266,8 +273,10 @@ namespace Puzzle
 
 				yield break;
 			}
-			
+
+			var addressableManager = UnitySceneManager.GetCurrentAddressableManager();
 			var handle = Addressables.InstantiateAsync(addressableName);
+
 			yield return handle;
 
 			if (handle.Status != AsyncOperationStatus.Succeeded)
@@ -282,6 +291,8 @@ namespace Puzzle
 				MyDebug.LogError($"{assetType} does not have the 'Prefab' property.");
 				yield break;
 			}
+			
+			addressableManager.AddLoadedObject(prefab);
 			
 			var assetInstance = assetType.GetProperty("Instance")?.GetValue(null);
 

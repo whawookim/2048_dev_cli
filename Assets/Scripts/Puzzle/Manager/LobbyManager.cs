@@ -1,9 +1,9 @@
 using System.Collections;
-using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Puzzle
 {
@@ -15,49 +15,24 @@ namespace Puzzle
         private static LobbyManager _instance;
         public static LobbyManager Instance => _instance ??= new LobbyManager();
         
-        private List<GameObject> _lobbyObjectList = new List<GameObject>();
+        private List<GameObject> loadedObjectList = new List<GameObject>();
 
         public IEnumerator LoadAllAsync()
         {
-            // 매니저 등록
+            // 매니저 등록 (등록 이미 된 경우 거름)
             GameManager.Instance.RegisterManger(this);
 
-            var loadList = new List<AsyncOperationHandle<GameObject>>()
-            {
-                Addressables.InstantiateAsync(nameof(TitleScreen)),
-                Addressables.InstantiateAsync(nameof(LobbyMain)),
-            };
-
-            foreach (var handle in loadList)
-            {
-                yield return handle;
-                
-                if (handle.Result != null)
-                {
-                    _lobbyObjectList.Add(handle.Result);
-                    handle.Result.SetActive(false);
-                }
-            }
+            yield break;
         }
         
-        /// <summary>
-        /// Lobby 로드
-        /// </summary>
-        public IEnumerator LoadAsync(string key)
+        public void AddLoadedObject(GameObject obj)
         {
-            // Addressable 로드
-            var handle = Addressables.InstantiateAsync(key);
-            yield return handle;
-
-            if (handle.Status == AsyncOperationStatus.Succeeded)
-                MyDebug.Log($"{key} Loaded!");
-            else
-                MyDebug.LogError($"{key} Load Failed!");
+            loadedObjectList.Add(obj);
         }
         
         public void Release()
         {
-            foreach (var handleObj in _lobbyObjectList)
+            foreach (var handleObj in loadedObjectList)
             {
                 if (handleObj != null)
                 {
@@ -66,7 +41,7 @@ namespace Puzzle
                 }
             }
             
-            _lobbyObjectList.Clear();
+            loadedObjectList.Clear();
         }
     }
 }

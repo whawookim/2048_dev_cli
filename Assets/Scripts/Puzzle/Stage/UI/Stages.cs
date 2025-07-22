@@ -23,6 +23,8 @@ namespace Puzzle.UI
 
 		private StagesState states;
 
+		public string AddressableName => nameof(Stages);
+
 #region MonoBehaviour
 		private void Awake()
 		{
@@ -59,6 +61,7 @@ namespace Puzzle.UI
 
 		void IUIScene.Begin()
 		{
+			stageUI.SubscribeEvent();
 			StageManager.Instance.StatusController.StartGame();
 			boardUI.Init(states.CurrentStageMode);
 		}
@@ -66,17 +69,16 @@ namespace Puzzle.UI
 		void IUIScene.Resume(object result)
 		{
 			GameManager.Instance.InputManager.EscapeCallback += stageUI.OnClickLobby;
-			stageUI.SubscribeEvent();
 		}
 
 		void IUIScene.Pause()
 		{
 			GameManager.Instance.InputManager.EscapeCallback -= stageUI.OnClickLobby;
-			stageUI.UnsubscribeEvent(true);
 		}
 
 		void IUIScene.Finish()
 		{
+			stageUI.UnsubscribeEvent(true);
 		}
 
 		object IUIScene.GetState()

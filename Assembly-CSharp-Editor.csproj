@@ -457,6 +457,9 @@
     <Reference Include="Unity.Plastic.Antlr3.Runtime">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.RemoteConfig">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.RemoteConfig.dll</HintPath>
+    </Reference>
     <Reference Include="DOTweenEditor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Plugins\Demigiant\DOTween\Editor\DOTweenEditor.dll</HintPath>
     </Reference>
@@ -516,9 +519,6 @@
     </Reference>
     <Reference Include="Firebase.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Editor\Firebase.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Firebase.RemoteConfig">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.RemoteConfig.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\PlaybackEngines\iOSSupport\UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
