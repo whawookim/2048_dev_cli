@@ -10,6 +10,6 @@ public partial class ApiConnection
             { "NewNickname", newNickName },
         };
 
-        return new NetworkRequest(ApiClient.SendAsync("/api/change-nickname", requestData));
+        return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/change-nickname", requestData));
     }
 }

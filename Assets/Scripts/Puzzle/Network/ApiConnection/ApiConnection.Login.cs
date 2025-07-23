@@ -11,7 +11,7 @@ public static partial class ApiConnection
             { "Token", token }
         };
 
-        return new NetworkRequest(ApiClient.SendAsync("/api/login", requestData));
+        return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/login", requestData));
     }
     
     public static NetworkRequest Bind(string userId, LoginType loginType)
@@ -22,7 +22,7 @@ public static partial class ApiConnection
             { "LoginType", loginType },
         };
 
-        return new NetworkRequest(ApiClient.SendAsync("/api/bind", requestData));
+        return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/bind", requestData));
     }
     
     public static NetworkRequest Unbind(string userId, LoginType loginType)
@@ -33,6 +33,6 @@ public static partial class ApiConnection
             { "LoginType", loginType },
         };
 
-        return new NetworkRequest(ApiClient.SendAsync("/api/unbind", requestData));
+        return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/unbind", requestData));
     }
 }

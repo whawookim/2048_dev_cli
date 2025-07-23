@@ -1,8 +1,6 @@
 using UnityEngine;
-using Firebase.Crashlytics;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Debug = UnityEngine.Debug;
 
 public static class MyDebug
@@ -18,9 +16,9 @@ public static class MyDebug
     // 현재 로그 출력 레벨 (RemoteConfig 등으로 설정)
     public static LogLevel CurrentLevel = LogLevel.Log;
 
-    public static async Task InitializeAsync()
+    public static void Initialize()
     {
-        await MyDebugConfigLoader.InitDebugRemoteConfigAsync();
+        MyDebugConfig.InitDebugRemoteConfig();
         
 #if !UNITY_EDITOR
         Application.logMessageReceived += HandleApplicationLog;

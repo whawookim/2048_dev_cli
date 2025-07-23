@@ -13,7 +13,7 @@ public static partial class ApiConnection
             { "Type", rankingMode.ToCamelCase() },
         };
 
-        return new NetworkRequest(ApiClient.SendAsync("/api/ranking", requestData, 
-            UnityEngine.Networking.UnityWebRequest.kHttpVerbGET));
+        return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/ranking", requestData,
+            Network.HttpMethod.GET));
     }
 }

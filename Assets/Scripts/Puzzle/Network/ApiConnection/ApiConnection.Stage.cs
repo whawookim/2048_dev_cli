@@ -17,6 +17,6 @@ public static partial class ApiConnection
             { "MoveCount", moveCount },
         };
 
-        return new NetworkRequest(ApiClient.SendAsync("/api/stage/end", requestData));
+        return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/stage/end", requestData));
     }
 }

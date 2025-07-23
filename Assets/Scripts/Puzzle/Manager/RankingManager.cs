@@ -38,7 +38,7 @@ namespace Puzzle
                     await Task.Yield();
 
                 if (request.Ok && request.Result != null &&
-                    request.Result.TryGetValue(NetworkRequest.RESULT_RESOURCE_KEY, out var resObj) &&
+                    request.Result.TryGetValue(Network.ApiResponse.ResponseKey, out var resObj) &&
                     resObj is JArray resList)
                 {
                     var rankingDataList = new List<RankingData>();

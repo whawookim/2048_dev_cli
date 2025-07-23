@@ -55,6 +55,7 @@
     <Compile Include="Assets\Scripts\Common\UI\UGUIReusableScrollList.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Constants\Constants.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\Interface\IAddressableManager.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\HttpMethod.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\BoardUI.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiDeltaDispatcher.cs" />
     <Compile Include="Assets\Scripts\Common\Manager\FontManager.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets\Scripts\Common\Animation\Interpolations.cs" />
     <Compile Include="Assets\GoogleSignIn\GoogleSignIn.cs" />
     <Compile Include="Assets\Scripts\Common\Json\JsonUtils.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\StaticApiClient.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\StageCardUI.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\StageMode.cs" />
     <Compile Include="Assets\Scripts\Common\Login\IDPPlatformSupportUtil.cs" />
@@ -92,7 +94,6 @@
     <Compile Include="Assets\GoogleSignIn\GoogleSignInConfiguration.cs" />
     <Compile Include="Assets\Scripts\Plugins\Firebase\FirebaseManager.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Flow\UIFlowManager.cs" />
-    <Compile Include="Assets\Scripts\Common\Debug\MyDebugConfigLoader.cs" />
     <Compile Include="Assets\GoogleSignIn\Impl\NativeFuture.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\RankingManager.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Flow\UIOverlayManager.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Assets\Scripts\Puzzle\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Board.cs" />
     <Compile Include="Assets\Scripts\Common\Animation\UIAnimations.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\ApiConfig.cs" />
     <Compile Include="Assets\Scripts\Common\Network\ApiClient.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.User.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\ObjectPool.cs" />
@@ -127,7 +129,9 @@
     <Compile Include="Assets\Scripts\Plugins\AdMob\AdManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Login.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Overlay\IUIOverlay.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\IApiClient.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.cs" />
+    <Compile Include="Assets\Scripts\Common\Debug\MyDebugConfig.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Ranking.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\PooledObject.cs" />
     <Compile Include="Assets\Scripts\Common\Login\LoginManager.cs" />

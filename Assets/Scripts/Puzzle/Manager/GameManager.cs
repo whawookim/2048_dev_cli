@@ -44,14 +44,17 @@ namespace Puzzle
 
 			// inputManager UpdateFrame 추가
 			UpdateFrameManager.Instance.AddUpdatable(InputManager);
-			
+
+            // Firebase Analytics, Crashlytics, RemoteConfig Init
+            await FirebaseManager.InitializeAsync();
+
 			// Firebase RemoteConfig에서 설정한 LogLevel로 MyDebug CurrentLevel 제어
 			// Unity 내부 Debug.Exception이나 Assert를 Crashlytics로 호출될 수 있게 초기화.
 			// 무조건 한번만 불리게 하자.
-			await MyDebug.InitializeAsync();
-			
-			// Firebase Analytics Init
-			await FirebaseManager.InitializeAsync();
+            MyDebug.Initialize();
+
+            // RemoteConfig의 API Base Url 가져오고 난 후 세팅
+            Network.StaticApiClient.Initialize();
 
 			// 광고 초기화
 			AdManager.Instance.Init();

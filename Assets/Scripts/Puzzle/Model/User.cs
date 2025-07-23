@@ -15,6 +15,6 @@ public class User : IPatchable
     
     public void ApplyPatch(IDictionary<string, object> jsonObject)
     {
-        PatchHelper.ApplyPatch(this, jsonObject);
+        Network.PatchHelper.ApplyPatch(this, jsonObject);
     }
 }

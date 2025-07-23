@@ -2,6 +2,8 @@ using System.Threading.Tasks;
 using Firebase;
 using Firebase.Analytics;
 using Firebase.Crashlytics;
+using Firebase.RemoteConfig;
+using Firebase.Extensions;
 
 public static class FirebaseManager
 {
@@ -25,6 +27,30 @@ public static class FirebaseManager
         else
         {
             MyDebug.LogError("Could not resolve all Firebase dependencies: " + task.Result);
+        }
+        
+        Task fetchTask = null;
+        
+        await FirebaseRemoteConfig.DefaultInstance.FetchAsync(System.TimeSpan.Zero).ContinueWithOnMainThread(fTask =>
+        {
+            fetchTask = fTask;
+        });
+        
+        if ((fetchTask.IsCompleted && !fetchTask.IsFaulted && !fetchTask.IsCanceled))
+        {
+            var activateTask = FirebaseRemoteConfig.DefaultInstance.ActivateAsync()
+                .ContinueWithOnMainThread(_ => { });
+        
+            await activateTask;
+
+            if (!activateTask.IsCompleted)
+            {
+                MyDebug.LogError("Failed to activate remote config");
+            }
+        }
+        else
+        {
+            MyDebug.LogError("Failed to Fetch remote config async");
         }
     }
 }

@@ -1,10 +1,8 @@
 using Firebase.RemoteConfig;
-using Firebase.Extensions;
 using UnityEngine;
 using System;
-using System.Threading.Tasks;
 
-public static class MyDebugConfigLoader
+public static class MyDebugConfig
 {
     private const string RemoteKey_LogLevel = "debug_log_level";
 
@@ -12,33 +10,8 @@ public static class MyDebugConfigLoader
     
     public static bool EnableCrashlyticsLog { get; private set; } = true;
 
-    public static async Task InitDebugRemoteConfigAsync()
+    public static void InitDebugRemoteConfig()
     {
-        Task fetchTask = null;
-
-        await FirebaseRemoteConfig.DefaultInstance.FetchAsync(System.TimeSpan.Zero)
-            .ContinueWithOnMainThread(fTask =>
-            {
-                fetchTask = fTask;
-            });
-
-        if (!(fetchTask.IsCompleted && !fetchTask.IsFaulted && !fetchTask.IsCanceled))
-        {
-            MyDebug.LogError("Failed to Fetch remote config async");
-            return;
-        }
-
-        var activateTask = FirebaseRemoteConfig.DefaultInstance.ActivateAsync()
-            .ContinueWithOnMainThread(_ => { });
-        
-        await activateTask;
-
-        if (!activateTask.IsCompleted)
-        {
-            MyDebug.LogError("Failed to activate remote config");
-            return;
-        }
-        
         // RemoteConfig bool 값이 없으면 true를 기본값으로 사용
         EnableCrashlyticsLog = FirebaseRemoteConfig.DefaultInstance.GetValue(RemoteKey_EnableLog).BooleanValue;
                             
