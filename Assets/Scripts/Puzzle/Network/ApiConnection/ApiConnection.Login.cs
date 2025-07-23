@@ -14,7 +14,7 @@ public static partial class ApiConnection
         return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/login", requestData));
     }
     
-    public static NetworkRequest Bind(string userId, LoginType loginType)
+    public static NetworkRequest Bind(string userId, Login.LoginType loginType)
     {
         var requestData = new Dictionary<string, object>
         {
@@ -25,7 +25,7 @@ public static partial class ApiConnection
         return new NetworkRequest(Network.StaticApiClient.SendAsync("/api/bind", requestData));
     }
     
-    public static NetworkRequest Unbind(string userId, LoginType loginType)
+    public static NetworkRequest Unbind(string userId, Login.LoginType loginType)
     {
         var requestData = new Dictionary<string, object>
         {

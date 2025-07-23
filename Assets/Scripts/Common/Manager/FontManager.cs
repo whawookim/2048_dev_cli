@@ -11,6 +11,10 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEditor;
 #endif
 
+/// <summary>
+/// 언어(로케일)에 따라 UI 및 콘텐츠 폰트에 fallback 폰트를 자동으로 적용하는 매니저.
+/// Addressables 기반으로 폰트를 로드하며, TMP Settings에도 글로벌 fallback을 설정합니다.
+/// </summary>
 public class FontManager : MonoBehaviour
 {
     [Header("Base Fonts")]
@@ -32,6 +36,7 @@ public class FontManager : MonoBehaviour
 
     private async void Awake()
     {
+        // 언어 변경 시 fallback 재적용
         LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
 
         string currentLocale = LocalizationSettings.SelectedLocale?.Identifier.Code ?? "en";
@@ -40,6 +45,7 @@ public class FontManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        // 런타임 핸들 해제
         LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
 
         // 런타임 핸들 해제
@@ -56,6 +62,9 @@ public class FontManager : MonoBehaviour
         await ApplyFontFallbacks(locale.Identifier.Code);
     }
 
+    /// <summary>
+    /// 주어진 locale 코드에 따라 fallback 폰트를 로드하고 적용
+    /// </summary>
     public async Task ApplyFontFallbacks(string locale)
     {
         MyDebug.Log($"[FontManager] Applying fallback for locale: {locale}");
@@ -67,6 +76,9 @@ public class FontManager : MonoBehaviour
         ApplyFallbackToTMPSettings(fallbackList);
     }
 
+    /// <summary>
+    /// 언어별 fallback 폰트 목록을 Addressable 기반으로 로드
+    /// </summary>
     private async Task<List<TMP_FontAsset>> LoadFallbackFontsForLocale(string locale)
     {
         if (_localeFontCache.TryGetValue(locale, out var cached))
@@ -94,6 +106,9 @@ public class FontManager : MonoBehaviour
         return result;
     }
 
+    /// <summary>
+    /// 에디터와 런타임에 따라 폰트를 로드하는 함수
+    /// </summary>
     private TMP_FontAsset LoadFontInEditorOrRuntime(AssetReferenceT<TMP_FontAsset> reference)
     {
 #if UNITY_EDITOR
@@ -131,6 +146,9 @@ public class FontManager : MonoBehaviour
 #endif
     }
 
+    /// <summary>
+    /// 단일 baseFont에 fallback 목록 적용
+    /// </summary>
     private void ApplyFallbackToFont(TMP_FontAsset baseFont, List<TMP_FontAsset> fallbacks)
     {
         if (baseFont == null)
@@ -143,6 +161,9 @@ public class FontManager : MonoBehaviour
         MyDebug.Log($"[FontManager] Applied fallback to {baseFont.name}: {string.Join(", ", fallbacks.Select(f => f.name))}");
     }
 
+    /// <summary>
+    /// TMP 글로벌 fallback 설정 적용
+    /// </summary>
     private void ApplyFallbackToTMPSettings(List<TMP_FontAsset> fallbacks)
     {
         TMP_Settings.fallbackFontAssets.Clear();
@@ -150,6 +171,9 @@ public class FontManager : MonoBehaviour
         MyDebug.Log($"[FontManager] TMP_Settings fallback applied: {string.Join(", ", fallbacks.Select(f => f.name))}");
     }
 
+    /// <summary>
+    /// 폰트 Asset의 Material 누락이나 atlas 미연결 문제를 보정
+    /// </summary>
     private void FixFontMaterial(TMP_FontAsset fontAsset)
     {
         if (fontAsset == null) return;

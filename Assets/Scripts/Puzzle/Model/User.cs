@@ -11,7 +11,7 @@ public class User : Network.IPatchable
     
     public string NickName { get; set; }
     
-    public List<LoginType> UserIdpBindings { get; set; } = new List<LoginType>();
+    public List<Login.LoginType> UserIdpBindings { get; set; } = new List<Login.LoginType>();
     
     public void ApplyPatch(IDictionary<string, object> jsonObject)
     {

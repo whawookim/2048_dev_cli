@@ -74,7 +74,7 @@ namespace Puzzle.UI.Scene
         {
             Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.IDPChoicePopup), new Overlay.IDPChoicePopupState()
             {
-                IDPList = IDPPlatformSupportUtil.GetSupportedIDPs(),
+                IDPList = Login.IDPPlatformSupportUtil.GetSupportedIDPs(),
                 CloseCallback = RefreshUI
             });
         }
@@ -119,7 +119,7 @@ namespace Puzzle.UI.Scene
             }
 
             string loginTypeStr = PlayerPrefs.GetString("auto_login_type");
-            if (!System.Enum.TryParse<LoginType>(loginTypeStr, out var loginType))
+            if (!System.Enum.TryParse<Login.LoginType>(loginTypeStr, out var loginType))
             {
                 ShowLoginChoicePopup();
                 return;
@@ -129,7 +129,7 @@ namespace Puzzle.UI.Scene
 
             UIBlocker.Instance.SetEnabled();
             
-            var result = await LoginManager.Instance.LoginAsync(loginType);
+            var result = await Login.LoginManager.Instance.LoginAsync(loginType);
             
             UIBlocker.Instance.SetDisabled();
 

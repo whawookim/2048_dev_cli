@@ -11,19 +11,19 @@ namespace Puzzle.UI
     public class IDPChoiceButton : MonoBehaviour
     {
         [field:SerializeField]
-        public LoginType LoginType { get; set; }
+        public Login.LoginType LoginType { get; set; }
 
         [SerializeField]
         private Button button;
 
-        private Action<LoginType> buttonCallback;
+        private Action<Login.LoginType> buttonCallback;
 
         public void SetActive(bool active)
         {
             gameObject.SetActive(active);
         }
 
-        public void Init(Action<LoginType> buttonAction)
+        public void Init(Action<Login.LoginType> buttonAction)
         {
             buttonCallback = buttonAction;
         }

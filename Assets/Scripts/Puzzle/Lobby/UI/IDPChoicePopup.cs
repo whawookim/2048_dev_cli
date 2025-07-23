@@ -11,7 +11,7 @@ namespace Puzzle.UI.Overlay
         /// <summary>
         /// 표시하길 원하는 로그인 타입 리스트
         /// </summary>
-        public List<LoginType> IDPList { get; set; }
+        public List<Login.LoginType> IDPList { get; set; }
         
         /// <summary>
         /// 
@@ -109,7 +109,7 @@ namespace Puzzle.UI.Overlay
         /// <summary>
         /// 버튼 콜백으로 LoginType에 따라서 Login인지 LogOut인지 제어
         /// </summary>
-        private void LoginOrLogoutProcess(LoginType loginType)
+        private void LoginOrLogoutProcess(Login.LoginType loginType)
         {
             var idpBindings = User.Me.UserIdpBindings;
 
@@ -131,16 +131,16 @@ namespace Puzzle.UI.Overlay
             }
         }
 
-        private async Task LogoutProcessAsync(LoginType loginType)
+        private async Task LogoutProcessAsync(Login.LoginType loginType)
         {
             UIBlocker.Instance.SetEnabled();
             
-            await LoginManager.Instance.LogoutAsync(loginType);
+            await Login.LoginManager.Instance.LogoutAsync(loginType);
 
             UIBlocker.Instance.SetDisabled();
 
             // 각 Provider 부분에 상태 변경됨.
-            bool isSuccess = !LoginManager.Instance.IsLoggedIn(loginType);
+            bool isSuccess = !Login.LoginManager.Instance.IsLoggedIn(loginType);
                 
             if (isSuccess)
             {
@@ -170,16 +170,16 @@ namespace Puzzle.UI.Overlay
             }
         }
 
-        private async Task LoginProcessAsync(LoginType loginType)
+        private async Task LoginProcessAsync(Login.LoginType loginType)
         {
             UIBlocker.Instance.SetEnabled();
             
-            var result = await LoginManager.Instance.LoginAsync(loginType);
+            var result = await Login.LoginManager.Instance.LoginAsync(loginType);
             
             UIBlocker.Instance.SetDisabled();
             
             // 각 Provider 부분에 상태 변경됨.
-            bool isSuccess = LoginManager.Instance.IsLoggedIn(loginType);
+            bool isSuccess = Login.LoginManager.Instance.IsLoggedIn(loginType);
                 
             if (isSuccess)
             {

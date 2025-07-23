@@ -147,7 +147,7 @@ namespace Puzzle.UI.Scene
 		{
             Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.IDPChoicePopup), new Overlay.IDPChoicePopupState()
 			{
-				IDPList = IDPPlatformSupportUtil.GetSupportedIDPs()
+				IDPList = Login.IDPPlatformSupportUtil.GetSupportedIDPs()
 			});
 		}
 	}

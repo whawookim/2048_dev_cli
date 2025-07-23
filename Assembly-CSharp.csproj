@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\StageCardUI.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\StageMode.cs" />
     <Compile Include="Assets\Scripts\Common\Login\IDPPlatformSupportUtil.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\ILoginProvider.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\Common\Manager\UpdateFrameManager.cs" />
     <Compile Include="Assets\Scripts\Common\Utils\DirectionUtil.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Assets\Scripts\Common\Network\PatchHelper.cs" />
     <Compile Include="Assets\Scripts\Puzzle\CommonUI\NoticePopup.cs" />
     <Compile Include="Assets\Scripts\Common\Event\Events.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\LoginResult.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Loader\UIAssetLoader.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
