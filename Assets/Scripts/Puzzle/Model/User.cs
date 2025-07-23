@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public class User : IPatchable
+public class User : Network.IPatchable
 {
     /// <summary>
     /// 내 유저 정보

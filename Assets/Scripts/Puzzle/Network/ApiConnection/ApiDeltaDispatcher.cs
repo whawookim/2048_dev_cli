@@ -6,7 +6,7 @@ public static class ApiDeltaDispatcher
     /// <summary>
     /// API 통신 결과로 패치가 되는 것들 구현
     /// </summary>
-    private static readonly Dictionary<string, IPatchable> _patchTargets = new()
+    private static readonly Dictionary<string, Network.IPatchable> _patchTargets = new()
     {
         { nameof(User), User.Me },
     };
