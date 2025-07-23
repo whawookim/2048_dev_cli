@@ -1,7 +1,7 @@
-﻿using System.Collections;
+﻿using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Puzzle.UI
+namespace Puzzle.UI.Scene
 {
 	public class LobbyMainState
 	{
@@ -43,28 +43,26 @@ namespace Puzzle.UI
 #region IUIScene
         
 		string IUIScene.Name => nameof(LobbyMain);
-		public UISceneManager UISceneManager { get; set; }
-		IEnumerator IUIScene.Load(object savedState)
+		public Flow.UISceneManager UISceneManager { get; set; }
+		Task IUIScene.LoadAsync(object savedState)
 		{
 			states = savedState as LobbyMainState;
 			
-			yield return AdManager.Instance.LoadAndShowBannerProcess();
-		}
+            return AdManager.Instance.LoadAndShowBannerAsync();
+        }
 
-		void IUIScene.Begin()
+        void IUIScene.Begin()
 		{
 			SetCurrentStage((int)states.CurrentStageMode);
 		}
 
 		void IUIScene.Resume(object result)
 		{
-			GameManager.Instance.InputManager.EscapeCallback += OnClickEndButton;
 			AdManager.Instance.ShowBanner();
 		}
 
 		void IUIScene.Pause()
 		{
-			GameManager.Instance.InputManager.EscapeCallback -= OnClickEndButton;
 			AdManager.Instance.HideBanner();
 		}
 
@@ -77,7 +75,12 @@ namespace Puzzle.UI
 			return null;
 		}
 
-#endregion
+        public void OnClickBackButton()
+        {
+            OnClickEndButton();
+        }
+
+        #endregion
 
 		/// <summary>
 		/// 현재 선택된 스테이지에 맞게 UI 업데이트
@@ -130,22 +133,22 @@ namespace Puzzle.UI
 		}
 
 		public void OnClickRankingButton()
-		{
-			UISceneManager.Instance.PushOverlay(RankingPopup.Instance, new RankingPopupState()
-			{
-				StageMode = states.CurrentStageMode
-			}, typeof(RankingPopup));
-		}
+        {
+            Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.RankingPopup), new Overlay.RankingPopupState()
+            {
+                StageMode = states.CurrentStageMode
+            });
+        }
 		
 		/// <summary>
 		/// IDP 로그인 팝업
 		/// </summary>
 		public void OnClickIDPButton()
 		{
-			UISceneManager.Instance.PushOverlay(IDPChoicePopup.Instance, new IDPChoicePopupState()
+            Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.IDPChoicePopup), new Overlay.IDPChoicePopupState()
 			{
 				IDPList = IDPPlatformSupportUtil.GetSupportedIDPs()
-			}, typeof(IDPChoicePopup));
+			});
 		}
 	}
 }

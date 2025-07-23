@@ -116,12 +116,12 @@ namespace Puzzle
         public void GoToLobby()
         {
             CollectGC();
-            GameManager.Instance.ChangeScene(UnityScene.Lobby, new UI.UITransition()
+            GameManager.Instance.ChangeScene(UnityScene.Lobby, new UI.Scene.UITransition()
             {
-                NextScene = UI.LobbyMain.Instance,
-                NextSceneType = typeof(UI.LobbyMain),
-                TransitionType = UI.UITransitionType.Push,
-                SavedState = new UI.LobbyMainState()
+                NextScene = UI.Scene.LobbyMain.Instance,
+                NextSceneType = typeof(UI.Scene.LobbyMain),
+                TransitionType = UI.Scene.UITransitionType.Push,
+                SavedState = new UI.Scene.LobbyMainState()
                 {
                     CurrentStageMode = StatusController.CurrentStageMode
                 }

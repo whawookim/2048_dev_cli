@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Threading.Tasks;
 using GoogleMobileAds.Api;
 using UnityEngine;
 
@@ -46,7 +46,7 @@ public class AdManager : MonoBehaviour
     
     private BannerView bannerView;
 
-    public IEnumerator LoadAndShowBannerProcess(bool showBanner = false)
+    public async Task LoadAndShowBannerAsync(bool showBanner = false)
     {
         if (bannerView == null)
         {
@@ -74,9 +74,7 @@ public class AdManager : MonoBehaviour
             bannerView.LoadAd(request);
 
             while (isLoading)
-            {
-                yield return null;
-            }
+                await Task.Yield();
         }
 
         if (showBanner)

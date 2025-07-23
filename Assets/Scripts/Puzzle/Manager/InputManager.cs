@@ -1,12 +1,10 @@
 using UnityEngine;
-using System;
+using Puzzle.UI.Flow;
 
 namespace Puzzle
 {
     public class InputManager : IUpdatable
     {
-        public Action EscapeCallback { get; set; }
-        
         /// <summary>
         /// 안드로이드 뒤로가기 동작
         /// </summary>
@@ -15,17 +13,20 @@ namespace Puzzle
 #if UNITY_EDITOR || UNITY_ANDROID
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                var curOverlay = UISceneManager.Instance.CurrentOverlay;
+                var curOverlay = UIFlowManager.Instance.CurrentOverlay;
 
                 if (curOverlay != null)
                 {
                     curOverlay.OnClickBackButton();
                     return;
                 }
+                
+                var curScene = UIFlowManager.Instance.CurrentScene;
 
-                if (EscapeCallback != null)
+                if (curScene != null)
                 {
-                    EscapeCallback.Invoke();
+                    curScene.OnClickBackButton();
+                    return;
                 }
             }
 #endif

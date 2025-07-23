@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
 
-namespace Puzzle.UI
+namespace Puzzle.UI.Scene
 {
     public enum UITransitionType
     {
@@ -29,7 +28,21 @@ namespace Puzzle.UI
         /// 	prevScene.Resume();
         /// }
         /// </summary>
-        Pop
+        Pop,
+        // TODO:
+        Replace
+    }
+    
+    /// <summary>
+    /// 트랜지션 애니메이션 종류 (슬라이드, 페이드 등)
+    /// </summary>
+    public enum TransitionAnimationType
+    {
+        None,
+        Fade,
+        SlideLeft,
+        SlideRight
+        // 추가 가능
     }
     
     /// <summary>
@@ -41,6 +54,11 @@ namespace Puzzle.UI
 		/// 트랜지션 타입(바꾸기, 푸시, 팝)
 		/// </summary>
 		public UITransitionType TransitionType { get; set; }
+        
+        /// <summary>
+        /// 연출 타입
+        /// </summary>
+        public TransitionAnimationType AnimationType { get; set; } = TransitionAnimationType.None;
 
 		/// <summary>
 		/// 다음에 나타낼 씬(팝에서는 사용할 수 없음, 다른 경우에도 null 가능)
@@ -87,52 +105,5 @@ namespace Puzzle.UI
 		/// 페이드 시에 적용될 색상, null 이라면 기본값 (Color.black 을 사용)
 		/// </summary>
 		public UnityEngine.Color? FadeColor { get; set; } = null;
-		
 	}
-
-    public interface IUIScene
-    {
-        /// <summary>
-        /// 씬 이름
-        /// </summary>
-        string Name { get; }
-
-        /// <summary>
-        /// 이 씬을 관리 중인 매니저 얻기/설정
-        /// </summary>
-        UISceneManager UISceneManager { get; set; }
-
-        /// <summary>
-        /// 씬에 필요한 리소스 로드
-        /// </summary>
-        /// <param name="savedState">씬 생성에 필요한 정보(null 가능)</param>
-        IEnumerator Load(object savedState);
-
-        /// <summary>
-        /// 씬 시작
-        /// </summary>
-        void Begin();
-
-        /// <summary>
-        /// 씬 재개
-        /// </summary>
-        /// <param name="result">Pop에서 되돌아 왔을 때 결과 값(없으면 null)</param>
-        void Resume(object result);
-
-        /// <summary>
-        /// 씬 정지
-        /// </summary>
-        void Pause();
-
-        /// <summary>
-        /// 씬 종료
-        /// </summary>
-        void Finish();
-
-        /// <summary>
-        /// 씬의 현재 상태를 얻음
-        /// </summary>
-        /// <returns>씬의 현재 상태(null 가능)</returns>
-        object GetState();
-    }
 }

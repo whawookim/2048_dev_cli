@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
@@ -7,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Localization;
 using UnityEngine.UI;
 
-namespace Puzzle.UI
+namespace Puzzle.UI.Overlay
 {
     public class RankingPopupState
     {
@@ -74,7 +72,7 @@ namespace Puzzle.UI
         #region IUIOverlay
         public string Name => nameof(RankingPopup);
 
-        public UISceneManager UISceneManager { get; set; }
+        public Flow.UIOverlayManager UIOverlayManager { get; set; }
 
         public void Begin(object state = null)
         {
@@ -92,18 +90,16 @@ namespace Puzzle.UI
             // TODO: 캐시된 거 있으면 특정 시간동안 그대로 사용하기 기능
         }
 
-        public IEnumerator OpenAnimation()
+        public Task OpenAsync()
         {
             InitUI();
 
-            _ = LoadDataAsync();
-            
-            yield break;
+            return LoadDataAsync();
         }
 
-        public IEnumerator CloseAnimation()
+        public Task CloseAsync()
         {
-            yield break;
+            return Task.CompletedTask;
         }
 
         public void OnClickBackButton()
@@ -166,7 +162,7 @@ namespace Puzzle.UI
 
         public void OnClickExitButton()
         {
-            UISceneManager.PopOverlay();
+            Flow.UIFlowManager.Instance.PopOverlay();
         }
     }
 }

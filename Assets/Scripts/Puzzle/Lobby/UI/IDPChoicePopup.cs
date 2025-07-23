@@ -1,11 +1,10 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Puzzle.UI
+namespace Puzzle.UI.Overlay
 {
     public class IDPChoicePopupState
     {
@@ -58,7 +57,7 @@ namespace Puzzle.UI
         #region IUIOverlay
         public string Name => nameof(RankingPopup);
 
-        public UISceneManager UISceneManager { get; set; }
+        public Flow.UIOverlayManager UIOverlayManager { get; set; }
 
         public void Begin(object state = null)
         {
@@ -69,19 +68,19 @@ namespace Puzzle.UI
             RefreshUI();
         }
 
-        public IEnumerator OpenAnimation()
+        public Task OpenAsync()
         {
-            yield break;
+            return Task.CompletedTask;
         }
 
-        public IEnumerator CloseAnimation()
+        public Task CloseAsync()
         {
-            yield break;
+            return Task.CompletedTask;
         }
 
         public void OnClickBackButton()
         {
-            UISceneManager.Instance.PopOverlay();
+            Flow.UIFlowManager.Instance.PopOverlay();
         }
 
         public void Finish()

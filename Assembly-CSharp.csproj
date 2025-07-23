@@ -46,8 +46,10 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Common\UI\Scene\UITransition.cs" />
     <Compile Include="Assets\Scripts\Common\Addressable\AddressablesCDNOverride.cs" />
     <Compile Include="Assets\Scripts\Common\Time\GameTime.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\IUISceneHandler.cs" />
     <Compile Include="Assets\Scripts\Common\Interface\IUpdatable.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\TinyObjectPool.cs" />
     <Compile Include="Assets\Scripts\Common\UI\UGUIReusableScrollList.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="Assets\Scripts\Common\Json\JsonHelper.cs" />
     <Compile Include="Assets\GoogleSignIn\Impl\GoogleSignInImpl.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Stages.cs" />
-    <Compile Include="Assets\Scripts\Common\UI\Interface\IUIOverlay.cs" />
     <Compile Include="Assets\Scripts\Common\Network\IPatchable.cs" />
     <Compile Include="Assets\Scripts\Common\Login\Google\GoogleLoginProvider.cs" />
     <Compile Include="Assets\Scripts\Common\Animation\Interpolations.cs" />
@@ -90,20 +91,25 @@
     <Compile Include="Assets\GoogleSignIn\GoogleSignInUser.cs" />
     <Compile Include="Assets\GoogleSignIn\GoogleSignInConfiguration.cs" />
     <Compile Include="Assets\Scripts\Plugins\Firebase\FirebaseManager.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\UIFlowManager.cs" />
     <Compile Include="Assets\Scripts\Common\Debug\MyDebugConfigLoader.cs" />
     <Compile Include="Assets\GoogleSignIn\Impl\NativeFuture.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\RankingManager.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\UIOverlayManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Model\User.cs" />
     <Compile Include="Assets\Scripts\Common\Login\GuestLoginProvider.cs" />
     <Compile Include="Assets\Scripts\Common\Network\ApiResponse.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\ResetBoardEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Block.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\IDPChoicePopup.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Scene\IUIScene.cs" />
     <Compile Include="Assets\Scripts\Puzzle\CommonUI\UIBlocker.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\IUIOverlayHandler.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Stage.cs" />
     <Compile Include="Assets\Scripts\Common\Network\PatchHelper.cs" />
     <Compile Include="Assets\Scripts\Puzzle\CommonUI\NoticePopup.cs" />
     <Compile Include="Assets\Scripts\Common\Event\Events.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Loader\UIAssetLoader.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\GameManager.cs" />
@@ -112,7 +118,6 @@
     <Compile Include="Assets\Scripts\Common\Network\ApiClient.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.User.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\ObjectPool.cs" />
-    <Compile Include="Assets\Scripts\Common\UI\Interface\IUIScene.cs" />
     <Compile Include="Assets\GoogleSignIn\Impl\SignInHelperObject.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageStatusController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\ChangeGameStateEvent.cs" />
@@ -121,13 +126,14 @@
     <Compile Include="Assets\Scripts\Puzzle\CommonUI\TitleScreen.cs" />
     <Compile Include="Assets\Scripts\Plugins\AdMob\AdManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Login.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Overlay\IUIOverlay.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Ranking.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\PooledObject.cs" />
     <Compile Include="Assets\Scripts\Common\Login\LoginManager.cs" />
     <Compile Include="Assets\Scripts\Common\UI\SafeAreaFitter.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\StageManager.cs" />
-    <Compile Include="Assets\Scripts\Common\UI\UISceneManager.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\UISceneManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageEventController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\RankingPopupItem.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\ButtonScaleEffect.cs" />

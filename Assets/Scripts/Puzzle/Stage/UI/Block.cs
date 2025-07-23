@@ -96,7 +96,7 @@ namespace Puzzle.UI
 
 			UpdateBlock();
 
-			var worldBoardPos = Stages.Instance.GetBoardPosition(index);
+			var worldBoardPos = Scene.Stages.Instance.GetBoardPosition(index);
 			var localPos = rect.parent.InverseTransformPoint(worldBoardPos);
 			rect.localPosition = localPos;
 		}
@@ -115,7 +115,7 @@ namespace Puzzle.UI
 			if (moveData.Index != Data.Index)
 			{
 				var maxSize = StageManager.Instance.StatusController.CurrentStageMode.GetBoardSize();
-				var worldBoardPos = Stages.Instance.GetBoardPosition(moveData.Index);
+				var worldBoardPos = Scene.Stages.Instance.GetBoardPosition(moveData.Index);
 				var localPos = rect.parent.InverseTransformPoint(worldBoardPos);
 				var moveXIndex = moveData.Index % maxSize;
 				var moveYIndex = moveData.Index / maxSize;

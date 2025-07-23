@@ -1,9 +1,7 @@
-using System.Collections;
 using UnityEngine;
 using System.Threading.Tasks;
-using Puzzle.UI;
 
-namespace Puzzle
+namespace Puzzle.UI.Scene
 {
     /// <summary>
     /// 타이틀 스크린
@@ -34,10 +32,10 @@ namespace Puzzle
 #region IUIScene
         
         string IUIScene.Name => nameof(TitleScreen);
-        public UISceneManager UISceneManager { get; set; }
-        IEnumerator IUIScene.Load(object savedState)
+        public Flow.UISceneManager UISceneManager { get; set; }
+        Task IUIScene.LoadAsync(object savedState)
         {
-            yield break;
+            return Task.CompletedTask;
         }
 
         void IUIScene.Begin()
@@ -47,12 +45,10 @@ namespace Puzzle
 
         void IUIScene.Resume(object result)
         {
-            GameManager.Instance.InputManager.EscapeCallback += OnCLickEndButton;
         }
 
         void IUIScene.Pause()
         {
-            GameManager.Instance.InputManager.EscapeCallback -= OnCLickEndButton;
         }
 
         void IUIScene.Finish()
@@ -64,18 +60,23 @@ namespace Puzzle
             return null;
         }
 
-#endregion
+        public void OnClickBackButton()
+        {
+            OnCLickEndButton();
+        }
+
+        #endregion
 
         /// <summary>
         /// IDP 로그인 팝업
         /// </summary>
         public void ShowLoginChoicePopup()
         {
-            UISceneManager.Instance.PushOverlay(IDPChoicePopup.Instance, new IDPChoicePopupState()
+            Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.IDPChoicePopup), new Overlay.IDPChoicePopupState()
             {
                 IDPList = IDPPlatformSupportUtil.GetSupportedIDPs(),
                 CloseCallback = RefreshUI
-            }, typeof(IDPChoicePopup));
+            });
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace Puzzle
                 return;
             }
             
-            UISceneManager.Instance.SetTransition(new UITransition()
+            Flow.UIFlowManager.Instance.SetTransition(new UITransition()
             {
                 NextScene = LobbyMain.Instance,
                 NextSceneType = typeof(LobbyMain),

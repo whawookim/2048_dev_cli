@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Puzzle.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -41,7 +40,7 @@ namespace Puzzle
 
 		private async Task InitAsync()
 		{
-			LoadingScreen.Instance.SetEnabled(true);
+			UI.LoadingScreen.Instance.SetEnabled(true);
 
 			// inputManager UpdateFrame 추가
 			UpdateFrameManager.Instance.AddUpdatable(InputManager);
@@ -58,11 +57,11 @@ namespace Puzzle
 			AdManager.Instance.Init();
 			
 			// 시작 씬 이동
-			ChangeScene(UnityScene.Lobby, new UITransition()
+			ChangeScene(UnityScene.Lobby, new UI.Scene.UITransition()
 			{
-				NextScene = TitleScreen.Instance,
-				NextSceneType = typeof(TitleScreen),
-				TransitionType = UITransitionType.Push,
+				NextScene = UI.Scene.TitleScreen.Instance,
+				NextSceneType = typeof(UI.Scene.TitleScreen),
+				TransitionType = UI.Scene.UITransitionType.Push,
 			});
 		}
 
@@ -106,7 +105,7 @@ namespace Puzzle
 		/// <summary>
 		/// 씬 이동
 		/// </summary>
-		public void ChangeScene(UnityScene unitySceneEnum, UITransition transition)
+		public void ChangeScene(UnityScene unitySceneEnum, UI.Scene.UITransition transition)
 		{
 			CoroutineManager.Instance.Run(ChangeSceneAsync(unitySceneEnum, transition));
 		}
@@ -114,7 +113,7 @@ namespace Puzzle
 		/// <summary>
 		/// 씬 이동 Async
 		/// </summary>
-		public IEnumerator ChangeSceneAsync(UnityScene unitySceneEnum, UITransition transition)
+		public IEnumerator ChangeSceneAsync(UnityScene unitySceneEnum, UI.Scene.UITransition transition)
 		{
 			UI.LoadingScreen.Instance.SetEnabled(true);
 
@@ -122,7 +121,7 @@ namespace Puzzle
 			DG.Tweening.DOTween.KillAll();
 
 			// 2) 현재 씬 스택 날리면서 Pause, Finish 호출 날리기
-			UISceneManager.Instance.ClearStackScenes();
+			UI.Flow.UIFlowManager.Instance.ClearStackScenes();
 
 			// 3) 씬 전환시 기존에 등록한 AddressableManager 전체 해제
 			ReleaseAll();
@@ -147,10 +146,10 @@ namespace Puzzle
 				yield return addressableManager.LoadAllAsync();
 			}
 
-			UISceneManager.Instance.SetTransition(transition);
+			yield return UI.Flow.UIFlowManager.Instance.SetTransitionAsync(transition);
 
 			// 씬 트랜지션 끝날때까지 대기
-			yield return new WaitUntil(() => UISceneManager.Instance.CurrentTransition == null);
+			yield return new WaitUntil(() => UI.Flow.UIFlowManager.Instance.CurrentTransition == null);
 			
 			UI.LoadingScreen.Instance.SetDisabled(true);
 		}

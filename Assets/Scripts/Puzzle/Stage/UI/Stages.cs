@@ -1,7 +1,8 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Puzzle.UI
+namespace Puzzle.UI.Scene
 {
 	public class StagesState
 	{
@@ -47,8 +48,8 @@ namespace Puzzle.UI
 #region IUIScene
         
 		string IUIScene.Name => nameof(Stages);
-		public UISceneManager UISceneManager { get; set; }
-		IEnumerator IUIScene.Load(object savedState)
+		public Flow.UISceneManager UISceneManager { get; set; }
+		Task IUIScene.LoadAsync(object savedState)
 		{
 			states = savedState as StagesState;
 
@@ -56,7 +57,7 @@ namespace Puzzle.UI
 			
 			InitBoard(StageManager.Instance.OriginBoardObj,
 				StageManager.Instance.OriginBlockObj);
-			yield break;
+			return Task.CompletedTask;
 		}
 
 		void IUIScene.Begin()
@@ -68,12 +69,10 @@ namespace Puzzle.UI
 
 		void IUIScene.Resume(object result)
 		{
-			GameManager.Instance.InputManager.EscapeCallback += stageUI.OnClickLobby;
 		}
 
 		void IUIScene.Pause()
 		{
-			GameManager.Instance.InputManager.EscapeCallback -= stageUI.OnClickLobby;
 		}
 
 		void IUIScene.Finish()
@@ -86,7 +85,12 @@ namespace Puzzle.UI
 			return null;
 		}
 
-#endregion
+        public void OnClickBackButton()
+        {
+            stageUI.OnClickLobby();
+        }
+
+        #endregion
 
 		public void Dispose()
 		{
