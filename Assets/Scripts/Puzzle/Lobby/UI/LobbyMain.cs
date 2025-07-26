@@ -48,7 +48,7 @@ namespace Puzzle.UI.Scene
 		{
 			states = savedState as LobbyMainState;
 			
-            return AdManager.Instance.LoadAndShowBannerAsync();
+            return AdManager.Instance.LoadAndShowBannerAsync(true);
         }
 
         void IUIScene.Begin()

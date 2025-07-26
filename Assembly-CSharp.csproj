@@ -48,12 +48,15 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\Common\UI\Scene\UITransition.cs" />
     <Compile Include="Assets\Scripts\Common\Addressable\AddressablesCDNOverride.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\SpawnBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Common\Time\GameTime.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Flow\IUISceneHandler.cs" />
     <Compile Include="Assets\Scripts\Common\Interface\IUpdatable.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\TinyObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\MergeBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Common\UI\UGUIReusableScrollList.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Constants\Constants.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\CommandHistory.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\Interface\IAddressableManager.cs" />
     <Compile Include="Assets\Scripts\Common\Network\HttpMethod.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\BoardUI.cs" />
@@ -82,7 +85,9 @@
     <Compile Include="Assets\Scripts\Common\Login\ILoginProvider.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\LobbyManager.cs" />
     <Compile Include="Assets\Scripts\Common\Manager\UpdateFrameManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\CommandExecutor.cs" />
     <Compile Include="Assets\Scripts\Common\Utils\DirectionUtil.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\IPoolFactory.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\InputManager.cs" />
     <Compile Include="Assets\Scripts\Common\Utils\NamingConventionUtil.cs" />
     <Compile Include="Assets\Scripts\Common\Manager\CoroutineManager.cs" />
@@ -102,6 +107,7 @@
     <Compile Include="Assets\Scripts\Common\Login\GuestLoginProvider.cs" />
     <Compile Include="Assets\Scripts\Common\Network\ApiResponse.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\ResetBoardEvent.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\ObjectPoolFactory.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Block.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\IDPChoicePopup.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Scene\IUIScene.cs" />
@@ -113,6 +119,7 @@
     <Compile Include="Assets\Scripts\Common\Event\Events.cs" />
     <Compile Include="Assets\Scripts\Common\Login\LoginResult.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Loader\UIAssetLoader.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\IBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\GameManager.cs" />
@@ -139,7 +146,9 @@
     <Compile Include="Assets\Scripts\Common\Login\LoginManager.cs" />
     <Compile Include="Assets\Scripts\Common\UI\SafeAreaFitter.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\StageManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageLogic.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Flow\UISceneManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\MoveBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageEventController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\RankingPopupItem.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\ButtonScaleEffect.cs" />

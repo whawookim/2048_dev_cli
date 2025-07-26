@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 말 그대로 게임 오브젝트를 풀링
 /// </summary>
-public class ObjectPool<T> where T : MonoBehaviour, new()
+public class ObjectPool<T> where T : MonoBehaviour
 {
 	private static readonly List<List<T>> poolList = new List<List<T>>();
 
@@ -49,7 +49,7 @@ public class ObjectPool<T> where T : MonoBehaviour, new()
 		return objList;
 	}
 
-	private List<T> Find()
+	public List<T> Find()
 	{
 		return poolList.Find((list) => list is { Count: > 0 } && list[0].GetType() == typeof(T));
 	}

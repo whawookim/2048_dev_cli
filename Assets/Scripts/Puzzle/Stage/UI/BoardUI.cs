@@ -1,7 +1,7 @@
-using System.Collections;
+using System;
 using UnityEngine;
 using System.Collections.Generic;
-using UnityEngine.UI;
+using System.Threading.Tasks;
 using Random = UnityEngine.Random;
 
 namespace Puzzle.UI
@@ -12,65 +12,49 @@ namespace Puzzle.UI
 	public class BoardUI : MonoBehaviour
 	{
 		[SerializeField]
-		private GridLayoutGroup grid;
+		private Transform boardTransform;
 
 		[SerializeField]
 		private Transform blockTransform;
 
-		private Coroutine moveCoroutine;
-
-		private List<Board> boards;
+		private Dictionary<Vector2Int, Board> _boardDict;
 
 		/// <summary>
 		/// 현재 위치에 있는 Block 캐시
 		/// </summary>
-		private Dictionary<int, Block> blockDict;
+		private Dictionary<Vector2Int, Block> _blockDict;
+        
+        /// <summary>
+        /// 블록의 숫자가 저장되서 갱신되어야 하는 board
+        /// </summary>
+        private int[,] _board;
 
-		private ObjectPool<Board> objectPoolBoard;
-
-		private ObjectPool<Block> objectPoolBlock;
-
-		private Board originBoard;
+		private Board _originBoard;
 		
-		private Block originBlock;
+		private Block _originBlock;
 		
 		/// <summary>
 		/// n*n 보드 사이즈
 		/// </summary>
-		private int maxSize;
+		private int _maxSize;
 
 		/// <summary>
 		/// 블록 최대 수치
 		/// </summary>
-		private int maxNum;
+		private int _maxNum;
+        
+        private IPoolFactory<Block> _blockFactory;
+        private IPoolFactory<Board> _boardFactory;
+        
+        private Stage.CommandExecutor _executor;
 
-		/// <summary>
-		/// 블럭이 최대치로 가득 찼는지 체크
-		/// </summary>
-		private bool IsMax => blockDict.Count == maxSize * maxSize;
-
-		/// <summary>
-		/// 게임 클리어 체크 
-		/// </summary>
-		private bool isGameClear = false;
-
-		private void Awake()
-		{
-			SubscribeEvent();
-		}
-
-		private void OnDestroy()
-		{
-			UnsubscribeEvent(true);
-		}
-
-		private void SubscribeEvent()
+		public void SubscribeEvent()
 		{
 			MessageSystem.Instance.Subscribe<BlockMoveEvent>(OnMoveBlockEvent);
 			MessageSystem.Instance.Subscribe<ResetBoardEvent>(OnResetBoard);
 		}
 
-		private void UnsubscribeEvent(bool deleteKey = false)
+        public void UnsubscribeEvent(bool deleteKey = false)
 		{
 			MessageSystem.Instance.Unsubscribe<BlockMoveEvent>(OnMoveBlockEvent, deleteKey);
 			MessageSystem.Instance.Unsubscribe<ResetBoardEvent>(OnResetBoard);
@@ -78,78 +62,83 @@ namespace Puzzle.UI
 
 		public void InitOriginResource(GameObject originBoardObj, GameObject originBlockObj)
 		{
-			originBoardObj.transform.SetParent(grid.transform);
-			originBoard = originBoardObj.GetComponent<Board>();
-			originBoard.transform.localScale = Vector3.one;
+			originBoardObj.transform.SetParent(boardTransform);
+			_originBoard = originBoardObj.GetComponent<Board>();
+			_originBoard.transform.localScale = Vector3.one;
 			
 			originBlockObj.transform.SetParent(blockTransform);
-			originBlock = originBlockObj.GetComponent<Block>();
-			originBlock.transform.localScale = Vector3.one;
+			_originBlock = originBlockObj.GetComponent<Block>();
+			_originBlock.transform.localScale = Vector3.one;
 		}
+        
+        /// <summary>
+        /// 랜덤한 블록을 생성할 위치를 반환
+        /// </summary>
+        private Vector2Int? GetRandomBlockPos()
+        {
+            var candidates = new List<Vector2Int>();
+            var tempVal = new Vector2Int();
 
-		/// <summary>
-		/// 랜덤한 블록을 생성할 인덱스를 반환
-		/// </summary>
-		private int GetRandomBlockIndex()
-		{
-			var candidates = new List<int>();
+            for (int y = 0; y < _maxSize; y++)
+            {
+                for (int x = 0; x < _maxSize; x++)
+                {
+                    tempVal.Set(x, y);
 
-			for (var i = 0; i < maxSize * maxSize; i++)
-			{
-				if (blockDict.ContainsKey(i) && blockDict[i] != null) continue;
+                    if (_blockDict.ContainsKey(tempVal) && _blockDict[tempVal] != null) continue;
+                    
+                    candidates.Add(new Vector2Int(tempVal.x, tempVal.y));
+                }
+            }
+            
+            if (candidates.Count == 0) return null;
 
-				candidates.Add(i);
-			}
-
-			if (candidates.Count == 0) return -1;
-
-			return candidates[Random.Range(0, candidates.Count)];
-		}
+            return candidates[Random.Range(0, candidates.Count)];
+        }
 
 		public void Dispose()
 		{
-			blockDict?.Clear();
-			blockDict = null;
-
 			DisposeBoard();
 			DisposeBlock();
-		}
+
+            _executor.Clear();
+            _executor = null;
+        }
 
 		private void DisposeBoard()
-		{
-			objectPoolBoard?.Dispose();
-			objectPoolBoard = null;
+        {
+            _boardFactory.Dispose();
 
-			if (boards != null)
+			if (_boardDict != null)
 			{
-				foreach (var board in boards)
+				foreach (var tempBoard in _boardDict)
 				{
-					DestroyImmediate(board.gameObject);
+					DestroyImmediate(tempBoard.Value.gameObject);
 				}
 				
-				boards.Clear();
+                _boardDict.Clear();
 			}
 			
-			boards = null;
-		}
+            _boardDict = null;
+            _board = null;
+        }
 
 		private void DisposeBlock()
 		{
-			objectPoolBlock?.Dispose();
-			objectPoolBlock = null;
+            _blockFactory.Dispose();
 
-			if (blockDict != null)
+			if (_blockDict != null)
 			{
-				foreach (var block in blockDict)
+				foreach (var block in _blockDict)
 				{
 					if (block.Value == null) continue;
 
 					DestroyImmediate(block.Value.gameObject);
 				}
-				blockDict.Clear();
+				_blockDict.Clear();
 			}
 			
-			blockDict = null;
+			_blockDict = null;
 		}
 		
 		/// <summary>
@@ -159,14 +148,14 @@ namespace Puzzle.UI
 		{
 			//objectPoolBlock.Dispose();
 			
-			foreach (var block in blockDict)
+			foreach (var block in _blockDict)
 			{
 				if (block.Value == null) continue;
 
 				block.Value.gameObject.SetActive(false);
 			}
 
-			blockDict.Clear();
+			_blockDict.Clear();
 		}
 
 		/// <summary>
@@ -174,61 +163,89 @@ namespace Puzzle.UI
 		/// TODO: 로딩이 들어가면 로딩 과정에 넣기
 		/// </summary>
 		public void Init(StageMode mode)
-		{
-			isGameClear = false;
-			
-			blockDict = new Dictionary<int, Block>();
-			boards = new List<Board>();
-			objectPoolBoard = new ObjectPool<Board>();
-			objectPoolBlock = new ObjectPool<Block>();
+        {
+            _executor = new Stage.CommandExecutor();
+            
+			_blockDict = new Dictionary<Vector2Int, Block>();
+            _boardDict = new Dictionary<Vector2Int, Board>();
 
 			// 전체 보드 가로(혹은 세로)의 크기 결정
-			maxSize = mode.GetBoardSize();
-			maxNum = mode.GetBlockMaxNum();
+			_maxSize = mode.GetBoardSize();
+			_maxNum = mode.GetBlockMaxNum();
+
+            _board = new int[_maxSize, _maxSize];
 
 			// 정사각형 블록, 보드 1개의 너비 (혹은 높이)
 			var blockSize = mode.GetBlockSize();
 			// 초기 블록, 보드의 사이즈 결정
-			originBlock.SetSize(blockSize);
-			originBoard.SetSize(blockSize);
+			_originBlock.SetSize(blockSize);
+			_originBoard.SetSize(blockSize);
+            
+            // 오프젝트풀 팩톻리로 오브젝트 풀 초기 개수 세팅 (최대 블럭수만큼 미리 생성)
+            int initBlockCount = _maxSize * _maxSize;
+            int initBoardCount = _maxSize * _maxSize;
+            
+            _blockFactory = new ObjectPoolFactory<Block>(
+                _originBlock.gameObject,
+                blockTransform,
+                initBlockCount,
+                (block) => {
+                    block.gameObject.SetActive(true);
+                    block.transform.localScale = Vector3.one;
+                    block.Init(GetInitBlockNum());
+                });
+            
+            _boardFactory = new ObjectPoolFactory<Board>(
+                _originBoard.gameObject,
+                boardTransform,
+                initBoardCount,
+                (board) =>
+                {
+                    board.gameObject.SetActive(true);
+                    board.transform.localScale = Vector3.one;
+                });
+            // board 초기화는 Create() 이후 호출부에서 name, size, pos 직접 전달
+            
+            _originBoard.gameObject.SetActive(false);
+            _originBlock.gameObject.SetActive(false);
 
-			// 오브젝트 풀 초기 개수 세팅 (최대 블럭수만큼 미리 생성)
-			objectPoolBlock.Init(originBlock, blockTransform, maxSize * maxSize);
-			objectPoolBoard.Init(originBoard, grid.transform, maxSize * maxSize);
-
-			for (var i = 0; i < maxSize * maxSize; i++)
-			{
-				var obj = objectPoolBoard.GetOrCreate();
-				obj.Set($"board{i}");
-				obj.gameObject.SetActive(true);
-				boards.Add(obj);
-			}
-
-			originBoard.gameObject.SetActive(false);
-			originBlock.gameObject.SetActive(false);
-
-			// grid가 자동으로 보드를 정렬해서 배치를 해줌
-			var gridSize = mode.GetGridSize();
-			grid.cellSize = new Vector2(blockSize, blockSize);
-			grid.spacing = new Vector2((gridSize - blockSize) * 0.5f, (gridSize - blockSize) * 0.5f);
-			grid.constraintCount = maxSize;
-
-			// NOTE: LayoutGroup을 사용한 경우 한 프레임 뒤에 자식 위치를 얻어올 수 있다고 함.
-			Canvas.ForceUpdateCanvases();
+            InitBoard(mode, blockSize);
 
 			// 처음 배치되는 블록 생성
 			CreateBlock();
+            UpdateBoardState();
 		}
+
+        private void InitBoard(StageMode mode, int blockSize)
+        {
+            // GridLayoutGroup 썼다가 좌상단으로 정렬이 되는 문제가 있어서 그냥 직접 구현함
+            var gridSize = mode.GetGridSize();
+            int spacing = gridSize - blockSize;
+            var startPos = new Vector2(-(_maxSize * gridSize * 0.5f) + gridSize * 0.5f,
+                _maxSize * gridSize * 0.5f - gridSize * 0.5f);
+            
+            for (int y = 0; y < _maxSize; y++)
+            {
+                for (int x = 0; x < _maxSize; x++)
+                {
+                    var obj = _boardFactory.Create();
+                    obj.SetName($"board[{x},{y}]");
+                    obj.gameObject.SetActive(true);
+                    obj.SetPosition(startPos + new Vector2((blockSize + spacing) * x, -(blockSize + spacing) * y));
+                    _boardDict.Add(new Vector2Int(x, y), obj);
+                }
+            }
+        }
 
 		/// <summary>
 		/// 재시작용
 		/// </summary>
 		public void Reset()
 		{
-			isGameClear = false;
-
+            HideBlocks();
 			// 처음 배치되는 블록 생성
 			CreateBlock();
+            UpdateBoardState();
 		}
 
 		/// <summary>
@@ -263,249 +280,150 @@ namespace Puzzle.UI
 		/// </summary>
 		private void CreateBlock()
 		{
-			var blockIndex = GetRandomBlockIndex();
+			var randomBlockPos = GetRandomBlockPos();
 
-			if (IsOutOfIndex(blockIndex)) return;
+            if (randomBlockPos == null)
+            {
+                MyDebug.LogWarning("CreateBlock Fail: randomBlockPos is null");
+                return;
+            }
 
-			var block = objectPoolBlock.GetOrCreate();
-			block.gameObject.SetActive(true);
-			block.transform.localScale = Vector3.one;
-			block.Init(GetInitBlockNum(), blockIndex);
-
-			if (!blockDict.ContainsKey(blockIndex))
-			{
-				blockDict.Add(blockIndex, block);
-			}
-			else
-			{
-				blockDict[blockIndex] = block;
-			}
-		}
+            var pos = randomBlockPos.Value;
+			var block = _blockFactory.Create();
+			_blockDict[pos] = block;
+            var worldBoardPos = GetBoardPosition(pos);
+            block.SetPosition(worldBoardPos);
+        }
 
 		private bool OnMoveBlockEvent(Events e)
 		{
 			if (e is BlockMoveEvent bme)
 			{
-				// 클리어시 움직이지 않게
-				if (isGameClear) return false;
-				if (moveCoroutine != null) return false;
-
 				var direction = bme.Direction;
 
 				if (direction == MoveDirection.None) return false;
-
-				SetMoveBlockResultNew(direction);
-				moveCoroutine = CoroutineManager.Instance.Run(MoveAndMergeBlocks());
+                
+                _ = OnBlockMoveEvent(direction.GetMoveVec());
 
 				return true;
 			}
 
 			return false;
 		}
+        
+        public async Task OnBlockMoveEvent(Vector2Int direction)
+        {
+            // 일시정지, 클리어, 실패 등등의 이동 불가 상황
+            if (StageManager.Instance.StatusController.CurrentState != Stage.StageState.Playing)
+                return;
+            
+            Stage.StageLogic.GenerateMoveCommands(_blockDict, direction, _board, _executor);
 
-		/// <summary>
-		/// 블록이 이동한 결과 딕셔너리에 저장
-		/// </summary>
-		private void SetMoveBlockResultNew(MoveDirection direction)
-		{
-			var disOrder = (direction == MoveDirection.Down || direction == MoveDirection.Right);
+            if (_executor.Count <= 0) return;
+            
+            UIBlocker.Instance.SetEnabled();
+                
+            await _executor.ExecuteAllAsync();
 
-			// move case
-			// 1. 그냥 이동 하는 경우
-			// 2. 이동 후 다른 블록이 합쳐지는 경우 (합쳐짐을 당하는 블록은 없애기 vs 합치기를 시도한 블록을 없애기)
-			// 3. 2의 결과로 나온 블록은 다른 블록에 의해서 합쳐지지 않는다
+            UpdateBoardState();
 
-			var tempDict = new Dictionary<int, Block>();
+            if (CheckGameClear())
+            {
+                UIBlocker.Instance.SetDisabled();
 
-			for (var i = (disOrder) ? maxSize * maxSize - 1 : 0;
-				(disOrder) ? i >= 0 : i < maxSize * maxSize;)
-			{
-				if (blockDict.ContainsKey(i))
-				{
-					var moveBlock = blockDict[i];
-					var xIndex = GetXIndex(i);
-					var yIndex = GetYIndex(i);
-					// 이동 가능 거리
-					var moveDist = 0;
+                StageManager.Instance.StatusController.ClearGame();
+            }
+            else
+            {
+                var randomBlockPos = GetRandomBlockPos();
 
-					if (direction == MoveDirection.Left)
-					{
-						moveDist = xIndex;
-					}
-					else if (direction == MoveDirection.Right)
-					{
-						moveDist = (maxSize - 1) - xIndex;
-					}
-					else if (direction == MoveDirection.Down)
-					{
-						moveDist = (maxSize - 1) - yIndex;
-					}
-					else if (direction == MoveDirection.Up)
-					{
-						moveDist = yIndex;
-					}
+                if (randomBlockPos == null)
+                {
+                    MyDebug.LogWarning("CreateBlock Fail: randomBlockPos is null");
+                    return;
+                }
 
-					if (moveDist >= 1)
-					{
-						var moveToIndex = i;
-						var moveAndMerged = false;
+                var pos = randomBlockPos.Value;
+                var block = _blockFactory.Create();
+                block.gameObject.SetActive(false);
+                block.transform.localScale = Vector3.one;
+                block.Init(GetInitBlockNum());
+                _blockDict[pos] = block;
+                var worldBoardPos = GetBoardPosition(pos);
+                _executor.EnqueueGroup(new List<Stage.IBlockCommand>()
+                {
+                    new Stage.SpawnBlockCommand(block, worldBoardPos)
+                });
+                
+                await _executor.ExecuteAllAsync();
 
-						for (var j = 1; j <= moveDist; j++)
-						{
-							var toIndex = i + GetMoveOffset(direction, j);
+                UIBlocker.Instance.SetDisabled();
+                
+                UpdateBoardState();
 
-							if (!tempDict.ContainsKey(toIndex))
-							{
-								moveToIndex = toIndex;
-							}
-							else if (tempDict[toIndex].Data.Num == moveBlock.Data.Num && !tempDict[toIndex].Data.IsMerged)
-							{
-								moveToIndex = toIndex;
-								moveAndMerged = true;
-								break;
-							}
-							else
-							{
-								break;
-							}
-						}
+                if (CheckGameOver())
+                {
+                    StageManager.Instance.StatusController.GameFail();
+                }
+            }
+        }
 
-						if (moveToIndex != i)
-						{
-							if (moveAndMerged)
-							{
-								// 이동하고 사라짐
-								moveBlock.MoveData = new BlockData()
-								{
-									Index = moveToIndex,
-									Num = -1
-								};
-								//MyDebug.LogError($"index {moveToIndex} will be delete");
-								var originIndex = tempDict[moveToIndex].Data.Index;
-								var originValue = tempDict[moveToIndex].Data.Num;
-								var toValue = originValue * 2;
-								tempDict[moveToIndex].MoveData = new BlockData()
-								{
-									Index = moveToIndex,
-									Num = toValue,
-									WaitMergeBlock = moveBlock
-								};
-								tempDict[moveToIndex].Data = new BlockData()
-								{
-									Index = originIndex,
-									Num = originValue,
-									IsMerged = true
-								};
-							}
-							else
-							{
-								moveBlock.MoveData = new BlockData()
-								{
-									Index = moveToIndex,
-									Num = moveBlock.Data.Num
-								};
-								tempDict.Add(moveToIndex, moveBlock);
-							}
-						}
-						else
-						{
-							// 제자리인 경우
-							moveBlock.MoveData = null;
-							tempDict.Add(i, moveBlock);
-						}
-					}
-					else
-					{
-						moveBlock.MoveData = null;
-						tempDict.Add(i, moveBlock);
-					}
-				}
+        /// <summary>
+        /// 최신화된 Block 데이터로 Board 갱신
+        /// </summary>
+        private void UpdateBoardState()
+        {
+            var tempVal = new Vector2Int();
+            
+            for (int x = 0; x < _maxSize; x++)
+            {
+                for (int y = 0; y < _maxSize; y++)
+                {
+                    tempVal.Set(x, y);
+                    if (_blockDict.TryGetValue(tempVal, out var block))
+                    {
+                        _board[x, y] = block.Number;
+                    }
+                    else
+                    {
+                        _board[x, y] = 0;
+                    }
+                }
+            }
+        }
 
-				if (disOrder) i--;
-				else i++;
-			}
-		}
+        /// <summary>
+        /// 게임 클리어 상태인지 체크
+        /// </summary>
+        private bool CheckGameClear()
+        {
+            foreach (var val in _board)
+            {
+                if (val == _maxNum)
+                {
+                    return true;
+                }
+            }
 
-		/// <summary>
-		/// 블록 이동 결과에 따른 블록 이동 연출
-		/// </summary>
-		private IEnumerator MoveAndMergeBlocks()
-		{
-			UIBlocker.Instance.SetEnabled();
+            return false;
+        }
 
-			var dontMoveCount = 0;
-			var moveResCount = 0;
-			var blockDictCount = blockDict.Count;
+        /// <summary>
+        /// 보드의 블록 숫자가 하나라도 0인 경우 false
+        /// </summary>
+        /// <remarks>가득 찼는지 체크용</remarks>
+        private bool CheckFullOccupied()
+        {
+            foreach (var val in _board)
+            {
+                if (val == 0)
+                {
+                    return false;
+                }
+            }
 
-			foreach (var block in blockDict.Values)
-			{
-				if (block.MoveData == null)
-				{
-					dontMoveCount++;
-				}
-				else
-				{
-					CoroutineManager.Instance.Run(block.MoveAndChange(() =>
-					{
-						moveResCount++;
-
-						if (block.Data.Num >= maxNum)
-						{
-							isGameClear = true;
-						}
-					}));
-				}
-			}
-
-			if (blockDictCount == dontMoveCount)
-			{
-				moveCoroutine = null;
-				UIBlocker.Instance.SetDisabled();
-				yield break;
-			}
-
-			// 움직인 횟수 기록용
-			StageManager.Instance.StatusController.AddMoveCount(1);
-
-			yield return new WaitUntil(() => blockDictCount == dontMoveCount + moveResCount);
-
-			UIBlocker.Instance.SetDisabled();
-
-			if (isGameClear)
-			{
-				moveCoroutine = null;
-				StageManager.Instance.StatusController.ClearGame();
-				yield break;
-			}
-
-			var moveDict = new Dictionary<int, Block>();
-
-			foreach (var blockData in blockDict.Values)
-			{
-				if (!blockData.gameObject.activeSelf)
-				{
-					continue;
-				}
-
-				// if (moveDict.ContainsKey(blockData.Value.Data.Index))
-				// {
-				// 	//MyDebug.LogError("Test");
-				// }
-
-				moveDict.Add(blockData.Data.Index, blockData);
-			}
-
-			blockDict = moveDict;
-
-			CreateBlock();
-
-			moveCoroutine = null;
-
-			if (CheckGameOver())
-			{
-				StageManager.Instance.StatusController.GameFail();
-			}
-		}
+            return true;
+        }
 
 		/// <summary>
 		/// 게임 오버인지 체크
@@ -513,10 +431,10 @@ namespace Puzzle.UI
 		private bool CheckGameOver()
 		{
 			// 가득 차지 않은 경우면 무조건 게임오버 아님
-			if (!IsMax) return false;
-
+			if (!CheckFullOccupied()) return false;
+            
 			// 가득찬 경우에는 합칠수 있는 블록 배치인지 체크
-			foreach (var blockData in blockDict)
+			foreach (var blockData in _blockDict)
 			{
 				if (CheckSameValue(blockData.Key)) return false;
 			}
@@ -527,92 +445,41 @@ namespace Puzzle.UI
 		/// <summary>
 		/// 특정 인덱스의 4방향에 같은 값이 있는지 체크
 		/// </summary>
-		private bool CheckSameValue(int index)
+		private bool CheckSameValue(Vector2Int pos)
 		{
-			var value = blockDict[index].Data.Num;
+			var value = _board[pos.x, pos.y];
+            var directions = (MoveDirection[])Enum.GetValues(typeof(MoveDirection));
 
-			var downIndex = index + GetMoveOffset(MoveDirection.Down, 1);
-			if (blockDict.ContainsKey(downIndex) && blockDict[downIndex].Data.Num == value)
-			{
-				//MyDebug.Log($"Down {index} / {downIndex} / {blockDict[downIndex].Data.Num} / {value}");
-				return true;
-			}
+            foreach (var direction in directions)
+            {
+                if (direction == MoveDirection.None) continue;
+                
+                var calcPos = pos + direction.GetMoveVec();
 
-			var upIndex = index + GetMoveOffset(MoveDirection.Up, 1);
-			if (blockDict.ContainsKey(upIndex) && blockDict[upIndex].Data.Num == value)
-			{
-				//MyDebug.Log($"Up {index} / {upIndex} / {blockDict[upIndex].Data.Num} / {value}");
-				return true;
-			}
-
-			var leftIndex = index + GetMoveOffset(MoveDirection.Left, 1);
-			if (blockDict.ContainsKey(leftIndex) && GetYIndex(leftIndex) == GetYIndex(index) &&
-				blockDict[leftIndex].Data.Num == value)
-			{
-				//MyDebug.Log($"Left {index} / {leftIndex} / {blockDict[leftIndex].Data.Num} / {value}");
-				return true;
-			}
-
-			var rightIndex = index + GetMoveOffset(MoveDirection.Right, 1);
-			if (blockDict.ContainsKey(rightIndex) && GetYIndex(rightIndex) == GetYIndex(index) &&
-				blockDict[rightIndex].Data.Num == value)
-			{
-				//MyDebug.Log($"Right {index} / {rightIndex} / {blockDict[rightIndex].Data.Num} / {value}");
-				return true;
-			}
+                if (!Stage.StageLogic.IsInBounds(calcPos, _maxSize, _maxSize)) continue;
+                
+                if (_board[calcPos.x, calcPos.y] == value)
+                {
+                    return true;
+                }
+            }
 
 			//MyDebug.Log($"value {value} and index {index} is not checked");
 			return false;
 		}
 
 		/// <summary>
-		/// 해당 인덱스가 수치 범위 밖으로 벗어났는지 체크용
-		/// </summary>
-		private bool IsOutOfIndex(int index)
-		{
-			return index < 0 || index >= maxSize * maxSize;
-		}
-
-		private int GetYIndex(int index)
-		{
-			return index / maxSize;
-		}
-
-		private int GetXIndex(int index)
-		{
-			return index % maxSize;
-		}
-
-		/// <summary>
 		/// x, y 인덱스(zero-based)로 찾은 board 위치
 		/// </summary>
-		public Vector3 GetBoardPosition(int index)
+		public Vector3 GetBoardPosition(Vector2Int pos)
 		{
-			return boards[index].GetPosition();
-		}
-
-		private int GetMoveOffset(MoveDirection direction, int moveDist)
-		{
-			switch (direction)
-			{
-				case MoveDirection.Right:
-					return moveDist;
-				case MoveDirection.Left:
-					return -moveDist;
-				case MoveDirection.Down:
-					return moveDist * maxSize;
-				case MoveDirection.Up:
-					return -moveDist * maxSize;
-				default:
-					return 0;
-			}
+			return _boardDict[pos].GetPosition();
 		}
 		
 		private bool OnResetBoard(Events e)
 		{
 			if (e is ResetBoardEvent rbe)
 			{
-				HideBlocks();
 				Reset();
 				return true;
 			}

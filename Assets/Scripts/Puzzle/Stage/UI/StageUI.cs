@@ -51,7 +51,7 @@ namespace Puzzle.UI
 		{
 			switch (state)
 			{
-				case Stage.StageState.Start:
+				case Stage.StageState.Playing:
 					currentStatus = status_start;
 					break;
 				case Stage.StageState.Clear:

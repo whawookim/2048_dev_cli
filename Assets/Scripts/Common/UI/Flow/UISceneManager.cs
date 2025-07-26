@@ -51,8 +51,13 @@ namespace Puzzle.UI.Flow
                             _sceneStack.Remove(existingScene);
                         }
 
+                        UnityEngine.MonoBehaviour currentSceneMono = null; 
+
                         if (CurrentScene != null)
+                        {
                             CurrentScene.Pause();
+                            currentSceneMono = (CurrentScene as UnityEngine.MonoBehaviour);
+                        }
 
                         var nextScene = await UIAssetLoader.LoadSceneAsync(nextSceneType);
                         nextScene.UISceneManager = this;
@@ -70,6 +75,12 @@ namespace Puzzle.UI.Flow
 
                         (nextScene as UnityEngine.MonoBehaviour)?.gameObject.SetActive(true);
                         nextScene.Begin();
+
+                        if (currentSceneMono != null)
+                        {
+                            currentSceneMono.gameObject.SetActive(false);
+                        }
+                        
                         break;
                     }
 

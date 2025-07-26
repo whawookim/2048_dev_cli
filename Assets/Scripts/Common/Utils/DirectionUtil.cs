@@ -1,6 +1,13 @@
 using UnityEngine;
 
-public enum MoveDirection { None, Left, Right, Up, Down }
+public enum MoveDirection
+{
+    None, 
+    Left, 
+    Right, 
+    Up, 
+    Down
+}
 
 public static class DirectionUtil
 {
@@ -31,4 +38,21 @@ public static class DirectionUtil
 
 		return MoveDirection.None;
 	}
+
+    public static Vector2Int GetMoveVec(this MoveDirection moveDir)
+    {
+        switch (moveDir)
+        {
+            case MoveDirection.Down:
+                return -Vector2Int.down;
+            case MoveDirection.Left:
+                return Vector2Int.left;
+            case MoveDirection.Right:
+                return Vector2Int.right;
+            case MoveDirection.Up:
+                return -Vector2Int.up;
+        }
+        
+        return Vector2Int.zero;
+    }
 }

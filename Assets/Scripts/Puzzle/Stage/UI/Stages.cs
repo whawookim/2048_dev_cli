@@ -54,15 +54,16 @@ namespace Puzzle.UI.Scene
 			states = savedState as StagesState;
 
 			StageManager.Instance.StatusController.SetStageMode(states.CurrentStageMode);
-			
-			InitBoard(StageManager.Instance.OriginBoardObj,
-				StageManager.Instance.OriginBlockObj);
+
+            boardUI.InitOriginResource(StageManager.Instance.OriginBoardObj, StageManager.Instance.OriginBlockObj);
+            
 			return Task.CompletedTask;
 		}
 
 		void IUIScene.Begin()
 		{
 			stageUI.SubscribeEvent();
+            boardUI.SubscribeEvent();
 			StageManager.Instance.StatusController.StartGame();
 			boardUI.Init(states.CurrentStageMode);
 		}
@@ -78,6 +79,7 @@ namespace Puzzle.UI.Scene
 		void IUIScene.Finish()
 		{
 			stageUI.UnsubscribeEvent(true);
+            boardUI.UnsubscribeEvent(true);
 		}
 
 		object IUIScene.GetState()
@@ -96,18 +98,13 @@ namespace Puzzle.UI.Scene
 		{
 			boardUI.Dispose();
 		}
-
-		public void InitBoard(GameObject originBoard, GameObject originBlock)
-		{
-			boardUI.InitOriginResource(originBoard, originBlock);
-		}
 		
 		/// <summary>
 		/// x, y 인덱스(zero-based)로 찾은 board 위치
 		/// </summary>
-		public Vector3 GetBoardPosition(int index)
+		public Vector3 GetBoardPosition(Vector2Int pos)
 		{
-			return boardUI.GetBoardPosition(index);
+			return boardUI.GetBoardPosition(pos);
 		}
 	}
 }

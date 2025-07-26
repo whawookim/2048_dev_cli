@@ -15,12 +15,12 @@ namespace Puzzle
 		/// <summary>
 		/// 각 스테이지모드 별로 보드 사이즈
 		/// </summary>
-		public static readonly int[] BoardSizes = {160, 120, 100};
+		public static readonly int[] BoardSizes = {160+50, 120+40, 100+30};
 
 		/// <summary>
 		/// 각 스테이지모드 별로 그리드 사이즈 (보드 사이즈랑 다름)
 		/// </summary>
-		public static readonly int[] GridSizes = {180, 140, 114};
+		public static readonly int[] GridSizes = {180+50, 140+40, 114+30};
 
 		/// <summary>
 		/// 블럭이 초기 배치될때 초기값 배열
