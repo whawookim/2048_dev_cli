@@ -61,9 +61,11 @@
     <Compile Include="Assets\Scripts\Common\Network\HttpMethod.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\BoardUI.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiDeltaDispatcher.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageBoardController.cs" />
     <Compile Include="Assets\Scripts\Common\Manager\FontManager.cs" />
     <Compile Include="Assets\GoogleSignIn\Future.cs" />
     <Compile Include="Assets\Scripts\Common\Test\ClickTest.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageBoardModel.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\BlockMoveEvent.cs" />
     <Compile Include="Assets\GoogleSignIn\Impl\BaseObject.cs" />
     <Compile Include="Assets\Scripts\Plugins\Firebase\AnalyticsConstants.cs" />

@@ -32,5 +32,15 @@ namespace Puzzle.UI
         {
             rect.anchoredPosition = worldPos;
         }
+        
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
+        public void Show()
+        {
+            gameObject.SetActive(true);
+        }
 	}
 }

@@ -30,20 +30,6 @@ namespace Puzzle.Stage
             }
 
             await Task.WhenAll(allTasks); 
-            
-            /*while (_commandGroups.Count > 0)
-            {
-                var group = _commandGroups.Dequeue();
-
-                var tasks = new List<Task>();
-                foreach (var command in group)
-                {
-                    tasks.Add(command.ExecuteAsync());
-                    CommandHistory.Push(command);
-                }
-
-                await Task.WhenAll(tasks); // 한 그룹은 동시에 실행
-            }*/
         }
 
         public void Clear()

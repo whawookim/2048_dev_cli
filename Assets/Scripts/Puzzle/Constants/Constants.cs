@@ -15,12 +15,12 @@ namespace Puzzle
 		/// <summary>
 		/// 각 스테이지모드 별로 보드 사이즈
 		/// </summary>
-		public static readonly int[] BoardSizes = {160+50, 120+40, 100+30};
+		public static readonly int[] BoardSizes = {210, 160, 130};
 
 		/// <summary>
 		/// 각 스테이지모드 별로 그리드 사이즈 (보드 사이즈랑 다름)
 		/// </summary>
-		public static readonly int[] GridSizes = {180+50, 140+40, 114+30};
+		public static readonly int[] GridSizes = {230, 180, 144};
 
 		/// <summary>
 		/// 블럭이 초기 배치될때 초기값 배열
@@ -31,5 +31,25 @@ namespace Puzzle
 		/// 블럭 생성시 초기 수치가 나올 확률로 다 합하여 1
 		/// </summary>
 		public static readonly float[] InitValuesProb = {0.95f, 0.05f};
-	}
+        
+        public static int GetRandomInitBlockValue()
+        {
+            float roll = UnityEngine.Random.Range(0f, 1f);
+            float remaining = roll;
+
+            for (int i = 0; i < InitValuesProb.Length; i++)
+            {
+                if (remaining > InitValuesProb[i])
+                {
+                    remaining -= InitValuesProb[i];
+                }
+                else
+                {
+                    return InitValues[i];
+                }
+            }
+
+            return InitValues[^1]; // fallback
+        }
+    }
 }
