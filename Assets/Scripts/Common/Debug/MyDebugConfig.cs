@@ -4,19 +4,19 @@ using System;
 
 public static class MyDebugConfig
 {
-    private const string RemoteKey_LogLevel = "debug_log_level";
+    private const string RemoteKeyLogLevel = "debug_log_level";
 
-    private const string RemoteKey_EnableLog = "crashlytics_log_enabled";
+    private const string RemoteKeyEnableLog = "crashlytics_log_enabled";
     
     public static bool EnableCrashlyticsLog { get; private set; } = true;
 
     public static void InitDebugRemoteConfig()
     {
         // RemoteConfig bool 값이 없으면 true를 기본값으로 사용
-        EnableCrashlyticsLog = FirebaseRemoteConfig.DefaultInstance.GetValue(RemoteKey_EnableLog).BooleanValue;
+        EnableCrashlyticsLog = FirebaseRemoteConfig.DefaultInstance.GetValue(RemoteKeyEnableLog).BooleanValue;
                             
         string levelStr = FirebaseRemoteConfig.DefaultInstance
-            .GetValue(RemoteKey_LogLevel).StringValue;
+            .GetValue(RemoteKeyLogLevel).StringValue;
 
         if (Enum.TryParse(levelStr, out MyDebug.LogLevel remoteLevel))
         {

@@ -123,6 +123,7 @@
     <Compile Include="Assets\Scripts\Common\UI\Loader\UIAssetLoader.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\Command\IBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
+    <Compile Include="Assets\Scripts\Plugins\AdMob\AdMobConfig.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\GameManager.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Board.cs" />

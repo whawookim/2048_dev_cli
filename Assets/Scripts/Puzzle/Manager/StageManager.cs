@@ -24,13 +24,13 @@ namespace Puzzle
         
         public readonly StageStatusController StatusController = new ();
         
-        public IEnumerator LoadAllAsync()
+        public async Task LoadAllAsync()
         {
             // 매니저 등록
             GameManager.Instance.RegisterManger(this);
             
             var boardHandle = Addressables.InstantiateAsync(nameof(UI.Board));
-            yield return boardHandle;
+            await boardHandle.Task;
 
             if (boardHandle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -44,7 +44,7 @@ namespace Puzzle
             }
                 
             var blockHandle = Addressables.InstantiateAsync(nameof(UI.Block));
-            yield return blockHandle;
+            await blockHandle.Task;
 
             if (blockHandle.Status == AsyncOperationStatus.Succeeded)
             {
@@ -115,7 +115,6 @@ namespace Puzzle
 
         public void GoToLobby()
         {
-            CollectGC();
             GameManager.Instance.ChangeScene(UnityScene.Lobby, new UI.Scene.UITransition()
             {
                 NextScene = UI.Scene.LobbyMain.Instance,

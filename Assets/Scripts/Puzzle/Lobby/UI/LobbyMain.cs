@@ -17,12 +17,12 @@ namespace Puzzle.UI.Scene
 
 		public static LobbyMain Instance { get; private set; }
 
-		private int stageIndex = 0;
+		private int _stageIndex = 0;
 
 		[SerializeField]
 		private StageCardUI[] stages;
 		
-		private LobbyMainState states;
+		private LobbyMainState _states;
 
 #region MonoBehaviour
 		void Awake()
@@ -46,14 +46,14 @@ namespace Puzzle.UI.Scene
 		public Flow.UISceneManager UISceneManager { get; set; }
 		Task IUIScene.LoadAsync(object savedState)
 		{
-			states = savedState as LobbyMainState;
+			_states = savedState as LobbyMainState;
 			
             return AdManager.Instance.LoadAndShowBannerAsync(true);
         }
 
         void IUIScene.Begin()
 		{
-			SetCurrentStage((int)states.CurrentStageMode);
+			SetCurrentStage((int)_states.CurrentStageMode);
 		}
 
 		void IUIScene.Resume(object result)
@@ -87,11 +87,11 @@ namespace Puzzle.UI.Scene
 		/// </summary>
 		private void SetCurrentStage(int index)
 		{
-			stages[stageIndex].gameObject.SetActive(false);
+			stages[_stageIndex].gameObject.SetActive(false);
 			stages[index].gameObject.SetActive(true);
-			stageIndex = index;
+			_stageIndex = index;
 
-			states.CurrentStageMode = stages[stageIndex].Mode;
+			_states.CurrentStageMode = stages[_stageIndex].Mode;
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace Puzzle.UI.Scene
 		/// </summary>
 		public void OnClickRightStage()
 		{
-			SetCurrentStage(stageIndex + 1 >= stages.Length ? 0 : stageIndex + 1);
+			SetCurrentStage(_stageIndex + 1 >= stages.Length ? 0 : _stageIndex + 1);
 		}
 
 		/// <summary>
@@ -107,7 +107,7 @@ namespace Puzzle.UI.Scene
 		/// </summary>
 		public void OnClickLeftStage()
 		{
-			SetCurrentStage(stageIndex - 1 < 0 ? stages.Length - 1 : stageIndex - 1);
+			SetCurrentStage(_stageIndex - 1 < 0 ? stages.Length - 1 : _stageIndex - 1);
 		}
 
 		/// <summary>
@@ -122,7 +122,7 @@ namespace Puzzle.UI.Scene
 				TransitionType = UITransitionType.Push,
 				SavedState = new StagesState()
 				{
-					CurrentStageMode = states.CurrentStageMode,
+					CurrentStageMode = _states.CurrentStageMode,
 				}
 			});
 		}
@@ -136,7 +136,7 @@ namespace Puzzle.UI.Scene
         {
             Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.RankingPopup), new Overlay.RankingPopupState()
             {
-                StageMode = states.CurrentStageMode
+                StageMode = _states.CurrentStageMode
             });
         }
 		

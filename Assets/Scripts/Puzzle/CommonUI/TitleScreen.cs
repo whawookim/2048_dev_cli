@@ -9,23 +9,22 @@ namespace Puzzle.UI.Scene
     public class TitleScreen : MonoBehaviour, IUIScene
     {
         public string AddressableName => nameof(TitleScreen);
-        private static TitleScreen instance;
 
-        public static TitleScreen Instance => instance;
+        public static TitleScreen Instance { get; private set; }
 
 #region MonoBehaviour
         public void Awake()
         {
             Debug.Assert(Instance == null);
 
-            instance = this;
+            Instance = this;
         }
 
         public void OnDestroy()
         {
             Debug.Assert(Instance == this);
             
-            instance = null;
+            Instance = null;
         }
 #endregion
         

@@ -1,6 +1,6 @@
 public class ResetBoardEvent : Events
 {
-    private static TinyObjectPool<ResetBoardEvent> pool = new TinyObjectPool<ResetBoardEvent>();
+    private static readonly TinyObjectPool<ResetBoardEvent> Pool = new TinyObjectPool<ResetBoardEvent>();
 
     public override string ToString()
     {
@@ -9,12 +9,12 @@ public class ResetBoardEvent : Events
     
     public override void Dispose()
     {
-        pool.Return(this);
+        Pool.Return(this);
     }
 
     public static ResetBoardEvent Create()
     {
-        var e = pool.GetOrCreate();
+        var e = Pool.GetOrCreate();
         return e;
     }
 }

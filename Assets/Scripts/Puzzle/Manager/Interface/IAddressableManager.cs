@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -6,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public interface IAddressableManager
 {
-    IEnumerator LoadAllAsync();
+    Task LoadAllAsync();
     void Release();
     void AddLoadedObject(GameObject obj);
 }

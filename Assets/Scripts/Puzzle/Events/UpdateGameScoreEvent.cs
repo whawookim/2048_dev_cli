@@ -2,7 +2,7 @@ public class UpdateGameScoreEvent : Events
 {
 	public int Value { get; private set; }
 
-	private static TinyObjectPool<UpdateGameScoreEvent> pool = new TinyObjectPool<UpdateGameScoreEvent>();
+	private static readonly TinyObjectPool<UpdateGameScoreEvent> Pool = new TinyObjectPool<UpdateGameScoreEvent>();
 
 	public override string ToString()
 	{
@@ -11,12 +11,12 @@ public class UpdateGameScoreEvent : Events
 
 	public override void Dispose()
 	{
-		pool.Return(this);
+		Pool.Return(this);
 	}
 
 	public static UpdateGameScoreEvent Create(int value)
 	{
-		var e = pool.GetOrCreate();
+		var e = Pool.GetOrCreate();
 		e.Value = value;
 
 		return e;

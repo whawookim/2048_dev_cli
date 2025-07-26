@@ -29,7 +29,7 @@ namespace Puzzle.UI.Overlay
     {
         public static RankingPopup Instance { get; private set; }
 
-        private RankingPopupState states;
+        private RankingPopupState _states;
 
         public static string AddressableName => nameof(RankingPopup);
         
@@ -45,9 +45,9 @@ namespace Puzzle.UI.Overlay
         [SerializeField]
         private GameObject emptyObj;
        
-        private LocalizedString localizedTitle = new("GameStrings", "ranking_popup_title");
+        private readonly LocalizedString _localizedTitle = new("GameStrings", "ranking_popup_title");
         
-        private List<RankingData> rankingDataList = new ();
+        private List<RankingData> _rankingDataList = new ();
         
         #region Monobehavior
 
@@ -76,16 +76,16 @@ namespace Puzzle.UI.Overlay
 
         public void Begin(object state = null)
         {
-            states = state as RankingPopupState;
+            _states = state as RankingPopupState;
             
-            Debug.Assert(states != null);
+            Debug.Assert(_states != null);
             
-            MyDebug.Log(states.StageMode.ToString());
+            MyDebug.Log(_states.StageMode.ToString());
             
-            localizedTitle.Arguments = new object[] { new { stage = states.StageMode.ToString() }};
-            localizedTitle.StringChanged -= OnTitleChanged;
-            localizedTitle.StringChanged += OnTitleChanged;
-            localizedTitle.RefreshString();
+            _localizedTitle.Arguments = new object[] { new { stage = _states.StageMode.ToString() }};
+            _localizedTitle.StringChanged -= OnTitleChanged;
+            _localizedTitle.StringChanged += OnTitleChanged;
+            _localizedTitle.RefreshString();
             
             // TODO: 캐시된 거 있으면 특정 시간동안 그대로 사용하기 기능
         }
@@ -116,11 +116,11 @@ namespace Puzzle.UI.Overlay
         {
             UIBlocker.Instance.SetEnabled();
             
-            var request = RankingManager.Instance.GetRankingData(states.StageMode, states.RankingMode);
+            var request = RankingManager.Instance.GetRankingData(_states.StageMode, _states.RankingMode);
             
             await request;
 
-            rankingDataList = request.Result ?? new List<RankingData>();
+            _rankingDataList = request.Result ?? new List<RankingData>();
 
             SetUI();
             
@@ -130,7 +130,7 @@ namespace Puzzle.UI.Overlay
         private void OnItemUpdated(GameObject go, int index)
         {
             var item = go.GetComponent<RankingPopupItem>();
-            item.SetData(rankingDataList[index]);
+            item.SetData(_rankingDataList[index]);
         }
 
         public void InitUI()
@@ -145,14 +145,14 @@ namespace Puzzle.UI.Overlay
         {
             LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)scrollRect.transform);
             scrollList.Init();
-            scrollList.SetItemCount(rankingDataList.Count);
+            scrollList.SetItemCount(_rankingDataList.Count);
 
             if (resetScroll)
             {
                 scrollList.ResetScroll();
             }
             
-            emptyObj.SetActive(rankingDataList.Count <= 0);
+            emptyObj.SetActive(_rankingDataList.Count <= 0);
         }
 
         public void OnTitleChanged(string localizedValue)

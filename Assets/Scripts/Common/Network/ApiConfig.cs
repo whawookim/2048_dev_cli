@@ -8,7 +8,7 @@ namespace Network
     /// </summary>
     public static class ApiConfig
     {
-        private const string RemoteKey_ApiBaseUrl = "api_base_url";
+        private const string RemoteKeyApiBaseUrl = "api_base_url";
         
         /// <summary>
         /// Firebase RemoteConfig에서 불러온 API 서버 주소
@@ -20,7 +20,7 @@ namespace Network
         /// </summary>
         public static void InitDebugRemoteConfig()
         {
-            ApiBaseUrl = FirebaseRemoteConfig.DefaultInstance.GetValue(RemoteKey_ApiBaseUrl).StringValue;
+            ApiBaseUrl = FirebaseRemoteConfig.DefaultInstance.GetValue(RemoteKeyApiBaseUrl).StringValue;
         }
     }
 }

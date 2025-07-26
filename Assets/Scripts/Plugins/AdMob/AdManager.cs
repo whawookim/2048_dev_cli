@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using GoogleMobileAds.Api;
+using Plugins.AdMob;
 using UnityEngine;
 
 /// <summary>
@@ -10,15 +11,10 @@ public class AdManager : MonoBehaviour
     public static AdManager Instance { get; private set; }
 
     /// <summary>
-    /// 배너 광고 Id
+    /// Editor 배너 광고 Id
     /// </summary>
     [SerializeField]
-    private string bannerUnitId
-#if UNITY_EDITOR
-        = "ca-app-pub-3940256099942544/6300978111";
-#else
-        = "ca-app-pub-3194408665340443/8344250604";
-#endif
+    private string bannerUnitId = "ca-app-pub-3940256099942544/6300978111";
 
 #region MonoBehaviour
     private void Awake()
@@ -36,32 +32,43 @@ public class AdManager : MonoBehaviour
     }
 #endregion
     
-    public void Init()
+    public void Initialize()
     {
+        AdMobConfig.InitRemoteConfig();
+
         MobileAds.Initialize(initStatus =>
         {
             MyDebug.Log("Admob initialized");
         });
     }
+
+    public string GetBannerAdUnitId()
+    {
+#if UNITY_EDITOR
+        return bannerUnitId;
+#else
+        return AdMobConfig.BannerUnitId;
+#endif
+    }
     
-    private BannerView bannerView;
+    private BannerView _bannerView;
 
     public async Task LoadAndShowBannerAsync(bool showBanner = false)
     {
-        if (bannerView == null)
+        if (_bannerView == null)
         {
             bool isLoading = true;
             
             // 배너 위치 설정 (예: 하단 중앙)
-            bannerView = new BannerView(bannerUnitId, AdSize.Banner, AdPosition.Bottom);
+            _bannerView = new BannerView(GetBannerAdUnitId(), AdSize.Banner, AdPosition.Bottom);
             
-            bannerView.OnBannerAdLoaded += () =>
+            _bannerView.OnBannerAdLoaded += () =>
             {
                 isLoading = false;
                 MyDebug.Log("Banner Ad load Success");
             };
         
-            bannerView.OnBannerAdLoadFailed += (error) =>
+            _bannerView.OnBannerAdLoadFailed += (error) =>
             {
                 isLoading = false;
                 MyDebug.LogError($"{error} Banner Ad load Failed");
@@ -71,7 +78,7 @@ public class AdManager : MonoBehaviour
             AdRequest request = new AdRequest();
         
             // 광고 로드
-            bannerView.LoadAd(request);
+            _bannerView.LoadAd(request);
 
             while (isLoading)
                 await Task.Yield();
@@ -85,17 +92,17 @@ public class AdManager : MonoBehaviour
 
     public void ShowBanner()
     {
-        if (bannerView == null) return;
+        if (_bannerView == null) return;
         
-        bannerView.Show();
+        _bannerView.Show();
         MyDebug.LogWarning("Show Banner");
     }
 
     public void HideBanner()
     {
-        if (bannerView == null) return;
+        if (_bannerView == null) return;
         
-        bannerView.Hide();
+        _bannerView.Hide();
         MyDebug.LogWarning("Hide Banner");
     }
 }

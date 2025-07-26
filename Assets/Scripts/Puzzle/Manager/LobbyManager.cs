@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -15,24 +14,22 @@ namespace Puzzle
         private static LobbyManager _instance;
         public static LobbyManager Instance => _instance ??= new LobbyManager();
         
-        private List<GameObject> loadedObjectList = new List<GameObject>();
+        private readonly List<GameObject> _loadedObjectList = new List<GameObject>();
 
-        public IEnumerator LoadAllAsync()
+        public async Task LoadAllAsync()
         {
             // 매니저 등록 (등록 이미 된 경우 거름)
             GameManager.Instance.RegisterManger(this);
-
-            yield break;
         }
         
         public void AddLoadedObject(GameObject obj)
         {
-            loadedObjectList.Add(obj);
+            _loadedObjectList.Add(obj);
         }
         
         public void Release()
         {
-            foreach (var handleObj in loadedObjectList)
+            foreach (var handleObj in _loadedObjectList)
             {
                 if (handleObj != null)
                 {
@@ -41,7 +38,7 @@ namespace Puzzle
                 }
             }
             
-            loadedObjectList.Clear();
+            _loadedObjectList.Clear();
         }
     }
 }

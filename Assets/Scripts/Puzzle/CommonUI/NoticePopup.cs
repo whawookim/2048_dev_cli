@@ -14,7 +14,7 @@ namespace Puzzle.UI.Overlay
 
         public static string AddressableName => nameof(NoticePopup);
 
-        private NoticePopupState states;
+        private NoticePopupState _states;
         
         #region Monobehavior
 
@@ -41,9 +41,9 @@ namespace Puzzle.UI.Overlay
 
         public void Begin(object state = null)
         {
-            states = state as NoticePopupState;
+            _states = state as NoticePopupState;
             
-            Debug.Assert(states != null);
+            Debug.Assert(_states != null);
 
         }
 

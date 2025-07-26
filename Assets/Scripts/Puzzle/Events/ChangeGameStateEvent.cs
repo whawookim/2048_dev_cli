@@ -4,7 +4,7 @@ public class ChangeGameStateEvent : Events
 {
 	public StageState State { get; private set; }
 
-	private static TinyObjectPool<ChangeGameStateEvent> pool = new TinyObjectPool<ChangeGameStateEvent>();
+	private static readonly TinyObjectPool<ChangeGameStateEvent> Pool = new TinyObjectPool<ChangeGameStateEvent>();
 
 	public override string ToString()
 	{
@@ -13,12 +13,12 @@ public class ChangeGameStateEvent : Events
 
 	public override void Dispose()
 	{
-		pool.Return(this);
+		Pool.Return(this);
 	}
 
 	public static ChangeGameStateEvent Create(StageState state)
 	{
-		var e = pool.GetOrCreate();
+		var e = Pool.GetOrCreate();
 		e.State = state;
 
 		return e;

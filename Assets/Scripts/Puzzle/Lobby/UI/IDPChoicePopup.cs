@@ -34,7 +34,7 @@ namespace Puzzle.UI.Overlay
         [SerializeField]
         private HorizontalLayoutGroup layoutGroup;
 
-        private IDPChoicePopupState states;
+        private IDPChoicePopupState _states;
 
         #region Monobehavior
 
@@ -61,9 +61,9 @@ namespace Puzzle.UI.Overlay
 
         public void Begin(object state = null)
         {
-            states = state as IDPChoicePopupState;
+            _states = state as IDPChoicePopupState;
             
-            Debug.Assert(states != null);
+            Debug.Assert(_states != null);
 
             RefreshUI();
         }
@@ -94,7 +94,7 @@ namespace Puzzle.UI.Overlay
         private void RefreshUI()
         {
             var boundIdps = User.Me.UserIdpBindings; // 서버 응답 기반 캐싱
-            var availableIdps = states.IDPList;
+            var availableIdps = _states.IDPList;
 
             foreach (var idp in allIdpButtons)
             {

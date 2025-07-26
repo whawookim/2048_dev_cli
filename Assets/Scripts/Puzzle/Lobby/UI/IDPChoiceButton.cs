@@ -16,7 +16,7 @@ namespace Puzzle.UI
         [SerializeField]
         private Button button;
 
-        private Action<Login.LoginType> buttonCallback;
+        private Action<Login.LoginType> _buttonCallback;
 
         public void SetActive(bool active)
         {
@@ -25,7 +25,7 @@ namespace Puzzle.UI
 
         public void Init(Action<Login.LoginType> buttonAction)
         {
-            buttonCallback = buttonAction;
+            _buttonCallback = buttonAction;
         }
 
         public void SetVisualState(bool isBound)
@@ -35,7 +35,7 @@ namespace Puzzle.UI
 
         public void OnButtonClick()
         {
-            buttonCallback.Invoke(LoginType);
+            _buttonCallback.Invoke(LoginType);
         }
     }
 }

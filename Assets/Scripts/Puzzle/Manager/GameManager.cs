@@ -57,10 +57,10 @@ namespace Puzzle
             Network.StaticApiClient.Initialize();
 
 			// 광고 초기화
-			AdManager.Instance.Init();
+			AdManager.Instance.Initialize();
 			
 			// 시작 씬 이동
-			ChangeScene(UnityScene.Lobby, new UI.Scene.UITransition()
+			await ChangeSceneAsync(UnityScene.Lobby, new UI.Scene.UITransition()
 			{
 				NextScene = UI.Scene.TitleScreen.Instance,
 				NextSceneType = typeof(UI.Scene.TitleScreen),
@@ -109,15 +109,16 @@ namespace Puzzle
 		/// 씬 이동
 		/// </summary>
 		public void ChangeScene(UnityScene unitySceneEnum, UI.Scene.UITransition transition)
-		{
-			CoroutineManager.Instance.Run(ChangeSceneAsync(unitySceneEnum, transition));
+        {
+            _ = ChangeSceneAsync(unitySceneEnum, transition);
 		}
 
 		/// <summary>
 		/// 씬 이동 Async
 		/// </summary>
-		public IEnumerator ChangeSceneAsync(UnityScene unitySceneEnum, UI.Scene.UITransition transition)
+		public async Task ChangeSceneAsync(UnityScene unitySceneEnum, UI.Scene.UITransition transition)
 		{
+            // 스크린 인풋 막아줌
 			UI.LoadingScreen.Instance.SetEnabled(true);
 
 			// 1) 모든 Tween 중단
@@ -130,7 +131,7 @@ namespace Puzzle
 			ReleaseAll();
 			
 			// 4) 새 씬 로드 (이전 씬 자동 언로드)
-			yield return SceneManager.LoadSceneAsync(unitySceneEnum.ToString());
+			await SceneManager.LoadSceneAsync(unitySceneEnum.ToString());
 			
 			// 5) 사용되지 않는 에셋 해제
 			Resources.UnloadUnusedAssets();
@@ -146,14 +147,13 @@ namespace Puzzle
 
 			if (addressableManager != null)
 			{
-				yield return addressableManager.LoadAllAsync();
+                await addressableManager.LoadAllAsync();
 			}
 
-			yield return UI.Flow.UIFlowManager.Instance.SetTransitionAsync(transition);
+            // 씬 트랜지션 후 끝날때까지 대기
+            await UI.Flow.UIFlowManager.Instance.SetTransitionAsync(transition);
 
-			// 씬 트랜지션 끝날때까지 대기
-			yield return new WaitUntil(() => UI.Flow.UIFlowManager.Instance.CurrentTransition == null);
-			
+            // 스크린 인풋 막아준 거 해제
 			UI.LoadingScreen.Instance.SetDisabled(true);
 		}
 	}
