@@ -93,3 +93,5 @@ ServerData/
 
 BuildOutput/
 BuildPath/
+
+!Assets/Editor/Build
