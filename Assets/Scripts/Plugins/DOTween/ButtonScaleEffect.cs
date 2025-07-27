@@ -9,30 +9,30 @@ namespace DOTween
     /// </summary>
     public class ButtonScaleEffect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler
     {
-        private Vector3 originalScale;
+        private Vector3 _originalScale;
 
         void Start()
         {
-            originalScale = transform.localScale;
+            _originalScale = transform.localScale;
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
-            transform.DOScale(originalScale * 0.9f, 0.1f)
+            transform.DOScale(_originalScale * 0.9f, 0.1f)
                 .SetEase(Ease.OutQuad)
                 .SetLink(gameObject); // 오브젝트가 파괴되면 트윈도 함께 정리!
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            transform.DOScale(originalScale, 0.1f)
+            transform.DOScale(_originalScale, 0.1f)
                 .SetEase(Ease.OutQuad)
                 .SetLink(gameObject); // 오브젝트가 파괴되면 트윈도 함께 정리!
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            transform.DOScale(originalScale, 0.1f)
+            transform.DOScale(_originalScale, 0.1f)
                 .SetEase(Ease.OutQuad)
                 .SetLink(gameObject); // 오브젝트가 파괴되면 트윈도 함께 정리!
         }

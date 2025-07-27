@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 628110657178861916}
   - component: {fileID: 1515887586873813145}
   m_Layer: 0
-  m_Name: Value
+  m_Name: Number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,8 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 343a0eb453fb4043ab31a27ade077117, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rect: {fileID: 8356567205913365797}
-  valueLabel: {fileID: 1515887586873813145}
+  <Rect>k__BackingField: {fileID: 8356567205913365797}
+  numberText: {fileID: 1515887586873813145}
   bgSprite: {fileID: 619283870514526455}
 --- !u!1 &8402457040428764045
 GameObject:

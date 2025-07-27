@@ -1,31 +1,22 @@
-public enum UpdateGameScoreType
-{
-	Set,
-	Add
-}
-
 public class UpdateGameScoreEvent : Events
 {
-	public UpdateGameScoreType Type { get; private set; }
-
 	public int Value { get; private set; }
 
-	private static TinyObjectPool<UpdateGameScoreEvent> pool = new TinyObjectPool<UpdateGameScoreEvent>();
+	private static readonly TinyObjectPool<UpdateGameScoreEvent> Pool = new TinyObjectPool<UpdateGameScoreEvent>();
 
 	public override string ToString()
 	{
-		return $"{nameof(UpdateGameScoreEvent)}";
+		return $"{nameof(UpdateGameScoreEvent)} {Value}";
 	}
 
 	public override void Dispose()
 	{
-		pool.Return(this);
+		Pool.Return(this);
 	}
 
-	public static UpdateGameScoreEvent Create(UpdateGameScoreType type, int value)
+	public static UpdateGameScoreEvent Create(int value)
 	{
-		var e = pool.GetOrCreate();
-		e.Type = type;
+		var e = Pool.GetOrCreate();
 		e.Value = value;
 
 		return e;

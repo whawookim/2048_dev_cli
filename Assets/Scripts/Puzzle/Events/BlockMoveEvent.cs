@@ -2,7 +2,7 @@ public class BlockMoveEvent : Events
 {
 	public MoveDirection Direction { get; private set; }
 
-	private static TinyObjectPool<BlockMoveEvent> pool = new TinyObjectPool<BlockMoveEvent>();
+	private static readonly TinyObjectPool<BlockMoveEvent> Pool = new TinyObjectPool<BlockMoveEvent>();
 
 	public override string ToString()
 	{
@@ -11,12 +11,12 @@ public class BlockMoveEvent : Events
 
 	public override void Dispose()
 	{
-		pool.Return(this);
+		Pool.Return(this);
 	}
 
 	public static BlockMoveEvent Create(MoveDirection direction)
 	{
-		var e = pool.GetOrCreate();
+		var e = Pool.GetOrCreate();
 		e.Direction = direction;
 
 		return e;

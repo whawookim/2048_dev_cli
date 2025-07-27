@@ -46,48 +46,117 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Puzzle\Constants.cs" />
-    <Compile Include="Assets\Scripts\Interface\IAddressableManager.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\Block.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\UIBlocker.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\StageData.cs" />
-    <Compile Include="Assets\Scripts\UGUIReusableScrollList.cs" />
-    <Compile Include="Assets\Scripts\Interpolations.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\LocaleSelector.cs" />
-    <Compile Include="Assets\Scripts\ObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Scene\UITransition.cs" />
+    <Compile Include="Assets\Scripts\Common\Addressable\AddressablesCDNOverride.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\SpawnBlockCommand.cs" />
+    <Compile Include="Assets\Scripts\Common\Time\GameTime.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\IUISceneHandler.cs" />
+    <Compile Include="Assets\Scripts\Common\Interface\IUpdatable.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\TinyObjectPool.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\MergeBlockCommand.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\UGUIReusableScrollList.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Constants\Constants.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\CommandHistory.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Manager\Interface\IAddressableManager.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\HttpMethod.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\UI\BoardUI.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiDeltaDispatcher.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageBoardController.cs" />
+    <Compile Include="Assets\Scripts\Common\Manager\FontManager.cs" />
+    <Compile Include="Assets\GoogleSignIn\Future.cs" />
+    <Compile Include="Assets\Scripts\Common\Test\ClickTest.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageBoardModel.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\BlockMoveEvent.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\StageUi.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\Stages.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\Data\RankingData.cs" />
-    <Compile Include="Assets\Scripts\MessageSystem.cs" />
-    <Compile Include="Assets\Scripts\UISceneManager.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\Board.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\GameManager.cs" />
-    <Compile Include="Assets\Scripts\ClickTest.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\LoadingScreen.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\CoroutineManager.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\BaseObject.cs" />
+    <Compile Include="Assets\Scripts\Plugins\Firebase\AnalyticsConstants.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Model\RankingData.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\UI\StageUI.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\NetworkRequest.cs" />
+    <Compile Include="Assets\Scripts\Common\Json\JsonHelper.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\GoogleSignInImpl.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Stages.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\IPatchable.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\Google\GoogleLoginProvider.cs" />
+    <Compile Include="Assets\Scripts\Common\Animation\Interpolations.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignIn.cs" />
+    <Compile Include="Assets\Scripts\Common\Json\JsonUtils.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\StaticApiClient.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\StageCardUI.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\StageMode.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\IDPPlatformSupportUtil.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\ILoginProvider.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Manager\LobbyManager.cs" />
+    <Compile Include="Assets\Scripts\Common\Manager\UpdateFrameManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\CommandExecutor.cs" />
+    <Compile Include="Assets\Scripts\Common\Utils\DirectionUtil.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\IPoolFactory.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Manager\InputManager.cs" />
+    <Compile Include="Assets\Scripts\Common\Utils\NamingConventionUtil.cs" />
+    <Compile Include="Assets\Scripts\Common\Manager\CoroutineManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\CommonUI\LoadingScreen.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\IDPChoiceButton.cs" />
+    <Compile Include="Assets\Scripts\Common\Locale\LocaleSelector.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInStatusCode.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\RankingPopup.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInUser.cs" />
+    <Compile Include="Assets\GoogleSignIn\GoogleSignInConfiguration.cs" />
     <Compile Include="Assets\Scripts\Plugins\Firebase\FirebaseManager.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\LobbyManager.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\RankingPopup\RankingPopupItem.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\AddressablesCDNOverride.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\IUIOverlay.cs" />
-    <Compile Include="Assets\Scripts\DirectionUtil.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\UIFlowManager.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\NativeFuture.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Manager\RankingManager.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\UIOverlayManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Model\User.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\GuestLoginProvider.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\ApiResponse.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Events\ResetBoardEvent.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\ObjectPoolFactory.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Block.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\IDPChoicePopup.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Scene\IUIScene.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\CommonUI\UIBlocker.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\IUIOverlayHandler.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Stage.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\PatchHelper.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\CommonUI\NoticePopup.cs" />
+    <Compile Include="Assets\Scripts\Common\Event\Events.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\LoginResult.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Loader\UIAssetLoader.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\IBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
-    <Compile Include="Assets\Scripts\Manager\FontManager.cs" />
-    <Compile Include="Assets\Scripts\Plugins\Ad\AdManager.cs" />
+    <Compile Include="Assets\Scripts\Plugins\AdMob\AdMobConfig.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\LobbyMain.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\BoardManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Manager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\UI\Board.cs" />
+    <Compile Include="Assets\Scripts\Common\Animation\UIAnimations.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\ApiConfig.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\ApiClient.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.User.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\ObjectPool.cs" />
+    <Compile Include="Assets\GoogleSignIn\Impl\SignInHelperObject.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageStatusController.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\ChangeGameStateEvent.cs" />
-    <Compile Include="Assets\Scripts\UIAnimations.cs" />
-    <Compile Include="Assets\Scripts\Events.cs" />
-    <Compile Include="Assets\Scripts\PooledObject.cs" />
-    <Compile Include="Assets\Scripts\TinyObjectPool.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\Stage\StageEventController.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\StageManager.cs" />
+    <Compile Include="Assets\Scripts\Common\Debug\MyDebug.cs" />
+    <Compile Include="Assets\Scripts\Common\Event\MessageSystem.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\CommonUI\TitleScreen.cs" />
+    <Compile Include="Assets\Scripts\Plugins\AdMob\AdManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Login.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Overlay\IUIOverlay.cs" />
+    <Compile Include="Assets\Scripts\Common\Network\IApiClient.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.cs" />
+    <Compile Include="Assets\Scripts\Common\Debug\MyDebugConfig.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Network\ApiConnection\ApiConnection.Ranking.cs" />
+    <Compile Include="Assets\Scripts\Common\ObjectPool\PooledObject.cs" />
+    <Compile Include="Assets\Scripts\Common\Login\LoginManager.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\SafeAreaFitter.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Manager\StageManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageLogic.cs" />
+    <Compile Include="Assets\Scripts\Common\UI\Flow\UISceneManager.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\MoveBlockCommand.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageEventController.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\RankingPopupItem.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\ButtonScaleEffect.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\SafeAreaFitter.cs" />
-    <Compile Include="Assets\Scripts\Puzzle\UI\RankingPopup\RankingPopup.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Lobby\UI\LobbyMain.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\UnityScene\UnityScene.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile-2-Pass.shader" />
@@ -99,6 +168,7 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface-Mobile.shader" />
     <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Shaders\SDFFunctions.hlsl" />
+    <None Include="Assets\StreamingAssets\google-services-desktop.json" />
     <None Include="Assets\GoogleMobileAds\link.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
@@ -106,16 +176,16 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
-    <None Include="Assets\StreamingAssets\google-services-desktop.json" />
+    <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-config-unity\maven-metadata.xml" />
     <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-analytics-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF Overlay.shader" />
+    <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-crashlytics-unity\maven-metadata.xml" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
-    <None Include="Assets\google-services.json" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile.shader" />
     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
@@ -476,6 +546,9 @@
     <Reference Include="Firebase.App">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.App.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.RemoteConfig">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.RemoteConfig.dll</HintPath>
+    </Reference>
     <Reference Include="Firebase.TaskExtension">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.TaskExtension.dll</HintPath>
     </Reference>
@@ -488,14 +561,17 @@
     <Reference Include="GoogleMobileAds.Ump.Unity">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.Unity.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="GoogleMobileAds.Ump">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.dll</HintPath>
     </Reference>
+    <Reference Include="Firebase.Crashlytics">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Plugins\Firebase.Crashlytics.dll</HintPath>
+    </Reference>
     <Reference Include="GoogleMobileAds.Unity">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Unity.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
@@ -949,6 +1025,9 @@
     </Reference>
     <Reference Include="Unity.Mathematics.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Mathematics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Mobile.AndroidLogcat.Editor">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.Mobile.AndroidLogcat.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.InternalAPIEditorBridge.001">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\ScriptAssemblies\Unity.InternalAPIEditorBridge.001.dll</HintPath>

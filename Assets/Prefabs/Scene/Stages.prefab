@@ -47,7 +47,6 @@ GameObject:
   - component: {fileID: 213973836396339972}
   - component: {fileID: 1334732680843208835}
   - component: {fileID: 7816126663422464705}
-  - component: {fileID: 5880342737113190800}
   - component: {fileID: 3665617076221487633}
   m_Layer: 0
   m_Name: Drag Area
@@ -113,19 +112,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &5880342737113190800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149662259341309235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Delegates: []
 --- !u!114 &3665617076221487633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,6 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d299e6f42ba041c481a18a635e170c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Delegates: []
 --- !u!1 &282310473880084201
 GameObject:
   m_ObjectHideFlags: 0
@@ -309,7 +296,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 740, y: 740}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6403427847823317186
 CanvasRenderer:
@@ -332,7 +319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4627451, g: 0.27450982, b: 0.20392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.47058824}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 0
@@ -535,7 +522,7 @@ GameObject:
   - component: {fileID: 3645298915127717219}
   - component: {fileID: 3560542756787994764}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Bg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -588,8 +575,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 60310d76f27c248ecb78a584c9323027, type: 3}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 0f785269c5c9ea14b915c651d6760b0b, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -816,7 +803,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a67f3004787343869c72935ec36e2fe5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  grid: {fileID: 5603988769264619280}
+  boardTransform: {fileID: 4412951604246070024}
   blockTransform: {fileID: 2342928402975732502}
 --- !u!1 &7023670040462482965
 GameObject:
@@ -851,7 +838,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 740, y: 740}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7284816178052613830
 GameObject:
@@ -862,7 +849,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4412951604246070024}
-  - component: {fileID: 5603988769264619280}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -887,32 +873,8 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 600, y: 600}
+  m_SizeDelta: {x: 740, y: 740}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &5603988769264619280
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7284816178052613830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 100, y: 100}
-  m_Spacing: {x: 4, y: 4}
-  m_Constraint: 2
-  m_ConstraintCount: 3
 --- !u!1 &7537146527272243452
 GameObject:
   m_ObjectHideFlags: 0
@@ -1366,4 +1328,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0317b95437e946ef9e2e518ac38c8753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boardManager: {fileID: 8389119942759793371}
+  boardUI: {fileID: 8389119942759793371}
+  stageUI: {fileID: 832942681138080128}
