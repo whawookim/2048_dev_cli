@@ -110,7 +110,7 @@ Assets/
 > - Unity 기반 상용 게임 다수 라이브 경험  
 > - 서버 연동, UI 구조화, 최적화 및 Crash 대응 역량 보유  
 
-포트폴리오 및 블로그: [https://whawoo-gamedev.tistory.com/](https://whawoo-gamedev.tistory.com/)  
+블로그: [https://whawoo-gamedev.tistory.com/](https://whawoo-gamedev.tistory.com/)  
 이메일: whawoo.kim@gmail.com
 
 ---
