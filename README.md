@@ -57,11 +57,20 @@
 
 ## 🖼️ 스크린샷
 
-> 추후 추가될 이미지  
-> - 타이틀 씬  
-> - 인게임 플레이  
-> - 랭킹 등록/조회 팝업  
-> - 로그인/세팅 팝업
+### 🎮 타이틀 화면
+<img src="./Docs/Images/Title.png" width="300"/>
+
+### 🧩 로비 (스테이지 선택)
+<img src="./Docs/Images/Lobby.png" width="300"/>
+
+### 🕹️ 인게임 화면
+<img src="./Docs/Images/Stage.png" width="300"/>
+
+### 📌 IDP 선택 팝업
+<img src="./Docs/Images/IDP.png" width="300"/>
+
+### 🏆 랭킹 팝업
+<img src="./Docs/Images/Ranking.png" width="300"/>
 
 ---
 
