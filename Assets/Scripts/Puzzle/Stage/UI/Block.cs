@@ -12,30 +12,40 @@ namespace Puzzle.UI
 	{
         #region constant
 
-        private static readonly Color32[] Colors =
+        private static readonly Color32[] BgColors =
         {
             // 2
-            new Color32(208, 211, 254, 204),
+            new Color32(238, 228, 218, 255), // #EEE4DA
             // 4
-            new Color32(133, 141, 250, 204),
+            new Color32(237, 224, 200, 255), // #EDE0C8
             // 8
-            new Color32(62, 74, 246, 204),
+            new Color32(242, 177, 121, 255), // #F2B179
             // 16
-            new Color32(253, 252, 197, 204),
+            new Color32(245, 149, 99, 255),  // #F59563
             // 32
-            new Color32(250, 248, 133, 204),
+            new Color32(246, 124, 95, 255),  // #F67C5F
             // 64
-            new Color32(253, 250, 77, 204),
+            new Color32(246, 94, 59, 255),   // #F65E3B
             // 128
-            new Color32(255, 206, 160, 204),
+            new Color32(237, 207, 114, 255), // #EDCF72
             // 256
-            new Color32(253, 172, 97, 204),
+            new Color32(237, 204, 97, 255),  // #EDCC61
             // 512
-            new Color32(245, 131, 24, 204),
+            new Color32(237, 200, 80, 255),  // #EDC850
             // 1024
-            new Color32(245, 131, 24, 204),
+            new Color32(237, 197, 63, 255),  // #EDC53F
             // 2048
-            new Color32(245, 24, 235, 204),
+            new Color32(237, 194, 46, 255),  // #EDC22E
+            // 4096
+            new Color32(60, 58, 50, 255),    // #3C3A32 (딥 다크)
+        };
+
+        private static readonly Color32[] TextColors =
+        {
+            // 2~64
+            new Color32(119, 110, 101, 255),
+            // 128~
+            new Color32(249, 246, 242, 255),
         };
 
         #endregion
@@ -55,7 +65,8 @@ namespace Puzzle.UI
         {
             Number = num;
             numberText.text = num.ToString();
-            bgSprite.color = Colors[(int) Mathf.Log(num)];
+            numberText.color = (num <= 64) ? TextColors[0] : TextColors[1];
+            bgSprite.color = BgColors[(int) Mathf.Log(num)];
             Rect.DOKill();
             Rect.localScale = Vector3.one;
         }
