@@ -1,9 +1,5 @@
 # 2048 Puzzle Game (Unity6 Portfolio Project)
 
-<div align="center">
-<img src="https://whawoo.xyz/images/2048_thumbnail.png" width="300"/>
-</div>
-
 ---
 
 ## 📌 프로젝트 개요
