@@ -76,10 +76,7 @@
 
 ## 🎥 시연 영상
 
-> 추후 추가될 YouTube 링크  
-> - 블록 이동 및 병합  
-> - 서버 연동 / 랭킹 등록 흐름  
-> - Firebase 로그 연동
+[![Watch the video](https://img.youtube.com/vi/MokC5VrtVlg/hqdefault.jpg)](https://www.youtube.com/watch?v=MokC5VrtVlg)
 
 ---
 
