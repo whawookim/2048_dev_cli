@@ -105,7 +105,7 @@ Assets/
 
 ## 🙋‍♂️ 개발자 소개
 
-> 김성훈 (8년차 Unity 게임 클라이언트 개발자)  
+> whawoo.kim (Unity 게임 클라이언트 개발자)  
 > - 전) Kong Studios Korea (가디언 테일즈 개발 참여)  
 > - Unity 기반 상용 게임 다수 라이브 경험  
 > - 서버 연동, UI 구조화, 최적화 및 Crash 대응 역량 보유  
