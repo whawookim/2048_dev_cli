@@ -561,9 +561,6 @@
     <Reference Include="GoogleMobileAds.Ump.Unity">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.Unity.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="GoogleMobileAds.Ump">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.dll</HintPath>
     </Reference>
@@ -572,6 +569,9 @@
     </Reference>
     <Reference Include="GoogleMobileAds.Unity">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>

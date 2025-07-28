@@ -50,16 +50,16 @@
     <Compile Include="Assets\Editor\FontManagerEditor.cs" />
     <Compile Include="Assets\Editor\AddressableUploader.cs" />
     <None Include="Assets\Firebase\Editor\RemoteConfigDependencies.xml" />
+    <None Include="Assets\Firebase\Editor\FirebaseCrashlytics_version-11.6.0_manifest.txt" />
     <None Include="Assets\GoogleSignIn\Editor\GoogleSignInDependencies.xml" />
     <None Include="Assets\GoogleSignIn\Editor\m2repository\com\google\signin\google-signin-support\maven-metadata.xml" />
     <None Include="Assets\GoogleSignIn\Editor\google-signin-plugin_v1.0.4.txt" />
     <None Include="Assets\GoogleSignIn\Editor\GoogleSignInSupportDependencies.xml" />
     <None Include="Assets\ExternalDependencyManager\Editor\external-dependency-manager_version-1.2.186_manifest.txt" />
-    <None Include="Assets\Firebase\Editor\FirebaseCrashlytics_version-12.10.1_manifest.txt" />
     <None Include="Assets\Firebase\Editor\AppDependencies.xml" />
-    <None Include="Assets\Firebase\Editor\FirebaseRemoteConfig_version-12.10.1_manifest.txt" />
+    <None Include="Assets\Firebase\Editor\FirebaseAnalytics_version-11.6.0_manifest.txt" />
     <None Include="Assets\Firebase\Editor\AnalyticsDependencies.xml" />
-    <None Include="Assets\Firebase\Editor\FirebaseAnalytics_version-12.10.1_manifest.txt" />
+    <None Include="Assets\Firebase\Editor\FirebaseRemoteConfig_version-11.6.0_manifest.txt" />
     <None Include="Assets\Firebase\Editor\CrashlyticsDependencies.xml" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.0.23f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
@@ -472,14 +472,14 @@
     <Reference Include="GoogleMobileAds.Core">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
+    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
     <Reference Include="Firebase.Crashlytics.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Editor\Firebase.Crashlytics.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.VersionHandler">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
@@ -489,9 +489,6 @@
     </Reference>
     <Reference Include="Google.PackageManagerResolver">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\ExternalDependencyManager\Editor\1.2.186\Google.PackageManagerResolver.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="GoogleMobileAds.Ump">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Ump.dll</HintPath>
@@ -507,6 +504,9 @@
     </Reference>
     <Reference Include="GoogleMobileAds.Unity">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Unity.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.newtonsoft-json\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.nuget.mono-cecil\Mono.Cecil.dll</HintPath>
