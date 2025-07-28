@@ -19,6 +19,14 @@ public static class BuildScript
             Console.WriteLine("BuildAndroid Start");
             Debug.Log("BuildAndroid Start");
             
+            string androidPlayerPath = Path.Combine(EditorApplication.applicationContentsPath, "PlaybackEngines/AndroidPlayer");
+            if (!Directory.Exists(androidPlayerPath))
+            {
+                Debug.LogError("[Error] Android Build Support is not installed.");
+                Console.WriteLine("[Console] Android Build Support missing: " + androidPlayerPath);
+                return;
+            }
+            
             // Addressables 빌드 먼저!
             BuildAddressables();
         
