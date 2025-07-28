@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
+using Firebase.Crashlytics;
 
 /// <summary>
 /// 디버깅 유틸리티 클래스
@@ -70,7 +71,7 @@ public static class MyDebug
         Debug.LogError(message, context);
 
 #if !UNITY_EDITOR
-        if (MyDebugConfigLoader.EnableCrashlyticsLog)
+        if (MyDebugConfig.EnableCrashlyticsLog)
         {
             Crashlytics.Log($"[ERROR] {message}");
         }
@@ -87,7 +88,7 @@ public static class MyDebug
         Debug.LogException(ex, context);
 
 #if !UNITY_EDITOR
-        if (MyDebugConfigLoader.EnableCrashlyticsLog)
+        if (MyDebugConfig.EnableCrashlyticsLog)
         {
             Crashlytics.LogException(ex);
         }
