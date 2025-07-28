@@ -13,6 +13,10 @@ public static class BuildScript
     {
         try
         {
+            Debug.unityLogger.logEnabled = true;
+            Debug.Log("✅ Debug logger 강제 활성화");
+            
+            Console.WriteLine("BuildAndroid Start");
             Debug.Log("BuildAndroid Start");
             
             // Addressables 빌드 먼저!
@@ -34,6 +38,7 @@ public static class BuildScript
             }
             
             Debug.Log($"BuildAndroid OutputPath : {outputPath}");
+            Console.WriteLine($"BuildAndroid OutputPath : {outputPath}");
         
             var isEC2 = Environment.GetEnvironmentVariable("IS_EC2") == "true";
         
@@ -41,6 +46,7 @@ public static class BuildScript
             PlayerSettings.Android.useCustomKeystore = true;
 
             Debug.Log($"BuildAndroid isEC2 : {isEC2}");
+            Console.WriteLine($"BuildAndroid isEC2 : {isEC2}");
             
             if (isEC2)
             {
@@ -57,6 +63,7 @@ public static class BuildScript
             
             var apkPath = Path.Combine(outputPath, "2048Dev.apk");
             Debug.Log($"APK Exists: {File.Exists(apkPath)} - Path: {apkPath}");
+            Console.WriteLine($"APK Exists: {File.Exists(apkPath)} - Path: {apkPath}");
 
             // 빌드 옵션
             BuildPlayerOptions buildOptions = new BuildPlayerOptions
@@ -67,7 +74,14 @@ public static class BuildScript
                 options = BuildOptions.None // 필요에 따라 BuildOptions.Development 추가 가능
             };
             
+            foreach (var scenePath in buildOptions.scenes)
+            {
+                Debug.Log($"Include Scene: {scenePath} - Exists: {File.Exists(scenePath)}");
+                Console.WriteLine($"Include Scene: {scenePath} - Exists: {File.Exists(scenePath)}");
+            }
+            
             Debug.Log("BuildPipeline.BuildPlayer Before");
+            Console.WriteLine("BuildPipeline.BuildPlayer Before");
 
             // 빌드 실행
             BuildReport report = BuildPipeline.BuildPlayer(buildOptions);
@@ -76,29 +90,44 @@ public static class BuildScript
             File.WriteAllText(Path.Combine(workspacePath, "build.log"), report.summary.ToString());
 
             Debug.Log("BuildPipeline.BuildPlayer End");
+            Console.WriteLine("BuildPipeline.BuildPlayer End");
             
             if (report.summary.result == BuildResult.Succeeded)
             {
                 Debug.Log("Build Succeeded : " + report.summary.outputPath);
+                Console.WriteLine("Build Succeeded : " + report.summary.outputPath);
                 EditorApplication.Exit(0);
             }
             else
             {
                 Debug.LogError("Android Build Failed!");
+                
+                foreach (var step in report.steps)
+                {
+                    foreach (var msg in step.messages)
+                    {
+                        Debug.Log($"[{msg.type}] {msg.content}");
+                        Console.WriteLine($"[{msg.type}] {msg.content}");
+                    }
+                }
+
                 EditorApplication.Exit(1); // 종료 코드 1: 실패로 간주되게
             }
         }
         catch (Exception ex)
         {
             Debug.LogError("Android Build Exception: " + ex);
+            Console.WriteLine("Android Build Exception: " + ex);
         }
     }
 
     private static void BuildAddressables()
     {
+        Console.WriteLine("Addressables Build Start...");
         Debug.Log("Addressables Build Start...");
         AddressableAssetSettings.CleanPlayerContent(AddressableAssetSettingsDefaultObject.Settings.ActivePlayerDataBuilder);
         AddressableAssetSettings.BuildPlayerContent();
         Debug.Log("Addressables Build Complete!");
+        Console.WriteLine("Addressables Build Complete!");
     }
 }
