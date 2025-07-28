@@ -44,7 +44,7 @@ public static class BuildScript
             
             if (isEC2)
             {
-                PlayerSettings.Android.keystoreName = "/home/ubuntu/2048_dev_cli/KeyStores/2048-release.jk";
+                PlayerSettings.Android.keystoreName = "/home/ubuntu/2048_dev_cli/KeyStores/2048-release.jks";
             }
             else
             {
