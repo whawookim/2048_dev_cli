@@ -80,10 +80,12 @@ public static class BuildScript
             if (report.summary.result == BuildResult.Succeeded)
             {
                 Debug.Log("Build Succeeded : " + report.summary.outputPath);
+                EditorApplication.Exit(0);
             }
             else
             {
                 Debug.LogError("Android Build Failed!");
+                EditorApplication.Exit(1); // 종료 코드 1: 실패로 간주되게
             }
         }
         catch (Exception ex)
