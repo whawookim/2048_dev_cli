@@ -55,11 +55,14 @@ public static class BuildScript
             PlayerSettings.Android.keyaliasName = "2048alias";
             PlayerSettings.Android.keyaliasPass = "Ksh6194@";
             
+            var apkPath = Path.Combine(outputPath, "2048Dev.apk");
+            Debug.Log($"APK Exists: {File.Exists(apkPath)} - Path: {apkPath}");
+
             // 빌드 옵션
             BuildPlayerOptions buildOptions = new BuildPlayerOptions
             {
                 scenes = new[] { "Assets/Scenes/Game.unity", "Assets/Scenes/Lobby.unity", "Assets/Scenes/Stage.unity" },
-                locationPathName = $"{outputPath}/2048Dev.apk",
+                locationPathName = apkPath,
                 target = BuildTarget.Android,
                 options = BuildOptions.None // 필요에 따라 BuildOptions.Development 추가 가능
             };
@@ -68,6 +71,9 @@ public static class BuildScript
 
             // 빌드 실행
             BuildReport report = BuildPipeline.BuildPlayer(buildOptions);
+            
+            // 로그 저장
+            File.WriteAllText(Path.Combine(workspacePath, "build.log"), report.summary.ToString());
 
             Debug.Log("BuildPipeline.BuildPlayer End");
             
