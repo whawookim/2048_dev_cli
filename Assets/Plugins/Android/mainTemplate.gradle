@@ -82,7 +82,7 @@ buildscript {
             dirs 'libs'
         }
         maven {
-            url "$projectDir/../../../../Assets/GeneratedLocalRepo"
+            url "$projectDir/../../../../../Assets/GeneratedLocalRepo/Firebase/m2repository"
         }
     }
 }
@@ -95,7 +95,7 @@ allprojects {
             dirs 'libs'
         }
         maven {
-            url "$projectDir/../../../../Assets/GeneratedLocalRepo"
+            url "$projectDir/../../../../../Assets/GeneratedLocalRepo/Firebase/m2repository"
         }
     }
 }
