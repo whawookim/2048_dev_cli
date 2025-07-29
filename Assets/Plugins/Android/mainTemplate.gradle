@@ -76,26 +76,26 @@ android {
 
 buildscript {
     repositories {
+        maven {
+            url "${project(':unityLibrary').projectDir}/../../../GeneratedLocalRepo/Firebase/m2repository"
+        }
         google()
         mavenCentral()
         flatDir {
             dirs "${project(':unityLibrary').projectDir}/libs"
-        }
-        maven {
-            url "${project(':unityLibrary').projectDir}/../../../GeneratedLocalRepo/Firebase/m2repository"
         }
     }
 }
 
 allprojects {
     repositories {
+        maven {
+            url "${project(':unityLibrary').projectDir}/../../../GeneratedLocalRepo/Firebase/m2repository"
+        }
         google()
         mavenCentral()
         flatDir {
             dirs "${project(':unityLibrary').projectDir}/libs"
-        }
-        maven {
-            url "${project(':unityLibrary').projectDir}/../../../GeneratedLocalRepo/Firebase/m2repository"
         }
     }
 }
