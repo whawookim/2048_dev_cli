@@ -73,3 +73,29 @@ android {
 **IL_CPP_BUILD_SETUP**
 **SOURCE_BUILD_SETUP**
 **EXTERNAL_SOURCES**
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+        maven {
+            url "$projectDir/../../../../../Assets/GeneratedLocalRepo/Firebase/m2repository"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+        maven {
+            url "$projectDir/../../../../../Assets/GeneratedLocalRepo/Firebase/m2repository"
+        }
+    }
+}
