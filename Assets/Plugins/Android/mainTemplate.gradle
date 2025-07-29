@@ -79,10 +79,10 @@ buildscript {
         google()
         mavenCentral()
         flatDir {
-            dirs 'libs'
+            dirs "${project(':unityLibrary').projectDir}/libs"
         }
         maven {
-            url "$projectDir/../../../../../Assets/GeneratedLocalRepo/Firebase/m2repository"
+            url "${project(':unityLibrary').projectDir}/../../../GeneratedLocalRepo/Firebase/m2repository"
         }
     }
 }
@@ -92,10 +92,10 @@ allprojects {
         google()
         mavenCentral()
         flatDir {
-            dirs 'libs'
+            dirs "${project(':unityLibrary').projectDir}/libs"
         }
         maven {
-            url "$projectDir/../../../../../Assets/GeneratedLocalRepo/Firebase/m2repository"
+            url "${project(':unityLibrary').projectDir}/../../../GeneratedLocalRepo/Firebase/m2repository"
         }
     }
 }
