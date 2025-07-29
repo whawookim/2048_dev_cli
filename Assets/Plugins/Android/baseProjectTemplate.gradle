@@ -11,3 +11,31 @@ plugins {
 tasks.register('clean', Delete) {
     delete rootProject.layout.buildDirectory
 }
+
+buildscript {
+    repositories {
+        **ARTIFACTORYREPOSITORY**
+        google()
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+        maven {
+            url "$projectDir/../../../../Assets/GeneratedLocalRepo"
+        }
+    }
+}
+
+allprojects {
+    repositories {
+        **ARTIFACTORYREPOSITORY**
+        google()
+        mavenCentral()
+        flatDir {
+            dirs 'libs'
+        }
+        maven {
+            url "$projectDir/../../../../Assets/GeneratedLocalRepo"
+        }
+    }
+}
