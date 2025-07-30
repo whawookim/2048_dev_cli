@@ -47,7 +47,7 @@
 
 ## 📱 APK 다운로드
 
-- [APK 바로 다운로드](https://whawoo.xyz/2048.apk) *(최신 빌드 링크 예정)*
+- 👉 [2048Game.apk 다운로드](https://download.whawoo.xyz/2048Game.apk)
 
 ---
 
