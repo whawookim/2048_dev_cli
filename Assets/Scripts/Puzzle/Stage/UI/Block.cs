@@ -12,6 +12,9 @@ namespace Puzzle.UI
 	{
         #region constant
 
+        /// <summary>
+        ///  블록 배경 색상
+        /// </summary>
         private static readonly Color32[] BgColors =
         {
             // 2
@@ -40,6 +43,9 @@ namespace Puzzle.UI
             new Color32(60, 58, 50, 255),    // #3C3A32 (딥 다크)
         };
 
+        /// <summary>
+        /// 블록 숫자 색상
+        /// </summary>
         private static readonly Color32[] TextColors =
         {
             // 2~64
