@@ -67,6 +67,9 @@ namespace Puzzle.UI
 
         public int Number { get; private set; }
 
+        /// <summary>
+        /// 블록 초기화
+        /// </summary>
         public void Init(int num)
         {
             Number = num;
