@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "590496453229",
+    "project_id": "game-d4f2b",
+    "storage_bucket": "game-d4f2b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:590496453229:android:80df8571885adcdc06a564",
+        "android_client_info": {
+          "package_name": "com.Whawoo.Puzzle2048"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTrwqjJR4hhg_CODByxMCMDHk39ZmOWQk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
