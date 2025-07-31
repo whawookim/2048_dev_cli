@@ -36,6 +36,8 @@ public class AdManager : MonoBehaviour
     {
         AdMobConfig.InitRemoteConfig();
 
+        MyDebug.Log("AdManager Initialize Called");
+        
         MobileAds.Initialize(initStatus =>
         {
             MyDebug.Log("Admob initialized");

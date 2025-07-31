@@ -18,6 +18,7 @@ namespace Network
         public static void Initialize()
         {
             ApiConfig.InitDebugRemoteConfig();
+            MyDebug.Log($"ApiConfig.ApiBaseUrl : {ApiConfig.ApiBaseUrl}");
             // RemoteConfig 적용된 값
             _client = new ApiClient(ApiConfig.ApiBaseUrl);
         }
