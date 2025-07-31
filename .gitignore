@@ -95,3 +95,8 @@ BuildOutput/
 BuildPath/
 
 !Assets/Editor/Build
+
+!Assets/StreamingAssets/google-services.json
+
+Assets/Plugins/Android/FirebaseApp.androidlib/
+Assets/Plugins/Android/FirebaseCrashlytics.androidlib/
