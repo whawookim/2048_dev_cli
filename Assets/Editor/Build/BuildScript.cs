@@ -72,6 +72,29 @@ public static class BuildScript
             var apkPath = Path.Combine(outputPath, "2048Dev.apk");
             Debug.Log($"APK Exists: {File.Exists(apkPath)} - Path: {apkPath}");
             Console.WriteLine($"APK Exists: {File.Exists(apkPath)} - Path: {apkPath}");
+            
+            string[] args = Environment.GetCommandLineArgs();
+            bool isDevBuild = false;
+
+            foreach (string arg in args)
+            {
+                if (arg == "-devBuild")
+                {
+                    isDevBuild = true;
+                    break;
+                }
+            }
+            
+            BuildOptions options = BuildOptions.None;
+            if (isDevBuild)
+            {
+                options |= BuildOptions.Development | BuildOptions.AllowDebugging;
+                Debug.Log("💡 빌드 모드: Development Build");
+            }
+            else
+            {
+                Debug.Log("🚀 빌드 모드: Release Build");
+            }
 
             // 빌드 옵션
             BuildPlayerOptions buildOptions = new BuildPlayerOptions
@@ -79,7 +102,7 @@ public static class BuildScript
                 scenes = new[] { "Assets/Scenes/Game.unity", "Assets/Scenes/Lobby.unity", "Assets/Scenes/Stage.unity" },
                 locationPathName = apkPath,
                 target = BuildTarget.Android,
-                options = BuildOptions.None // 필요에 따라 BuildOptions.Development 추가 가능
+                options = options
             };
             
             foreach (var scenePath in buildOptions.scenes)
