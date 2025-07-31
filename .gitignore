@@ -99,4 +99,6 @@ BuildPath/
 !Assets/StreamingAssets/google-services.json
 
 Assets/Plugins/Android/FirebaseApp.androidlib/
+Assets/Plugins/Android/FirebaseApp.androidlib.meta
 Assets/Plugins/Android/FirebaseCrashlytics.androidlib/
+Assets/Plugins/Android/FirebaseCrashlytics.androidlib.meta
