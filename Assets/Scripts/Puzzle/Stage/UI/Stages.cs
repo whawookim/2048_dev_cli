@@ -18,7 +18,7 @@ namespace Puzzle.UI.Scene
 	{
 		public static Stages Instance { get; private set; }
  
-        public string AddressableName => nameof(Stages);
+        public static string AddressableName => nameof(Stages);
 
         ///<summary> 실제 보드 UI 레이아웃 </summary>
 		[SerializeField]

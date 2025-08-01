@@ -8,7 +8,7 @@ namespace Puzzle.UI.Scene
     /// </summary>
     public class TitleScreen : MonoBehaviour, IUIScene
     {
-        public string AddressableName => nameof(TitleScreen);
+        public static string AddressableName => nameof(TitleScreen);
 
         public static TitleScreen Instance { get; private set; }
 
