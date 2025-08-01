@@ -38,9 +38,6 @@ public class FontManager : MonoBehaviour
     {
         // 언어 변경 시 fallback 재적용
         LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
-
-        string currentLocale = LocalizationSettings.SelectedLocale?.Identifier.Code ?? "en";
-        await ApplyFontFallbacks(currentLocale);
     }
 
     private void OnDestroy()
@@ -60,6 +57,20 @@ public class FontManager : MonoBehaviour
     private async void OnLocaleChanged(UnityEngine.Localization.Locale locale)
     {
         await ApplyFontFallbacks(locale.Identifier.Code);
+    }
+
+    public async Task InitializeAsync()
+    {
+        MyDebug.LogError("[FontManager] InitializeAsync 0");
+        
+        await LocalizationSettings.InitializationOperation.Task;
+        
+        MyDebug.LogError("[FontManager] InitializeAsync 1");
+        
+        string currentLocale = LocalizationSettings.SelectedLocale?.Identifier.Code ?? "en";
+        await ApplyFontFallbacks(currentLocale);
+        
+        MyDebug.LogError("[FontManager] InitializeAsync 2");
     }
 
     /// <summary>
@@ -95,7 +106,7 @@ public class FontManager : MonoBehaviour
 
         foreach (var reference in mapping.fallbackFonts)
         {
-            var font = LoadFontInEditorOrRuntime(reference);
+            var font = await LoadFontInEditorOrRuntimeAsync(reference);
             if (font != null)
             {
                 result.Add(font);
@@ -109,7 +120,7 @@ public class FontManager : MonoBehaviour
     /// <summary>
     /// 에디터와 런타임에 따라 폰트를 로드하는 함수
     /// </summary>
-    private TMP_FontAsset LoadFontInEditorOrRuntime(AssetReferenceT<TMP_FontAsset> reference)
+    private async Task<TMP_FontAsset> LoadFontInEditorOrRuntimeAsync(AssetReferenceT<TMP_FontAsset> reference)
     {
 #if UNITY_EDITOR
         string guid = reference.AssetGUID;
@@ -129,7 +140,7 @@ public class FontManager : MonoBehaviour
         }
 #else
         var handle = reference.LoadAssetAsync();
-        handle.WaitForCompletion();
+        await handle.Task;
 
         if (handle.Status == AsyncOperationStatus.Succeeded)
         {
