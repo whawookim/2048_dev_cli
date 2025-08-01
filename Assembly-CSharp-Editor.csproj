@@ -472,14 +472,14 @@
     <Reference Include="GoogleMobileAds.Core">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\GoogleMobileAds\GoogleMobileAds.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Google.VersionHandler">
-      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
-    </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Library\PackageCache\com.unity.collab-proxy\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
     </Reference>
     <Reference Include="Firebase.Crashlytics.Editor">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Firebase\Editor\Firebase.Crashlytics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\ExternalDependencyManager\Editor\Google.VersionHandler.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
       <HintPath>C:\Users\User\dev-cli\2048\2048_dev_cli\Assets\Plugins\Demigiant\DOTween\DOTween.dll</HintPath>
