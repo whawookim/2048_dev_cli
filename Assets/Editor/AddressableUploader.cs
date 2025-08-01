@@ -50,6 +50,14 @@ public class AddressableUploader
 
         // Python 스크립트 경로 찾기
         string projectPath = Directory.GetParent(Application.dataPath).FullName;
+
+        // EC2 환경이면 ENV에서 워크스페이스를 사용
+        string envWorkspace = System.Environment.GetEnvironmentVariable("WORKSPACE");
+        if (!string.IsNullOrEmpty(envWorkspace))
+        {
+            projectPath = envWorkspace;
+        }
+
         string scriptPath = Path.Combine(projectPath, PythonScriptName);
 
         if (!File.Exists(scriptPath))
