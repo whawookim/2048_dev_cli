@@ -6,7 +6,9 @@ from botocore.exceptions import ClientError
 AWS_REGION = "ap-northeast-2"
 BUCKET_NAME = "whawoo-game-addressable"
 S3_FOLDER = "Android"  # Addressable 플랫폼 폴더명
-LOCAL_BUILD_PATH = r"C:\Users\User\dev-cli\2048\2048_dev_cli\BuildPath\Android"
+# Jenkins 환경이면 ENV 사용
+LOCAL_BUILD_PATH = os.environ.get("WORKSPACE", os.getcwd())
+LOCAL_BUILD_PATH = os.path.join(LOCAL_BUILD_PATH, "BuildPath", "Android")
 
 # 🔥 CloudFront 캐시 무효화 (선택사항)
 ENABLE_CLOUDFRONT_INVALIDATION = True
