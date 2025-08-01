@@ -35,13 +35,18 @@ public class AdManager : MonoBehaviour
     public void Initialize()
     {
         AdMobConfig.InitRemoteConfig();
-
-        MyDebug.Log("AdManager Initialize Called");
         
-        MobileAds.Initialize(initStatus =>
+        try
         {
-            MyDebug.Log("Admob initialized");
-        });
+            MobileAds.Initialize(initStatus =>
+            {
+                MyDebug.Log("[AdManager] Admob initialized");
+            });
+        }
+        catch (System.Exception e)
+        {
+            MyDebug.LogError($"[AdManager] AdMob initialize EXCEPTION: {e}");
+        }
     }
 
     public string GetBannerAdUnitId()

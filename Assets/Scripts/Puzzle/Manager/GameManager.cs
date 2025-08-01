@@ -13,6 +13,9 @@ namespace Puzzle
 		private readonly List<IAddressableManager> addressableManagers = new List<IAddressableManager>();
 
 		public readonly InputManager InputManager = new ();
+
+        [SerializeField]
+        private FontManager _fontManager;
 		
 		#region MonoBehaviour
 		
@@ -58,6 +61,9 @@ namespace Puzzle
 
 			// 광고 초기화
 			AdManager.Instance.Initialize();
+            
+            // font 초기화용
+            await _fontManager.InitializeAsync();
 			
 			// 시작 씬 이동
 			await ChangeSceneAsync(UnityScene.Lobby, new UI.Scene.UITransition()
