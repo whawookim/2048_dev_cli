@@ -8,6 +8,30 @@ public class AddressableUploader
 {
     private const string PythonScriptName = "upload_addressable_to_s3.py";
 
+    [MenuItem("Tools/Addressables/Build")]
+    public static void BuildAllContent()
+    {
+        UnityEditor.AddressableAssets.Settings.AddressableAssetSettings.BuildPlayerContent();
+        
+        // 🔁 복사
+        string sourcePath = "Library/com.unity.addressables/aa/Android";
+        string destPath = "Assets/StreamingAssets/aa/Android";
+
+        if (Directory.Exists(destPath))
+            Directory.Delete(destPath, true);
+
+        Directory.CreateDirectory(destPath);
+        foreach (var file in Directory.GetFiles(sourcePath, "*", SearchOption.AllDirectories))
+        {
+            var relativePath = file.Substring(sourcePath.Length + 1);
+            var destFile = Path.Combine(destPath, relativePath);
+            Directory.CreateDirectory(Path.GetDirectoryName(destFile));
+            File.Copy(file, destFile, true);
+        }
+
+        Debug.Log("✅ Addressables 복사 완료: " + destPath);
+    }
+    
     [MenuItem("Tools/Addressables/Build & Upload to AWS")]
     public static void BuildAndUploadAddressables()
     {
