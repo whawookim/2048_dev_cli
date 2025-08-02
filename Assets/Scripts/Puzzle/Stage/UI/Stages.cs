@@ -70,8 +70,10 @@ namespace Puzzle.UI.Scene
 
 			StageManager.Instance.StatusController.SetStageMode(_states.CurrentStageMode);
 
-            return LoadStage();
-		}
+            LoadStage();
+
+            return Task.CompletedTask;
+        }
         
         /// <summary>
         /// 씬이 시작될 때 호출됨 (실제 게임 시작 처리)
@@ -135,7 +137,7 @@ namespace Puzzle.UI.Scene
         /// <summary>
         /// 현재 StageMode에 맞춰 보드와 블록을 세팅하고 게임판을 초기화
         /// </summary>
-        public async Task LoadStage()
+        public void LoadStage()
         {
             var mode = _states.CurrentStageMode;
             
