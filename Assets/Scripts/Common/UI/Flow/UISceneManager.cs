@@ -60,6 +60,12 @@ namespace Puzzle.UI.Flow
                         }
 
                         var nextScene = await UIAssetLoader.LoadSceneAsync(nextSceneType);
+
+                        if (nextScene == null)
+                        {
+                            MyDebug.LogError($"next scene not found. Hint. {nextSceneType}");
+                            break;
+                        }
                         nextScene.UISceneManager = this;
                         _sceneStack.Add(nextScene);
 
