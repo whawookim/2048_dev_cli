@@ -45,7 +45,7 @@
 
 ---
 
-## 📱 APK 다운로드
+## 📱 APK 다운로드 (2025.08.03 기준 최신 빌드)
 
 - 👉 [2048Game.apk 다운로드](https://download.whawoo.xyz/2048Game_66.apk)
 
