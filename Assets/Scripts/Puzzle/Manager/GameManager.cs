@@ -44,7 +44,10 @@ namespace Puzzle
 		private async Task InitAsync()
 		{
 			UI.LoadingScreen.Instance.SetEnabled(true);
-
+                        
+            // font 초기화용
+            await _fontManager.InitializeAsync();
+            
 			// inputManager UpdateFrame 추가
 			UpdateFrameManager.Instance.AddUpdatable(InputManager);
 
@@ -61,9 +64,6 @@ namespace Puzzle
 
 			// 광고 초기화
 			AdManager.Instance.Initialize();
-            
-            // font 초기화용
-            await _fontManager.InitializeAsync();
 			
 			// 시작 씬 이동
 			await ChangeSceneAsync(UnityScene.Lobby, new UI.Scene.UITransition()
