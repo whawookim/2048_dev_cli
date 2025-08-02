@@ -29,11 +29,13 @@ namespace Puzzle.UI
 		public void SetEnabled()
 		{
 			blockerImage.enabled = true;
+            MyDebug.LogError("UIBlocker::SetEnabled");
 		}
 
 		public void SetDisabled()
 		{
 			blockerImage.enabled = false;
-		}
+            MyDebug.LogError("UIBlocker::SetDisabled");
+        }
 	}
 }
