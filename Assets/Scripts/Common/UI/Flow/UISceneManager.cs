@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Puzzle.UI.Loader;
 using Puzzle.UI.Scene;
+using UnityEngine;
 
 namespace Puzzle.UI.Flow
 {
@@ -32,6 +33,8 @@ namespace Puzzle.UI.Flow
             {
                 UIBlocker.Instance.SetEnabled();
                 CurrentTransition = transition;
+                
+                Debug.LogError($"[UISceneManager] transition Info {transition.NextSceneType}, {transition.TransitionType}");
 
                 switch (transition.TransitionType)
                 {
@@ -82,12 +85,12 @@ namespace Puzzle.UI.Flow
                             break;
                         }
                         
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 5");
+                        MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 5 {nextScene}");
                         
                         nextScene.UISceneManager = this;
                         _sceneStack.Add(nextScene);
                         
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6");
+                        MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 6 {nextScene}");
 
                         if (_savedSceneStates.TryGetValue(nextScene, out var savedState))
                         {
@@ -99,11 +102,11 @@ namespace Puzzle.UI.Flow
                         }
                         else
                         {
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-2-1");
+                            MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 6-2-1 {nextScene}");
                             
                             await nextScene.LoadAsync(transition.SavedState);
                             
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-2-2");
+                            MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 6-2-2 {nextScene}");
                         }
 
                         MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 7 {nextScene}");
