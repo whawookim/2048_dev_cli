@@ -110,8 +110,6 @@ namespace Puzzle.UI.Flow
                         MyDebug.LogWarning($"Unhandled UITransitionType: {transition.TransitionType}");
                         break;
                 }
-
-                transition.RaiseTransitionEnded();
             }
             catch (Exception ex)
             {
