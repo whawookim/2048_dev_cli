@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Puzzle.UI
 {
@@ -14,7 +13,9 @@ namespace Puzzle.UI
 		/// Image가 붙어있고 Raycast Target이 되는 오브젝트
 		/// </summary>
 		[SerializeField]
-		private Image blockerImage;
+		private CanvasGroup blockerGroup;
+
+        public bool IsBlocked => blockerGroup.blocksRaycasts;
 
 		private void Awake()
 		{
@@ -28,13 +29,13 @@ namespace Puzzle.UI
 
 		public void SetEnabled()
 		{
-			blockerImage.enabled = true;
+            blockerGroup.blocksRaycasts = true;
             MyDebug.LogError("UIBlocker::SetEnabled");
 		}
 
 		public void SetDisabled()
 		{
-			blockerImage.enabled = false;
+            blockerGroup.blocksRaycasts = false;
             MyDebug.LogError("UIBlocker::SetDisabled");
         }
 	}

@@ -1,3 +1,4 @@
+using Puzzle.UI;
 using UnityEngine;
 using Puzzle.UI.Flow;
 
@@ -11,6 +12,8 @@ namespace Puzzle
         void IUpdatable.UpdateFrame()
         {
 #if UNITY_EDITOR || UNITY_ANDROID
+            if (UIBlocker.Instance.IsBlocked) return;
+            
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 var curOverlay = UIFlowManager.Instance.CurrentOverlay;
