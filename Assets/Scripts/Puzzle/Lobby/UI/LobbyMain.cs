@@ -47,23 +47,23 @@ namespace Puzzle.UI.Scene
 		Task IUIScene.LoadAsync(object savedState)
 		{
 			_states = savedState as LobbyMainState;
-			
-            return AdManager.Instance.LoadAndShowBannerAsync(true);
+
+            return Task.CompletedTask;
         }
 
         void IUIScene.Begin()
 		{
 			SetCurrentStage((int)_states.CurrentStageMode);
-		}
+            AdManager.Instance.ShowBanner();
+        }
 
 		void IUIScene.Resume(object result)
 		{
-			AdManager.Instance.ShowBanner();
 		}
 
 		void IUIScene.Pause()
 		{
-			AdManager.Instance.HideBanner();
+            AdManager.Instance.HideBanner();
 		}
 
 		void IUIScene.Finish()

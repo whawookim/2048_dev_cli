@@ -64,6 +64,9 @@ namespace Puzzle
 
 			// 광고 초기화
 			AdManager.Instance.Initialize();
+            
+            // 하단 배너 표시용. Load하고 일단 꺼주자.
+            await AdManager.Instance.LoadAndShowBannerAsync();
 			
 			// 시작 씬 이동
 			await ChangeSceneAsync(UnityScene.Lobby, new UI.Scene.UITransition()

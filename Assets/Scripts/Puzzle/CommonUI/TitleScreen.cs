@@ -40,6 +40,8 @@ namespace Puzzle.UI.Scene
         void IUIScene.Begin()
         {
             _ = AutoLoginProcess(); // 비동기로 자동 로그인 시도
+            
+            AdManager.Instance.ShowBanner();
         }
 
         void IUIScene.Resume(object result)

@@ -5,6 +5,7 @@ using UnityEngine;
 
 /// <summary>
 /// 광고 관리 매니저
+/// TODO: 현재 광고가 최상단으로 올라오니 이거 다른 방법으로 구현하든 방법을 찾을 것.
 /// </summary>
 public class AdManager : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class AdManager : MonoBehaviour
         Debug.Assert(Instance == this);
         
         Instance = null;
+
+        DestroyBanner();
     }
 #endregion
     
@@ -71,12 +74,17 @@ public class AdManager : MonoBehaviour
             
             _bannerView.OnBannerAdLoaded += () =>
             {
+                // 일단 꺼둔다
+                HideBanner();
                 isLoading = false;
                 MyDebug.Log("Banner Ad load Success");
             };
         
             _bannerView.OnBannerAdLoadFailed += (error) =>
             {
+                // 켜있을리 없지만 일단 혹시 모르니
+                HideBanner();
+                DestroyBanner();
                 isLoading = false;
                 MyDebug.LogError($"{error} Banner Ad load Failed");
             };
@@ -111,5 +119,14 @@ public class AdManager : MonoBehaviour
         
         _bannerView.Hide();
         MyDebug.LogWarning("Hide Banner");
+    }
+
+    public void DestroyBanner()
+    {
+        if (_bannerView != null)
+        {
+            _bannerView.Destroy();
+            _bannerView = null;
+        }
     }
 }
