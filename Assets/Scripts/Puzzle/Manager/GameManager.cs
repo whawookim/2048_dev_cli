@@ -135,10 +135,14 @@ namespace Puzzle
 
 			// 3) 씬 전환시 기존에 등록한 AddressableManager 전체 해제
 			ReleaseAll();
+            
+            MyDebug.LogError($"[GameManager] unitySceneEnum: {unitySceneEnum.ToString()} and UnityScene Load Called");
 			
 			// 4) 새 씬 로드 (이전 씬 자동 언로드)
 			await SceneManager.LoadSceneAsync(unitySceneEnum.ToString());
 			
+            MyDebug.LogError($"[GameManager] unityScene Load Ended");
+            
 			// 5) 사용되지 않는 에셋 해제
 			Resources.UnloadUnusedAssets();
 
@@ -153,8 +157,14 @@ namespace Puzzle
 
 			if (addressableManager != null)
 			{
+                MyDebug.LogError($"[GameManager] addressable manager LoadAllAsync called {addressableManager.GetType()}");
+                
                 await addressableManager.LoadAllAsync();
-			}
+                
+                MyDebug.LogError("[GameManager] addressable manager LoadAllAsync Ended");
+            }
+            
+            MyDebug.LogError($"[GameManager] TransitionType: {transition.TransitionType}, Transition.NextSceneType: {transition.NextSceneType}, transition.SavedState {transition.SavedState?.GetType()}");
 
             // 씬 트랜지션 후 끝날때까지 대기
             await UI.Flow.UIFlowManager.Instance.SetTransitionAsync(transition);
