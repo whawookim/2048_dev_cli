@@ -68,7 +68,8 @@ public class AddressableUploader
 
         // Python 실행
         ProcessStartInfo start = new ProcessStartInfo();
-        start.FileName = "python";
+        // EC2 환경에서는 python대신 python3가 있음
+        start.FileName = File.Exists("/usr/bin/python3") ? "python3" : "python";
         start.Arguments = $"\"{scriptPath}\"";
         start.UseShellExecute = false;
         start.RedirectStandardOutput = true;
