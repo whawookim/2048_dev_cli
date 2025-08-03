@@ -106,17 +106,9 @@ namespace Puzzle.UI.Flow
                             MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-2-2");
                         }
 
-                        MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 7 {nextScene}");
-
-                        if ((nextScene as UnityEngine.MonoBehaviour)?.gameObject == null)
-                        {
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 7-1 obj null");
-                        }
+                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 7");
                         
                         (nextScene as UnityEngine.MonoBehaviour)?.gameObject.SetActive(true);
-                        
-                        MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 7-1 {nextScene}");
-                        
                         nextScene.Begin();
 
                         MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 8");
