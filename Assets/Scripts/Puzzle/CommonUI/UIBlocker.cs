@@ -30,13 +30,11 @@ namespace Puzzle.UI
 		public void SetEnabled()
 		{
             blockerGroup.blocksRaycasts = true;
-            MyDebug.LogError("UIBlocker::SetEnabled");
 		}
 
 		public void SetDisabled()
 		{
             blockerGroup.blocksRaycasts = false;
-            MyDebug.LogError("UIBlocker::SetDisabled");
         }
 	}
 }

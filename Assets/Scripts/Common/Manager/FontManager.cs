@@ -61,16 +61,10 @@ public class FontManager : MonoBehaviour
 
     public async Task InitializeAsync()
     {
-        MyDebug.LogError("[FontManager] InitializeAsync 0");
-        
         await LocalizationSettings.InitializationOperation.Task;
-        
-        MyDebug.LogError("[FontManager] InitializeAsync 1");
         
         string currentLocale = LocalizationSettings.SelectedLocale?.Identifier.Code ?? "en";
         await ApplyFontFallbacks(currentLocale);
-        
-        MyDebug.LogError("[FontManager] InitializeAsync 2");
     }
 
     /// <summary>
