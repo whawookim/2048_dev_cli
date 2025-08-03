@@ -45,7 +45,7 @@ namespace Puzzle.UI.Flow
                         var nextSceneType = transition.NextSceneType;
                         var existingScene = _sceneStack.FirstOrDefault(s => s.GetType() == nextSceneType);
                         
-                        MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 2 {_sceneStack.Count} CurrentScene Name {CurrentScene?.Name}");
+                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 2");
                         
                         if (existingScene != null)
                         {
@@ -56,23 +56,23 @@ namespace Puzzle.UI.Flow
 
                             existingScene.Pause();
                             existingScene.Finish();
-                            (existingScene as MonoBehaviour)?.gameObject.SetActive(false);
+                            (existingScene as UnityEngine.MonoBehaviour)?.gameObject.SetActive(false);
 
                             _sceneStack.Remove(existingScene);
                             
                             MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 2-2");
                         }
 
-                        MonoBehaviour currentSceneMono = null; 
+                        UnityEngine.MonoBehaviour currentSceneMono = null; 
 
                         MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 3");
                         
                         if (CurrentScene != null)
                         {
-                            MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 3-1 {CurrentScene.Name}");
+                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 3-1");
                             
                             CurrentScene.Pause();
-                            currentSceneMono = (CurrentScene as MonoBehaviour);
+                            currentSceneMono = (CurrentScene as UnityEngine.MonoBehaviour);
                         }
 
                         MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 4");
@@ -111,12 +111,12 @@ namespace Puzzle.UI.Flow
 
                         MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 7 {nextScene}");
 
-                        if ((nextScene as MonoBehaviour)?.gameObject == null)
+                        if ((nextScene as UnityEngine.MonoBehaviour)?.gameObject == null)
                         {
                             MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 7-1 obj null");
                         }
                         
-                        (nextScene as MonoBehaviour)?.gameObject.SetActive(true);
+                        (nextScene as UnityEngine.MonoBehaviour)?.gameObject.SetActive(true);
                         
                         MyDebug.LogError($"[UISceneManager] SetTransitionAsync Push 7-1 {nextScene}");
                         
