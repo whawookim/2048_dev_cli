@@ -37,43 +37,28 @@ namespace Puzzle.UI.Flow
                 {
                     case UITransitionType.Push:
                     {
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 1");
-                        
                         var nextSceneType = transition.NextSceneType;
                         var existingScene = _sceneStack.FirstOrDefault(s => s.GetType() == nextSceneType);
-                        
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 2");
-                        
                         if (existingScene != null)
                         {
                             if (!_savedSceneStates.ContainsKey(existingScene))
                                 SaveSceneState(existingScene, existingScene.GetState());
-                            
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 2-1");
 
                             existingScene.Pause();
                             existingScene.Finish();
                             (existingScene as UnityEngine.MonoBehaviour)?.gameObject.SetActive(false);
 
                             _sceneStack.Remove(existingScene);
-                            
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 2-2");
                         }
 
                         UnityEngine.MonoBehaviour currentSceneMono = null; 
 
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 3");
-                        
                         if (CurrentScene != null)
                         {
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 3-1");
-                            
                             CurrentScene.Pause();
                             currentSceneMono = (CurrentScene as UnityEngine.MonoBehaviour);
                         }
 
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 4");
-                        
                         var nextScene = await UIAssetLoader.LoadSceneAsync(nextSceneType);
 
                         if (nextScene == null)
@@ -81,45 +66,26 @@ namespace Puzzle.UI.Flow
                             MyDebug.LogError($"next scene not found. Hint. {nextSceneType}");
                             break;
                         }
-                        
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 5");
-                        
                         nextScene.UISceneManager = this;
                         _sceneStack.Add(nextScene);
-                        
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6");
 
                         if (_savedSceneStates.TryGetValue(nextScene, out var savedState))
                         {
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-1-1");
                             await nextScene.LoadAsync(savedState);
                             _savedSceneStates.Remove(nextScene);
-                            
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-1-2");
                         }
                         else
                         {
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-2-1");
-                            
                             await nextScene.LoadAsync(transition.SavedState);
-                            
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 6-2-2");
                         }
 
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 7");
-                        
                         (nextScene as UnityEngine.MonoBehaviour)?.gameObject.SetActive(true);
                         nextScene.Begin();
 
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 8");
-                        
                         if (currentSceneMono != null)
                         {
-                            MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 8-1");
                             currentSceneMono.gameObject.SetActive(false);
                         }
-                        
-                        MyDebug.LogError("[UISceneManager] SetTransitionAsync Push 9");
                         
                         break;
                     }
