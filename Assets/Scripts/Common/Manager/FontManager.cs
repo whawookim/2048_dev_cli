@@ -35,12 +35,6 @@ public class FontManager : MonoBehaviour
     private Dictionary<string, List<TMP_FontAsset>> _localeFontCache = new();
     private List<AsyncOperationHandle<TMP_FontAsset>> _runtimeHandles = new();
 
-    private void Awake()
-    {
-        // 언어 변경 시 fallback 재적용
-        LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
-    }
-
     private void OnDestroy()
     {
         // 런타임 핸들 해제
@@ -62,6 +56,9 @@ public class FontManager : MonoBehaviour
 
     public async Task InitializeAsync(string code)
     {
+        // 언어 변경 시 fallback 재적용
+        LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
+        
         await ApplyFontFallbacks(code);
     }
 
