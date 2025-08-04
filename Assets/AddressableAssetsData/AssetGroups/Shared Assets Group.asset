@@ -57,6 +57,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - SharedUI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 706e18e595eed3b46ba2dff1b4f9ef66
+    m_Address: icon_common_62
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SharedUI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76281e6b0e327f74a9a9a48f6fff18b8
     m_Address: icon_app_1
     m_ReadOnly: 0

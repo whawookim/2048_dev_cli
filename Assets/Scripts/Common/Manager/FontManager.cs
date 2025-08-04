@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Localization;
 using UnityEngine.Localization.Settings;
 using UnityEngine.ResourceManagement.AsyncOperations;
 
@@ -54,27 +55,24 @@ public class FontManager : MonoBehaviour
         _runtimeHandles.Clear();
     }
 
-    private async void OnLocaleChanged(UnityEngine.Localization.Locale locale)
+    private async void OnLocaleChanged(Locale locale)
     {
         await ApplyFontFallbacks(locale.Identifier.Code);
     }
 
-    public async Task InitializeAsync()
+    public async Task InitializeAsync(string code)
     {
-        await LocalizationSettings.InitializationOperation.Task;
-        
-        string currentLocale = LocalizationSettings.SelectedLocale?.Identifier.Code ?? "en";
-        await ApplyFontFallbacks(currentLocale);
+        await ApplyFontFallbacks(code);
     }
 
     /// <summary>
     /// 주어진 locale 코드에 따라 fallback 폰트를 로드하고 적용
     /// </summary>
-    public async Task ApplyFontFallbacks(string locale)
+    public async Task ApplyFontFallbacks(string code)
     {
-        MyDebug.Log($"[FontManager] Applying fallback for locale: {locale}");
+        MyDebug.Log($"[FontManager] Applying fallback for locale: {code}");
 
-        List<TMP_FontAsset> fallbackList = await LoadFallbackFontsForLocale(locale);
+        List<TMP_FontAsset> fallbackList = await LoadFallbackFontsForLocale(code);
 
         ApplyFallbackToFont(uiBaseFont, fallbackList);
         ApplyFallbackToFont(contentBaseFont, fallbackList);

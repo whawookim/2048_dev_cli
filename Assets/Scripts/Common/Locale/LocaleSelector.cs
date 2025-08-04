@@ -1,11 +1,5 @@
 using UnityEngine;
 using UnityEngine.Localization.Settings;
-
-public enum Locales
-{
-    en,
-    ko
-}
     
 public class LocaleSelector : MonoBehaviour
 {

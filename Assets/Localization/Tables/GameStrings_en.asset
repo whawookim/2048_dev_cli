@@ -95,6 +95,30 @@ MonoBehaviour:
     m_Localized: Empty
     m_Metadata:
       m_Items: []
+  - m_Id: 19805464461914112
+    m_Localized: Settings
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19809387495108608
+    m_Localized: NickName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19811746837245952
+    m_Localized: UserId
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19812865147744256
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19814214216265728
+    m_Localized: English
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19814280268165120
+    m_Localized: Korean
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

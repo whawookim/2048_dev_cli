@@ -45,7 +45,7 @@ namespace Puzzle.UI.Overlay
         [SerializeField]
         private GameObject emptyObj;
        
-        private readonly LocalizedString _localizedTitle = new("GameStrings", "ranking_popup_title");
+        private readonly LocalizedString _localizedTitle = new(GameStringsManager.DefaultTable, "ranking_popup_title");
         
         private List<RankingData> _rankingDataList = new ();
         
