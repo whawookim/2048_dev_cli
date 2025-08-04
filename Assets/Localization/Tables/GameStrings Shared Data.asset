@@ -76,11 +76,37 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 13018767233462272
-    m_Key: idp_choice_popup_title
+    m_Key: 'idp_choice_popup_title
+
+'
     m_Metadata:
       m_Items: []
   - m_Id: 14873589767286784
     m_Key: ranking_empty
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19805464461914112
+    m_Key: setting_popup_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19809387495108608
+    m_Key: setting_popup_nick_name_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19811746837245952
+    m_Key: setting_popup_user_id_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19812865147744256
+    m_Key: setting_popup_language_title
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19814214216265728
+    m_Key: language_en
+    m_Metadata:
+      m_Items: []
+  - m_Id: 19814280268165120
+    m_Key: language_ko
     m_Metadata:
       m_Items: []
   m_Metadata:

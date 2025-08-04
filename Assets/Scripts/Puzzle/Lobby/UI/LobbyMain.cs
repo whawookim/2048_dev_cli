@@ -150,5 +150,13 @@ namespace Puzzle.UI.Scene
 				IDPList = Login.IDPPlatformSupportUtil.GetSupportedIDPs()
 			});
 		}
+
+        /// <summary>
+        /// 설정 팝업 열기
+        /// </summary>
+        public void OnClickSettingButton()
+        {
+            Flow.UIFlowManager.Instance.PushOverlay(typeof(Overlay.SettingPopup));
+        }
 	}
 }

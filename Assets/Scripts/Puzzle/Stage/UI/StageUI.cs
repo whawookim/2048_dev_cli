@@ -19,16 +19,16 @@ namespace Puzzle.UI
 		private TextMeshProUGUI gameScore;
 		
         /// 다국어 상태 문자열 정의
-		private readonly LocalizedString _statusStart = new("GameStrings", "status_start");
-		private readonly LocalizedString _statusClear = new("GameStrings", "status_clear");
-		private readonly LocalizedString _statusPause = new("GameStrings", "status_pause");
-		private readonly LocalizedString _statusFail  = new("GameStrings", "status_fail");
+		private readonly LocalizedString _statusStart = new(GameStringsManager.DefaultTable, "status_start");
+		private readonly LocalizedString _statusClear = new(GameStringsManager.DefaultTable, "status_clear");
+		private readonly LocalizedString _statusPause = new(GameStringsManager.DefaultTable, "status_pause");
+		private readonly LocalizedString _statusFail  = new(GameStringsManager.DefaultTable, "status_fail");
 		
         /// 현재 표시 중인 상태 문자열
         private LocalizedString _currentStatus;
 		
         /// 점수 문자열 형식 지정용 (예: Score: {score})
-		private readonly LocalizedString _localizedScore = new("GameStrings", "score_display");
+		private readonly LocalizedString _localizedScore = new(GameStringsManager.DefaultTable, "score_display");
 
         /// <summary>
         /// 메시지 시스템 이벤트 구독 시작 (게임 상태 및 점수 변경)

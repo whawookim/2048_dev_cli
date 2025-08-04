@@ -44,9 +44,16 @@ namespace Puzzle
 		private async Task InitAsync()
 		{
 			UI.LoadingScreen.Instance.SetEnabled(true);
-                        
-            // font 초기화용
-            await _fontManager.InitializeAsync();
+            
+            // 언어 설정 초기화.
+            await LanguageManager.Instance.InitializeAsync();
+            
+            var currentLocale = LanguageManager.Instance.CurrentLocale;
+            
+            MyDebug.Log($"Current Language {currentLocale}");
+            
+            // 선행된 언어 설정 초기화에 따른 폰트 초기화
+            await _fontManager.InitializeAsync(currentLocale);
             
 			// inputManager UpdateFrame 추가
 			UpdateFrameManager.Instance.AddUpdatable(InputManager);

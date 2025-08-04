@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Lobby
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 500dbad219bec6e4392baa42813a059d
+    m_Address: SettingPopup
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Lobby
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5edcb815eec4959438eb53af762c2a44
     m_Address: IDPChoicePopup
     m_ReadOnly: 0
