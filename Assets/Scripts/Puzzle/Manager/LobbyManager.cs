@@ -16,10 +16,11 @@ namespace Puzzle
         
         private readonly List<GameObject> _loadedObjectList = new List<GameObject>();
 
-        public async Task LoadAllAsync()
+        public Task LoadAllAsync()
         {
             // 매니저 등록 (등록 이미 된 경우 거름)
             GameManager.Instance.RegisterManger(this);
+            return Task.CompletedTask;
         }
         
         public void AddLoadedObject(GameObject obj)

@@ -150,7 +150,7 @@ namespace Puzzle
 			await SceneManager.LoadSceneAsync(unitySceneEnum.ToString());
 			
 			// 5) 사용되지 않는 에셋 해제
-			Resources.UnloadUnusedAssets();
+			await Resources.UnloadUnusedAssets();
 
 			// 6) (선택) 가비지 컬렉션
 			System.GC.Collect();
