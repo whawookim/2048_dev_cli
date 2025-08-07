@@ -5,6 +5,7 @@ namespace Puzzle.Stage
 {
     /// <summary>
     /// 실행된 블록 커맨드의 히스토리를 저장하여 Undo 및 Replay에 사용된다.
+    /// TODO: Replay 기능시 Undo 와 같은 부분 등을 모두 리팩토링 진행 필요
     /// </summary>
     public static class CommandHistory
     {

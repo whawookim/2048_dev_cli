@@ -23,6 +23,10 @@ namespace Puzzle
         public GameObject OriginBlockObj { get; private set; }
         
         public readonly StageStatusController StatusController = new ();
+
+        public StageBoardController BoardController { get; private set; }
+
+        public StageBoardModel BoardModel { get; private set; }
         
         public async Task LoadAllAsync()
         {
@@ -130,6 +134,74 @@ namespace Puzzle
         public void CollectGC()
         {
             System.GC.Collect();
+        }
+
+        public void Dispose()
+        {
+            BoardController?.Dispose();
+            BoardController = null;
+            
+            UndoHistory.Clear();
+        }
+        
+        /// <summary>
+        /// 현재 StageMode에 맞춰 보드와 블록을 세팅하고 게임판을 초기화
+        /// </summary>
+        public void LoadStage(StageMode mode, Transform blockParentTransform, Transform boardParentTransform)
+        {
+            var board = Instance.OriginBoardObj;
+            var block = Instance.OriginBlockObj;
+            
+            var maxSize = mode.GetBoardSize();
+            var maxNum = mode.GetBlockMaxNum();
+
+            BoardModel = new StageBoardModel(maxSize, maxNum);
+
+            var blockFactory = new ObjectPoolFactory<UI.Block>(
+                block,
+                blockParentTransform,
+                maxSize * maxSize,
+                b => {
+                    b.gameObject.SetActive(true);
+                    b.transform.localScale = Vector3.one;
+                });
+
+            var boardFactory = new ObjectPoolFactory<UI.Board>(
+                board,
+                boardParentTransform,
+                maxSize * maxSize,
+                b => {
+                    b.gameObject.SetActive(true);
+                    b.transform.localScale = Vector3.one;
+                });
+
+            BoardController = new StageBoardController(mode, BoardModel, blockFactory, boardFactory);
+            BoardController.Initialize();
+        }
+        
+
+        public void UndoLastCommand()
+        {
+            var snapshot = UndoHistory.Pop();
+            if (snapshot != null)
+            {
+                RestoreSnapshot(snapshot);
+            }
+        }
+
+        public StageSnapshot CreateSnapshot()
+        {
+            return new StageSnapshot
+            {
+                Blocks = BoardController.GetBlockSnapshot(),
+                Score = StatusController.CurrentScore
+            };
+        }
+        
+        private void RestoreSnapshot(StageSnapshot snapshot)
+        {
+            BoardController.RestoreBlockSnapshot(snapshot.Blocks);
+            StatusController.SetScore(snapshot.Score);
         }
     }
 }

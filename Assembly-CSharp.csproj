@@ -51,6 +51,7 @@
     <Compile Include="Assets\Scripts\Puzzle\Stage\Command\SpawnBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Common\Time\GameTime.cs" />
     <Compile Include="Assets\Scripts\Common\UI\Flow\IUISceneHandler.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Command\UndoHistory.cs" />
     <Compile Include="Assets\Scripts\Common\Interface\IUpdatable.cs" />
     <Compile Include="Assets\Scripts\Common\ObjectPool\TinyObjectPool.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\Command\MergeBlockCommand.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="Assets\Scripts\Common\UI\Loader\UIAssetLoader.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Stage\Command\IBlockCommand.cs" />
     <Compile Include="Assets\Scripts\Plugins\DOTween\SimpleTweenPosition.cs" />
+    <Compile Include="Assets\Scripts\Puzzle\Stage\Logic\StageSnapshot.cs" />
     <Compile Include="Assets\Scripts\Plugins\AdMob\AdMobConfig.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Events\UpdateGameScoreEvent.cs" />
     <Compile Include="Assets\Scripts\Puzzle\Manager\GameManager.cs" />
