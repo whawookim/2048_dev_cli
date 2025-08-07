@@ -30,12 +30,6 @@ namespace Puzzle.UI.Scene
 
         /// 씬 진입 시 전달된 정보
 		private StagesState _states;
-        
-        /// 게임 제어 책임 객체 (로직)
-        private Stage.StageBoardController _controller;
-
-        /// 게임 상태 정보 (2차원 배열 등)
-        private Stage.StageBoardModel _model;
 
 #region MonoBehaviour
 		private void Awake()
@@ -69,8 +63,8 @@ namespace Puzzle.UI.Scene
 			_states = savedState as StagesState;
 
 			StageManager.Instance.StatusController.SetStageMode(_states.CurrentStageMode);
-
-            LoadStage();
+            StageManager.Instance.LoadStage(_states.CurrentStageMode, boardUI.GetBlockParent(),
+                boardUI.GetBoardParent());
 
             return Task.CompletedTask;
         }
@@ -83,7 +77,7 @@ namespace Puzzle.UI.Scene
             // 상단 UI 버튼 등 연결
 			stageUI.SubscribeEvent();
             // 메시지 구독 (이동, 리셋 등)
-            _controller.SubscribeEvents();
+            StageManager.Instance.BoardController.SubscribeEvents();
 			StageManager.Instance.StatusController.StartGame();
 		}
 
@@ -101,7 +95,7 @@ namespace Puzzle.UI.Scene
 		void IUIScene.Finish()
 		{
 			stageUI.UnsubscribeEvent(true);
-            _controller.UnsubscribeEvents(true);
+            StageManager.Instance.BoardController.UnsubscribeEvents(true);
 		}
 
 		object IUIScene.GetState()
@@ -121,54 +115,8 @@ namespace Puzzle.UI.Scene
         /// (Controller가 생성한 오브젝트 및 풀 반환)
         /// </summary>
 		public void Dispose()
-		{
-            _controller?.Dispose();
-            _controller = null;
-        }
-		
-		/// <summary>
-		/// x, y 인덱스(zero-based)로 찾은 board 위치
-		/// </summary>
-		public Vector3 GetBoardPosition(Vector2Int pos)
-		{
-			return _controller.GetBoardPosition(pos);
-		}
-        
-        /// <summary>
-        /// 현재 StageMode에 맞춰 보드와 블록을 세팅하고 게임판을 초기화
-        /// </summary>
-        public void LoadStage()
         {
-            var mode = _states.CurrentStageMode;
-            
-            var board = StageManager.Instance.OriginBoardObj;
-            var block = StageManager.Instance.OriginBlockObj;
-            
-            var maxSize = mode.GetBoardSize();
-            var maxNum = mode.GetBlockMaxNum();
-
-            _model = new Stage.StageBoardModel(maxSize, maxNum);
-
-            var blockFactory = new ObjectPoolFactory<Block>(
-                block,
-                boardUI.GetBlockParent(),
-                maxSize * maxSize,
-                b => {
-                    b.gameObject.SetActive(true);
-                    b.transform.localScale = Vector3.one;
-                });
-
-            var boardFactory = new ObjectPoolFactory<Board>(
-                board,
-                boardUI.GetBoardParent(),
-                maxSize * maxSize,
-                b => {
-                    b.gameObject.SetActive(true);
-                    b.transform.localScale = Vector3.one;
-                });
-
-            _controller = new Stage.StageBoardController(mode, _model, boardUI, blockFactory, boardFactory);
-            _controller.Initialize();
+            StageManager.Instance.Dispose();
         }
 	}
 }

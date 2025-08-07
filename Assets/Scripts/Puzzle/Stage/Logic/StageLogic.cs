@@ -67,7 +67,7 @@ namespace Puzzle.Stage
                         if (to != from)
                         {
                             blockDict.Remove(from);
-                            var toWorldPos = UI.Scene.Stages.Instance.GetBoardPosition(to);
+                            var toWorldPos = StageManager.Instance.BoardController.GetBoardPosition(to);
                             group.Add(new MoveBlockCommand(block, block.Rect.anchoredPosition, toWorldPos, () =>
                             {
                                 StageManager.Instance.StatusController.AddMoveCount(1);
@@ -125,7 +125,7 @@ namespace Puzzle.Stage
                         if (to != from)
                         {
                             blockDict.Remove(from);
-                            var toWorldPos = UI.Scene.Stages.Instance.GetBoardPosition(to);
+                            var toWorldPos = StageManager.Instance.BoardController.GetBoardPosition(to);
                             group.Add(new MoveBlockCommand(block, block.Rect.anchoredPosition, toWorldPos, () =>
                             {
                                 StageManager.Instance.StatusController.AddMoveCount(1);

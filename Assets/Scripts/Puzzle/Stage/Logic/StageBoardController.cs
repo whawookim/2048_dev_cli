@@ -15,9 +15,6 @@ namespace Puzzle.Stage
         /// <summary>보드 상태 데이터를 관리하는 모델</summary>
         private readonly StageBoardModel _model;
         
-        /// <summary>블록 및 보드를 렌더링하는 UI 컴포넌트</summary>
-        private readonly UI.BoardUI _view;
-        
         /// <summary>Block 풀링 팩토리</summary>
         private readonly IPoolFactory<UI.Block> _blockFactory;
         
@@ -33,12 +30,11 @@ namespace Puzzle.Stage
         /// <summary>블록 이동, 병합 등 커맨드 애니메이션 처리용 큐</summary>
         private CommandExecutor _executor;
 
-        public StageBoardController(StageMode mode, StageBoardModel model, UI.BoardUI view,
+        public StageBoardController(StageMode mode, StageBoardModel model,
             IPoolFactory<UI.Block> blockFactory, IPoolFactory<UI.Board> boardFactory)
         {
             _mode = mode;
             _model = model;
-            _view = view;
             _blockFactory = blockFactory;
             _boardFactory = boardFactory;
 
@@ -148,6 +144,10 @@ namespace Puzzle.Stage
         {
             if (StageManager.Instance.StatusController.CurrentState != StageState.Playing)
                 return;
+            
+            // 되돌리기용 스냅샷
+            var snapshot = StageManager.Instance.CreateSnapshot();
+            UndoHistory.Push(snapshot);
 
             StageLogic.GenerateMoveCommands(_blockDict, direction, _model.Board, _executor);
             if (_executor.Count <= 0) return;
@@ -177,6 +177,32 @@ namespace Puzzle.Stage
         }
 
         /// <summary>
+        /// 해당 지점에 블록을 생성하고 숫자 세팅과 연출 command
+        /// TODO: command는 분리하든 해야할 수 있어 보인다.
+        /// </summary>
+        private void SpawnBlock(Vector2Int pos, int number, bool queued = false)
+        {
+            var block = _blockFactory.Create();
+            block.Init(number);
+            block.transform.localScale = Vector3.one;
+            block.SetSize(_mode.GetBlockSize());
+
+            if (queued) block.Hide();
+            else block.Show();
+            
+            block.SetPosition(GetBoardPosition(pos));
+            _blockDict[pos] = block;
+
+            if (queued)
+            {
+                _executor.EnqueueGroup(new List<IBlockCommand>()
+                {
+                    new SpawnBlockCommand(block, GetBoardPosition(pos))
+                });
+            }
+        }
+
+        /// <summary>
         /// 빈 공간 중 하나를 골라 블록 생성. queued 시 애니메이션 큐에 등록
         /// </summary>
         private void SpawnRandomBlock(bool queued = false)
@@ -192,23 +218,50 @@ namespace Puzzle.Stage
 
             if (candidates.Count == 0) return;
             var selected = candidates[Random.Range(0, candidates.Count)];
-            var block = _blockFactory.Create();
-            block.Init(Constants.GetRandomInitBlockValue());
-            block.transform.localScale = Vector3.one;
-            block.SetSize(_mode.GetBlockSize());
+            int number = Constants.GetRandomInitBlockValue();
 
-            if (queued) block.Hide();
-            else block.Show();
+            SpawnBlock(selected, number, queued);
+        }
+        
+        /// <summary>
+        /// 현재 상태로 Snapshot 가져오기
+        /// </summary>
+        public List<StageSnapshot.BlockData> GetBlockSnapshot()
+        {
+            var list = new List<StageSnapshot.BlockData>();
             
-            block.SetPosition(GetBoardPosition(selected));
-            _blockDict[selected] = block;
-
-            if (queued)
+            foreach (var pair in _blockDict)
             {
-                _executor.EnqueueGroup(new List<IBlockCommand>()
+                var block = pair.Value;
+                var pos = pair.Key;
+                list.Add(new StageSnapshot.BlockData
                 {
-                    new SpawnBlockCommand(block, GetBoardPosition(selected))
+                    Position = pos,
+                    Number = block.Number
                 });
+            }
+            return list;
+        }
+
+        /// <summary>
+        /// Undo | 스냅샷으로 복원 기능
+        /// </summary>
+        public void RestoreBlockSnapshot(List<StageSnapshot.BlockData> snapshot)
+        {
+            // TODO: 변동이 있는 블록만 Hide와 Spawn을 하게 하자. 일괄 처리하는 건 과한듯
+            
+            // 기존 블록 제거
+            foreach (var block in _blockDict.Values)
+            {
+                block.Hide();
+            }
+
+            _blockDict.Clear();
+
+            // 복원
+            foreach (var data in snapshot)
+            {
+                SpawnBlock(data.Position, data.Number);
             }
         }
         

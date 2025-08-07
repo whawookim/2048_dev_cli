@@ -122,6 +122,20 @@ namespace Puzzle.UI
 		{
 			StageManager.Instance.GoToLobby();
 		}
+
+        /// <summary>
+        /// 행동 되돌리기 클릭
+        /// </summary>
+        public void OnClickUndo()
+        {
+            if (!Stage.UndoHistory.CanUndo)
+            {
+                Debug.Log("No move to undo.");
+                return;
+            }
+            
+            StageManager.Instance.UndoLastCommand();
+        }
         
         /// <summary>
         /// 게임 상태 변경 이벤트 처리

@@ -53,6 +53,11 @@ namespace Puzzle.Stage
         /// 스테이지 종료 시간 (없을 수 있음)
         /// </summary>
         public DateTime? EndTime { get; private set; }
+        
+        /// <summary>
+        /// 현재 게임 상태가 플레이 중인지
+        /// </summary>
+        public bool CanPlaying => CurrentState == StageState.Playing;
 
         /// <summary>
         /// 스테이지 모드 설정
