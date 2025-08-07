@@ -263,6 +263,9 @@ namespace Puzzle.Stage
             {
                 SpawnBlock(data.Position, data.Number);
             }
+            
+            // TODO: 매번 Model 갱신해줘야 하는데 이거 수정 필요
+            _model.UpdateBoardState(_blockDict);
         }
         
         /// <summary>
